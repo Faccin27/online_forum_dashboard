@@ -1,0 +1,26 @@
+{
+  "name": "projeto-base",
+  "version": "1.0.0",
+  "description": "Um projeto base para uso na disciplina de codificação para back-end",
+  "main": "./src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./src/server.js"
+  },
+  "keywords": [
+    "javascript",
+    "nodejs",
+    "projeto-base"
+  ],
+  "author": "Dionathan Luan de Vargas",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.19.2",
+    "express-handlebars": "^7.1.2",
+    "handlebars": "^4.7.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
