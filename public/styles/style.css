@@ -374,7 +374,8 @@ textarea:focus {
   color: #C5C6C7;
 }
 
-.show-hide-btn {
+.show-hide-btn,
+.show-more-btn {
   display: block;
   background-color: #45A29E;
   color: #0B0C10;
@@ -391,10 +392,15 @@ textarea:focus {
 
 .edit,
 .delete,
-.favorite {
+.favorite,
+.info {
   background-color: transparent;
   padding: 0.5em;
   font-size: 1.2em;
+}
+
+.info{
+  color: #ccc;
 }
 
 .edit {

@@ -5,10 +5,11 @@ let sidebarBtn = document.querySelector(".sidebarBtn");
 sidebarBtn.onclick = function() {
   sidebar.classList.toggle("active");
   if(sidebar.classList.contains("active")){
-  sidebarBtn.classList.replace("bx-menu" ,"bx-menu-alt-right");
-}else
-  sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-}
+    sidebarBtn.classList.replace("bx-menu" ,"bx-menu-alt-right");
+  } else {
+    sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+  }
+};
 
 const container = document.querySelector(".container");
 const addQuestionCard = document.getElementById("add-question-card");
@@ -20,8 +21,8 @@ const addQuestion = document.getElementById("add-flashcard");
 const closeBtn = document.getElementById("close-btn");
 
 let editBool = false;
-let originalId = null;
 let flashcards = JSON.parse(localStorage.getItem('flashcards')) || [];
+let nextId = 1; // Inicializa o contador de IDs
 
 addQuestion.addEventListener("click", () => {
   container.classList.add("hide");
@@ -48,7 +49,8 @@ cardButton.addEventListener("click", () => {
     if (editBool) {
       flashcards = flashcards.filter(flashcard => flashcard.id !== originalId);
     }
-    let id = Date.now();
+    // Use o próximo ID disponível
+    let id = nextId++;
     flashcards.push({ id, question: tempQuestion, answer: tempAnswer });
     localStorage.setItem('flashcards', JSON.stringify(flashcards));
     container.classList.remove("hide");
@@ -57,26 +59,28 @@ cardButton.addEventListener("click", () => {
     question.value = "";
     answer.value = "";
     editBool = false;
-    addQuestionCard.classList.add("hide"); 
+    addQuestionCard.classList.add("hide");
   }
 });
+
 function viewlist() {
   const listCard = document.querySelector(".card-list-container");
   listCard.innerHTML = '';
-  flashcards = JSON.parse(localStorage.getItem('flashcards')) || [];
   flashcards.forEach(flashcard => {
     const div = document.createElement("div");
     div.classList.add("card");
     div.innerHTML = `
       <p class="question-div">${flashcard.question}</p>
       <p class="answer-div hide">${flashcard.answer}</p>
-      <a href="#" class="show-hide-btn">Show/Hide</a>
+      <a href="#" class="show-hide-btn">Show More</a>
       <div class="buttons-con">
+      <button class="info"><i class="fa-solid fa-circle-info"></i></button>
         <div class="favorite-container">
           <button class="favorite"><i class="${flashcard.favorite ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}"></i></button>
         </div>
         <button class="edit"><i class="fa-solid fa-pen-to-square"></i></button>
         <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
+        
       </div>
     `;
     div.setAttribute('data-id', flashcard.id);
@@ -85,9 +89,11 @@ function viewlist() {
     const editButton = div.querySelector(".edit");
     const deleteButton = div.querySelector(".delete");
     const favoriteButton = div.querySelector(".favorite");
+    const infoButton = div.querySelector(".info");
 
     showHideBtn.addEventListener("click", () => {
-      displayAnswer.classList.toggle("hide");
+      const cardId = flashcard.id;
+      window.location.href = `/produtos/${cardId}`;
     });
 
     editButton.addEventListener("click", () => {
@@ -104,11 +110,15 @@ function viewlist() {
       toggleFavorite(flashcard.id);
     });
 
+    infoButton.addEventListener("click", () => {
+      displayAnswer.classList.toggle("hide");
+    });
+
+
+
     listCard.appendChild(div);
   });
 }
-
-
 
 const modifyElement = (element, edit = false) => {
   const parentDiv = element.parentElement.parentElement;
@@ -141,6 +151,6 @@ function toggleFavorite(id) {
   if (index !== -1) {
     flashcards[index].favorite = !flashcards[index].favorite;
     localStorage.setItem('flashcards', JSON.stringify(flashcards));
-    viewlist(); 
+    viewlist();
   }
 }

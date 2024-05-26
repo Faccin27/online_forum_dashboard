@@ -1,0 +1,13 @@
+<h1>{{produto.nome}}</h1>
+<div class="Infogame">
+<p>Descrição: {{produto.descricao}}</p>
+<p>Preço: {{produto.preco}}</p>
+{{#if produto.promocao}}
+  <p>Preço Promocional: {{produto.precoPromocao}}</p>
+  <p>Desconto: {{produto.desconto}}%</p>
+  <p>Status: Em Promoção</p>
+{{else}}
+  <p>Status: Não está em promoção</p>
+{{/if}}
+<a href="/produtos">Voltar à lista de produtos</a>
+</div>

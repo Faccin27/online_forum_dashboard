@@ -3,7 +3,7 @@ const router = express.Router();
 const produtosController = require('../controllers/ProdutosController');
 
 // Rota para listar todos os produtos (READ)
-router.get('/', produtosController.list);
+router.get('/produtos', produtosController.list);
 
 // Rota para mostrar um produto (READ)
 router.get('/:id', produtosController.show);
