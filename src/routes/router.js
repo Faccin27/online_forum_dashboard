@@ -1,9 +1,14 @@
 const { Router } = require("express");
 const router = new Router();
 
-router.get('/', (req, res) => {
+router.get('/produtos', (req, res) => {
   res.status(200).render("index")
 })
+
+router.get('/login', (req, res) => {
+  res.status(200).render("login");
+});
+
 
 // Importa e utiliza as rotas de produtos
 const produtosRoutes = require('./produtos');
