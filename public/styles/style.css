@@ -95,7 +95,7 @@ body {
   position: relative;
   background: #C5C6C7;
   width: calc(100% - 240px);
-  min-height: 10vh;
+  min-height: 50vh;
   left: 240px;
   transition: all 0.5s ease;
 }
@@ -205,17 +205,20 @@ nav .profile-details i {
 }
 
 .container {
-  padding-left: 15vh;
+  padding-top: 10vh;
   width: 90vw;
   max-width: 62.5em;
-  position: relative;
-  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .add-flashcard-con {
   display: flex;
   justify-content: flex-end;
   padding: 1.2em 1em;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 button {
@@ -235,6 +238,22 @@ button {
 
 #card-con {
   margin-top: 1em;
+  width: 100%;
+}
+
+.card-list-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1em; /* Add space between the cards */
+}
+
+.card-list-container > div {
+  flex: 1 1 calc(25% - 1em); /* Allow the cards to grow and shrink, maintaining four columns with gaps */
+  box-sizing: border-box;
+  padding: 1em;
+  border: 1px solid #ccc;
+  background-color: #1F2833;
 }
 
 .question-container {
@@ -371,7 +390,8 @@ textarea:focus {
 }
 
 .edit,
-.delete {
+.delete,
+.favorite {
   background-color: transparent;
   padding: 0.5em;
   font-size: 1.2em;
@@ -384,6 +404,10 @@ textarea:focus {
 .delete {
   color: #ff5353;
 }
+.favorite {
+  color: #ff0000;
+}
+
 
 .hide {
   display: none;

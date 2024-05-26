@@ -60,7 +60,6 @@ cardButton.addEventListener("click", () => {
     addQuestionCard.classList.add("hide"); 
   }
 });
-
 function viewlist() {
   const listCard = document.querySelector(".card-list-container");
   listCard.innerHTML = '';
@@ -73,6 +72,9 @@ function viewlist() {
       <p class="answer-div hide">${flashcard.answer}</p>
       <a href="#" class="show-hide-btn">Show/Hide</a>
       <div class="buttons-con">
+        <div class="favorite-container">
+          <button class="favorite"><i class="${flashcard.favorite ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}"></i></button>
+        </div>
         <button class="edit"><i class="fa-solid fa-pen-to-square"></i></button>
         <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
       </div>
@@ -82,6 +84,7 @@ function viewlist() {
     const showHideBtn = div.querySelector(".show-hide-btn");
     const editButton = div.querySelector(".edit");
     const deleteButton = div.querySelector(".delete");
+    const favoriteButton = div.querySelector(".favorite");
 
     showHideBtn.addEventListener("click", () => {
       displayAnswer.classList.toggle("hide");
@@ -94,15 +97,19 @@ function viewlist() {
     });
 
     deleteButton.addEventListener("click", () => {
-      // Delete the flashcard
       modifyElement(deleteButton);
+    });
+
+    favoriteButton.addEventListener("click", () => {
+      toggleFavorite(flashcard.id);
     });
 
     listCard.appendChild(div);
   });
 }
 
-// Function to modify a flashcard element
+
+
 const modifyElement = (element, edit = false) => {
   const parentDiv = element.parentElement.parentElement;
   const id = Number(parentDiv.getAttribute('data-id'));
@@ -114,14 +121,12 @@ const modifyElement = (element, edit = false) => {
     originalId = id;
     disableButtons(true);
   } else {
-    // Remove the flashcard from the array and update local storage
     flashcards = flashcards.filter(flashcard => flashcard.id !== id);
     localStorage.setItem('flashcards', JSON.stringify(flashcards));
   }
   parentDiv.remove();
 };
 
-// Function to disable edit buttons
 const disableButtons = (value) => {
   const editButtons = document.getElementsByClassName("edit");
   Array.from(editButtons).forEach((element) => {
@@ -129,5 +134,13 @@ const disableButtons = (value) => {
   });
 };
 
-// Event listener to display the flashcard list when the DOM is loaded
 document.addEventListener("DOMContentLoaded", viewlist);
+
+function toggleFavorite(id) {
+  const index = flashcards.findIndex(flashcard => flashcard.id === id);
+  if (index !== -1) {
+    flashcards[index].favorite = !flashcards[index].favorite;
+    localStorage.setItem('flashcards', JSON.stringify(flashcards));
+    viewlist(); 
+  }
+}
