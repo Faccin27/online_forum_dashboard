@@ -369,9 +369,16 @@ textarea:focus {
 }
 
 .answer-div {
+  line-height: 1.2;
   margin-top: 1em;
   font-weight: 400;
   color: #C5C6C7;
+}
+
+
+
+.answer-container .answer-div {
+  line-height: 0.8; 
 }
 
 .show-hide-btn,

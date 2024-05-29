@@ -4,8 +4,8 @@ let sidebar = document.querySelector(".sidebar");
 let sidebarBtn = document.querySelector(".sidebarBtn");
 sidebarBtn.onclick = function() {
   sidebar.classList.toggle("active");
-  if(sidebar.classList.contains("active")){
-    sidebarBtn.classList.replace("bx-menu" ,"bx-menu-alt-right");
+  if (sidebar.classList.contains("active")) {
+    sidebarBtn.classList.replace("bx-menu", "bx-menu-alt-right");
   } else {
     sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
   }
@@ -22,7 +22,7 @@ const closeBtn = document.getElementById("close-btn");
 
 let editBool = false;
 let flashcards = JSON.parse(localStorage.getItem('flashcards')) || [];
-let nextId = 1; // Inicializa o contador de IDs
+let nextId = flashcards.length ? Math.max(...flashcards.map(flashcard => flashcard.id)) + 1 : 1;
 
 addQuestion.addEventListener("click", () => {
   container.classList.add("hide");
@@ -40,18 +40,17 @@ closeBtn.addEventListener("click", () => {
 });
 
 cardButton.addEventListener("click", () => {
-  // Save the flashcard
   let tempQuestion = question.value.trim();
   let tempAnswer = answer.value.trim();
   if (!tempQuestion || !tempAnswer) {
     errorMessage.classList.remove("hide");
   } else {
+    let now = new Date().toLocaleString();
     if (editBool) {
       flashcards = flashcards.filter(flashcard => flashcard.id !== originalId);
     }
-    // Use o próximo ID disponível
-    let id = nextId++;
-    flashcards.push({ id, question: tempQuestion, answer: tempAnswer });
+    let id = editBool ? originalId : nextId++;
+    flashcards.push({ id, question: tempQuestion, answer: tempAnswer, lastEdited: now });
     localStorage.setItem('flashcards', JSON.stringify(flashcards));
     container.classList.remove("hide");
     errorMessage.classList.add("hide");
@@ -71,20 +70,24 @@ function viewlist() {
     div.classList.add("card");
     div.innerHTML = `
       <p class="question-div">${flashcard.question}</p>
-      <p class="answer-div hide">${flashcard.answer}</p>
+      <div class="answer-container hide">
+        <p class="answer-div">${flashcard.answer}</p>
+        <p class="answer-div">Id do produto: ${flashcard.id}</p>
+        <p class="answer-div">Última edição: ${flashcard.lastEdited}</p>
+        <p class="answer-div">Author: Guilherme Faccin</p>
+      </div>
       <a href="#" class="show-hide-btn">Show More</a>
       <div class="buttons-con">
-      <button class="info"><i class="fa-solid fa-circle-info"></i></button>
+        <button class="info"><i class="fa-solid fa-circle-info"></i></button>
         <div class="favorite-container">
           <button class="favorite"><i class="${flashcard.favorite ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}"></i></button>
         </div>
         <button class="edit"><i class="fa-solid fa-pen-to-square"></i></button>
         <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
-        
       </div>
     `;
     div.setAttribute('data-id', flashcard.id);
-    const displayAnswer = div.querySelector(".answer-div");
+    const answerContainer = div.querySelector(".answer-container");
     const showHideBtn = div.querySelector(".show-hide-btn");
     const editButton = div.querySelector(".edit");
     const deleteButton = div.querySelector(".delete");
@@ -111,10 +114,8 @@ function viewlist() {
     });
 
     infoButton.addEventListener("click", () => {
-      displayAnswer.classList.toggle("hide");
+      answerContainer.classList.toggle("hide");
     });
-
-
 
     listCard.appendChild(div);
   });
