@@ -155,3 +155,18 @@ function toggleFavorite(id) {
     viewlist();
   }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  const loginpage = document.getElementById('loginpage');
+  const content = document.getElementById('content');
+  const registerBtn = document.getElementById('register');
+  const loginBtn = document.getElementById('login');
+
+  registerBtn.addEventListener('click', () => {
+    content.classList.add("active");
+  });
+
+  loginBtn.addEventListener('click', () => {
+    content.classList.remove("active");
+  });
+});
