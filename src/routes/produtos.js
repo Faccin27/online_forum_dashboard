@@ -5,7 +5,9 @@ const produtosController = require('../controllers/ProdutosController');
 // Rota para listar todos os produtos (READ)
 router.get('/produtos', produtosController.list);
 
+
 // Rota para mostrar um produto (READ)
-router.get('/:id', produtosController.show);
+router.get('/produtos/:id', produtosController.show);
+
 
 module.exports = router;

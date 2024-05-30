@@ -9,6 +9,10 @@ router.get('/login', (req, res) => {
   res.status(200).render("login");
 });
 
+router.get('/produtos', (req, res) => {
+  res.status(200).render("produtos");
+});
+
 
 
 module.exports = router;
