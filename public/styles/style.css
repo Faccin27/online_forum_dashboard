@@ -40,11 +40,31 @@ body {
 }
 
 .sidebar .logo-details .logo_name {
-  color: #C5C6C7;
+  animation: pulseForward 6s infinite;
   font-size: 24px;
   font-weight: 500;
 }
 
+@keyframes pulseForward {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+
+  100%{
+    transform: scale(1);
+  }
+}
+
+.game {
+  color: #00FFFF;
+}
+
+.house {
+  color: #fff;
+}
 .sidebar .nav-links {
   margin-top: 10px;
 }
