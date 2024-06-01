@@ -1,16 +1,11 @@
-// Importa dom no começo pq se importar por parte n funciona ???
-// trycatch n ta funcionando, ñ sei pq
-// troquei os for por map, corrigiu o bug da loginpage ai ja fiz em td pq fica melhor
-
-
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
   console.log('Script carregado');
 
   // Sidebar functionality
   const sidebar = document.querySelector(".sidebar");
   const sidebarBtn = document.querySelector(".sidebarBtn");
   if (sidebarBtn) {
-    sidebarBtn.onclick = function () {
+    sidebarBtn.onclick = function() {
       sidebar.classList.toggle("active");
       if (sidebar.classList.contains("active")) {
         sidebarBtn.classList.replace("bx-menu", "bx-menu-alt-right");
@@ -21,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
   } else {
     console.error('Sidebar button not found');
   }
+
   const container = document.querySelector(".container");
   const addQuestionCard = document.getElementById("add-question-card");
   const cardButton = document.getElementById("save-btn");
@@ -38,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function () {
     let flashcards = JSON.parse(localStorage.getItem('flashcards')) || [];
     let nextId = flashcards.length ? Math.max(...flashcards.map(flashcard => flashcard.id)) + 1 : 1;
 
-    viewlist();
     addQuestion.addEventListener("click", () => {
       question.value = "";
       answer.value = "";
@@ -57,26 +52,26 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     cardButton.addEventListener("click", () => {
-      let tempQuestion = question.value.trim();
-      let tempAnswer = answer.value.trim();
-      if (!tempQuestion || !tempAnswer) {
-        errorMessage.classList.remove("hide");
-      } else {
-        let now = new Date().toLocaleString();
-        if (editBool) {
-          flashcards = flashcards.filter(flashcard => flashcard.id !== originalId);
-        }
-        let id = editBool ? originalId : nextId++;
-        flashcards.push({ id, question: tempQuestion, answer: tempAnswer, lastEdited: now });
-        localStorage.setItem('flashcards', JSON.stringify(flashcards));
-        errorMessage.classList.add("hide");
-        viewlist();
-        question.value = "";
-        answer.value = "";
-        editBool = false;
-        addQuestionCard.classList.add("hide");
-      }
-    });
+  let tempQuestion = question.value.trim();
+  let tempAnswer = answer.value.trim();
+  if (!tempQuestion || !tempAnswer) {
+    errorMessage.classList.remove("hide");
+  } else {
+    let now = new Date().toLocaleString();
+    if (editBool) {
+      flashcards = flashcards.filter(flashcard => flashcard.id !== originalId);
+    }
+    let id = editBool ? originalId : nextId++;
+    flashcards.push({ id, question: tempQuestion, answer: tempAnswer, lastEdited: now, favoritadoPor: [] });
+    localStorage.setItem('flashcards', JSON.stringify(flashcards));
+    errorMessage.classList.add("hide");
+    viewlist();
+    question.value = "";
+    answer.value = "";
+    editBool = false;
+    addQuestionCard.classList.add("hide");
+  }
+});
 
     function viewlist() {
       const listCard = document.querySelector(".card-list-container");
@@ -93,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
           <div class="buttons-con">
             <button class="info"><i class="fa-solid fa-circle-info"></i></button>
             <div class="favorite-container">
-              <button class="favorite"><i class="${flashcard.favorite ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}"></i></button>
+              <button class="favorite ${flashcard.favoritadoPor.includes(getCurrentUserId()) ? 'active' : ''}"><i class="${flashcard.favoritadoPor.includes(getCurrentUserId()) ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}"></i> ${flashcard.favoritadoPor.length}</button>
             </div>
             <button class="edit"><i class="fa-solid fa-pen-to-square"></i></button>
             <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
@@ -107,18 +102,18 @@ document.addEventListener('DOMContentLoaded', function () {
         const favoriteButton = div.querySelector(".favorite");
         const infoButton = div.querySelector(".info");
 
-        showMoreBtn.addEventListener("click", () => {
+        showMoreBtn.addEventListener("click", (event) => {
+          event.preventDefault(); // Adicione isso para evitar comportamento padrão do link
           const additionalInfo = `
             <p class="answer-div">${flashcard.answer}</p>
             <p class="answer-div">Id do produto: ${flashcard.id}</p>
             <p class="answer-div">Última edição: ${flashcard.lastEdited}</p>
             <p class="answer-div">Author: Guilherme Faccin</p>
-            <p class="answer-div">Favoritado por: ${flashcard.favoritadoPor ? flashcard.favoritadoPor.length : 0} pessoas</p>
+            <p class="answer-div">Favoritado por: ${flashcard.favoritadoPor.length} pessoas</p>
           `;
           showMoreTitle.innerHTML = flashcard.question + additionalInfo;
           showMoreModal.classList.remove("hide");
         });
-
 
         editButton.addEventListener("click", () => {
           editBool = true;
@@ -166,15 +161,10 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     };
 
-    document.addEventListener("DOMContentLoaded", viewlist);
-
     function toggleFavorite(id) {
       const index = flashcards.findIndex(flashcard => flashcard.id === id);
       if (index !== -1) {
-        if (!flashcards[index].favoritadoPor) {
-          flashcards[index].favoritadoPor = [];
-        }
-        const userId = getCurrentUserId(); // Implemente a função para obter o ID do usuário atual
+        const userId = getCurrentUserId();
         if (!flashcards[index].favoritadoPor.includes(userId)) {
           flashcards[index].favoritadoPor.push(userId);
         } else {
@@ -185,6 +175,14 @@ document.addEventListener('DOMContentLoaded', function () {
         viewlist();
       }
     }
+
+    function getCurrentUserId() {
+      // Implemente a lógica para obter o ID do usuário atual
+      return 'currentUserId'; // Substitua isso pela lógica real para obter o ID do usuário
+    }
+
+    // Inicializa a lista de flashcards
+    viewlist();
     const addCommentButton = document.getElementById("add-comment-btn");
     const commentTextArea = document.getElementById("comment");
     const commentList = document.querySelector(".comment-list");
@@ -200,11 +198,9 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
 
-
-  } else {
+  }else {
     console.error('Flashcard elements not found in the DOM');
   }
-
 
   // login
   const content = document.getElementById('content');
