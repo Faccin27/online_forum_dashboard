@@ -21,8 +21,6 @@ document.addEventListener('DOMContentLoaded', function() {
   } else {
     console.error('Sidebar button not found');
   }
-
-  // Flashcard functionality
   const container = document.querySelector(".container");
   const addQuestionCard = document.getElementById("add-question-card");
   const cardButton = document.getElementById("save-btn");
@@ -31,26 +29,33 @@ document.addEventListener('DOMContentLoaded', function() {
   const errorMessage = document.getElementById("error");
   const addQuestion = document.getElementById("add-flashcard");
   const closeBtn = document.getElementById("close-btn");
-
-  if (addQuestion && closeBtn && cardButton && question && answer) {
+  const showMoreModal = document.getElementById("show-more-modal");
+  const closeShowMore = document.getElementById("close-show-more");
+  const showMoreTitle = document.getElementById("show-more-title");
+  
+  if (addQuestion && closeBtn && cardButton && question && answer && showMoreModal && closeShowMore && showMoreTitle) {
     let editBool = false;
     let flashcards = JSON.parse(localStorage.getItem('flashcards')) || [];
     let nextId = flashcards.length ? Math.max(...flashcards.map(flashcard => flashcard.id)) + 1 : 1;
-
+  
     viewlist();
     addQuestion.addEventListener("click", () => {
       question.value = "";
       answer.value = "";
       addQuestionCard.classList.remove("hide");
     });
-
+  
     closeBtn.addEventListener("click", () => {
       addQuestionCard.classList.add("hide");
       if (editBool) {
         editBool = false;
       }
     });
-
+  
+    closeShowMore.addEventListener("click", () => {
+      showMoreModal.classList.add("hide");
+    });
+  
     cardButton.addEventListener("click", () => {
       let tempQuestion = question.value.trim();
       let tempAnswer = answer.value.trim();
@@ -72,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
         addQuestionCard.classList.add("hide");
       }
     });
-
+  
     function viewlist() {
       const listCard = document.querySelector(".card-list-container");
       listCard.innerHTML = '';
@@ -82,13 +87,9 @@ document.addEventListener('DOMContentLoaded', function() {
         div.innerHTML = `
           <p class="question-div">${flashcard.question}</p>
           <div class="answer-container hide">
-          <p class="answer-div">${flashcard.answer}</p>
-          <p class="answer-div">Id do produto: ${flashcard.id}</p>
-          <p class="answer-div">Última edição: ${flashcard.lastEdited}</p>
-          <p class="answer-div">Author: Guilherme Faccin</p>
-          <p class="answer-div">Favoritado por: ${flashcard.favoritadoPor ? flashcard.favoritadoPor.length : 0} pessoas</p>
-        </div>
-          <a href="#" class="show-hide-btn">Show More</a>
+            <p class="answer-div">Author: Guilherme Faccin</p>
+          </div>
+          <a href="#" class="show-more-btn">Show More</a>
           <div class="buttons-con">
             <button class="info"><i class="fa-solid fa-circle-info"></i></button>
             <div class="favorite-container">
@@ -100,39 +101,47 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         div.setAttribute('data-id', flashcard.id);
         const answerContainer = div.querySelector(".answer-container");
-        const showHideBtn = div.querySelector(".show-hide-btn");
+        const showMoreBtn = div.querySelector(".show-more-btn");
         const editButton = div.querySelector(".edit");
         const deleteButton = div.querySelector(".delete");
         const favoriteButton = div.querySelector(".favorite");
         const infoButton = div.querySelector(".info");
-
-        showHideBtn.addEventListener("click", () => {
-          const cardId = flashcard.id;
-          window.location.href = `/produtos/${cardId}`;
+  
+        showMoreBtn.addEventListener("click", () => {
+          const additionalInfo = `
+            <p class="answer-div">${flashcard.answer}</p>
+            <p class="answer-div">Id do produto: ${flashcard.id}</p>
+            <p class="answer-div">Última edição: ${flashcard.lastEdited}</p>
+            <p class="answer-div">Author: Guilherme Faccin</p>
+            <p class="answer-div">Favoritado por: ${flashcard.favoritadoPor ? flashcard.favoritadoPor.length : 0} pessoas</p>
+          `;
+          showMoreTitle.innerHTML = flashcard.question + additionalInfo;
+          showMoreModal.classList.remove("hide");
         });
-
+        
+  
         editButton.addEventListener("click", () => {
           editBool = true;
           modifyElement(editButton, true);
           addQuestionCard.classList.remove("hide");
         });
-
+  
         deleteButton.addEventListener("click", () => {
           modifyElement(deleteButton);
         });
-
+  
         favoriteButton.addEventListener("click", () => {
           toggleFavorite(flashcard.id);
         });
-
+  
         infoButton.addEventListener("click", () => {
           answerContainer.classList.toggle("hide");
         });
-
+  
         listCard.appendChild(div);
       });
     }
-
+  
     const modifyElement = (element, edit = false) => {
       const parentDiv = element.parentElement.parentElement;
       const id = Number(parentDiv.getAttribute('data-id'));
@@ -149,16 +158,16 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       parentDiv.remove();
     };
-
+  
     const disableButtons = (value) => {
       const editButtons = document.getElementsByClassName("edit");
       Array.from(editButtons).forEach((element) => {
         element.disabled = value;
       });
     };
-
+  
     document.addEventListener("DOMContentLoaded", viewlist);
-
+  
     function toggleFavorite(id) {
       const index = flashcards.findIndex(flashcard => flashcard.id === id);
       if (index !== -1) {
@@ -179,6 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
   } else {
     console.error('Flashcard elements not found in the DOM');
   }
+  
 
   // login
   const content = document.getElementById('content');
