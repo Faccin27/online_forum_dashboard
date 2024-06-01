@@ -3,14 +3,14 @@
 // troquei os for por map, corrigiu o bug da loginpage ai ja fiz em td pq fica melhor
 
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   console.log('Script carregado');
 
   // Sidebar functionality
   const sidebar = document.querySelector(".sidebar");
   const sidebarBtn = document.querySelector(".sidebarBtn");
   if (sidebarBtn) {
-    sidebarBtn.onclick = function() {
+    sidebarBtn.onclick = function () {
       sidebar.classList.toggle("active");
       if (sidebar.classList.contains("active")) {
         sidebarBtn.classList.replace("bx-menu", "bx-menu-alt-right");
@@ -32,30 +32,30 @@ document.addEventListener('DOMContentLoaded', function() {
   const showMoreModal = document.getElementById("show-more-modal");
   const closeShowMore = document.getElementById("close-show-more");
   const showMoreTitle = document.getElementById("show-more-title");
-  
+
   if (addQuestion && closeBtn && cardButton && question && answer && showMoreModal && closeShowMore && showMoreTitle) {
     let editBool = false;
     let flashcards = JSON.parse(localStorage.getItem('flashcards')) || [];
     let nextId = flashcards.length ? Math.max(...flashcards.map(flashcard => flashcard.id)) + 1 : 1;
-  
+
     viewlist();
     addQuestion.addEventListener("click", () => {
       question.value = "";
       answer.value = "";
       addQuestionCard.classList.remove("hide");
     });
-  
+
     closeBtn.addEventListener("click", () => {
       addQuestionCard.classList.add("hide");
       if (editBool) {
         editBool = false;
       }
     });
-  
+
     closeShowMore.addEventListener("click", () => {
       showMoreModal.classList.add("hide");
     });
-  
+
     cardButton.addEventListener("click", () => {
       let tempQuestion = question.value.trim();
       let tempAnswer = answer.value.trim();
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
         addQuestionCard.classList.add("hide");
       }
     });
-  
+
     function viewlist() {
       const listCard = document.querySelector(".card-list-container");
       listCard.innerHTML = '';
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const deleteButton = div.querySelector(".delete");
         const favoriteButton = div.querySelector(".favorite");
         const infoButton = div.querySelector(".info");
-  
+
         showMoreBtn.addEventListener("click", () => {
           const additionalInfo = `
             <p class="answer-div">${flashcard.answer}</p>
@@ -118,30 +118,30 @@ document.addEventListener('DOMContentLoaded', function() {
           showMoreTitle.innerHTML = flashcard.question + additionalInfo;
           showMoreModal.classList.remove("hide");
         });
-        
-  
+
+
         editButton.addEventListener("click", () => {
           editBool = true;
           modifyElement(editButton, true);
           addQuestionCard.classList.remove("hide");
         });
-  
+
         deleteButton.addEventListener("click", () => {
           modifyElement(deleteButton);
         });
-  
+
         favoriteButton.addEventListener("click", () => {
           toggleFavorite(flashcard.id);
         });
-  
+
         infoButton.addEventListener("click", () => {
           answerContainer.classList.toggle("hide");
         });
-  
+
         listCard.appendChild(div);
       });
     }
-  
+
     const modifyElement = (element, edit = false) => {
       const parentDiv = element.parentElement.parentElement;
       const id = Number(parentDiv.getAttribute('data-id'));
@@ -158,16 +158,16 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       parentDiv.remove();
     };
-  
+
     const disableButtons = (value) => {
       const editButtons = document.getElementsByClassName("edit");
       Array.from(editButtons).forEach((element) => {
         element.disabled = value;
       });
     };
-  
+
     document.addEventListener("DOMContentLoaded", viewlist);
-  
+
     function toggleFavorite(id) {
       const index = flashcards.findIndex(flashcard => flashcard.id === id);
       if (index !== -1) {
@@ -185,10 +185,26 @@ document.addEventListener('DOMContentLoaded', function() {
         viewlist();
       }
     }
+    const addCommentButton = document.getElementById("add-comment-btn");
+    const commentTextArea = document.getElementById("comment");
+    const commentList = document.querySelector(".comment-list");
+
+    addCommentButton.addEventListener("click", function () {
+      const commentText = commentTextArea.value.trim();
+      if (commentText !== "") {
+        const commentElement = document.createElement("div");
+        commentElement.classList.add("comment");
+        commentElement.textContent = commentText;
+        commentList.appendChild(commentElement);
+        commentTextArea.value = ""; // Limpa o campo de comentário após adicionar o comentário
+      }
+    });
+
+
   } else {
     console.error('Flashcard elements not found in the DOM');
   }
-  
+
 
   // login
   const content = document.getElementById('content');
@@ -211,6 +227,6 @@ document.addEventListener('DOMContentLoaded', function() {
       content.classList.remove("active");
     });
   } else {
-    console.error('Login/Register elements not found in the DOM'); 
+    console.error('Login/Register elements not found in the DOM');
   }
 });
