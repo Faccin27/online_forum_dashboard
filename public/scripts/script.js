@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const infoButton = div.querySelector(".info");
 
         showMoreBtn.addEventListener("click", (event) => {
-          event.preventDefault(); // Adicione isso para evitar comportamento padrão do link
+          event.preventDefault(); 
           const additionalInfo = `
             <p class="answer-div">${flashcard.answer}</p>
             <p class="answer-div">Id do produto: ${flashcard.id}</p>

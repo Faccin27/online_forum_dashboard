@@ -5,27 +5,36 @@ const UsuarioDAO = require('./dao/UsuarioDAO');
 
 // Definindo a classe Postagem que estende Model do Sequelize
 class Postagem extends Model {
-  // Aqui devem vir os métodos que essa classe pode executar
-  getAutor() {
-    let autor = UsuarioDAO.getById(this.idUsuario)
-    return autor;
+  // Método para obter o autor da postagem
+  async getAutor() {
+    try {
+      const autor = await UsuarioDAO.getById(this.idUsuario);
+      return autor;
+    } catch (error) {
+      console.error('Erro ao obter o autor:', error);
+      throw error;
+    }
   }
-  // Associação com a classe Usuario
+
+  // Definindo a associação com a classe Usuario
   static associate(models) {
-    this.belongsTo(models.Usuario, { foreignKey: 'idUsuario', as: 'autor' });
+    // Relacionamento 1 para N com Curtida
+    this.hasMany(models.Curtida, { foreignKey: 'idPostagem', as: 'curtidas' });
+    // Relacionamento 1 para N com Resposta
+    this.hasMany(models.Resposta, { foreignKey: 'idPostagem', as: 'respostas' });
   }
 }
 
 // Inicializando a classe Postagem com o esquema do banco de dados
 Postagem.init({
-  // idUsuario é a chave estrangeira do usuário que fez o post
+  // Identificador do usuário que criou a postagem
   idUsuario: { type: DataTypes.INTEGER, allowNull: false },
   // Título da postagem
   titulo: { type: DataTypes.STRING, allowNull: false },
   // Conteúdo da postagem
-  conteudo: { type: DataTypes.STRING, allowNull: false },
-  // Data e hora da postagem
-  dataHora: { type: DataTypes.DATE, allowNull: false },
+  conteudo: { type: DataTypes.TEXT, allowNull: false }, // Usando TEXT para conteúdos longos
+  // Data e hora em que a postagem foi criada
+  dataHora: { type: DataTypes.DATE, allowNull: false, defaultValue: DataTypes.NOW }, // Default para a data e hora atual
 }, {
   sequelize: db.sequelize, // Conexão com o banco de dados
   modelName: 'Postagem', // Nome do modelo
