@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   console.log('Script carregado');
 
-  // Sidebar functionality
   const sidebar = document.querySelector(".sidebar");
   const sidebarBtn = document.querySelector(".sidebarBtn");
   if (sidebarBtn) {
@@ -81,6 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const listCard = document.querySelector(".card-list-container");
       listCard.innerHTML = '';
       flashcards.forEach(flashcard => {
+        const favoritadoPor = flashcard.favoritadoPor || [];
         const div = document.createElement("div");
         div.classList.add("card");
         div.innerHTML = `
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <div class="buttons-con">
             <button class="info"><i class="fa-solid fa-circle-info"></i></button>
             <div class="favorite-container">
-              <button class="favorite ${flashcard.favoritadoPor.includes(getCurrentUserId()) ? 'active' : ''}"><i class="${flashcard.favoritadoPor.includes(getCurrentUserId()) ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}"></i> ${flashcard.favoritadoPor.length}</button>
+              <button class="favorite ${favoritadoPor.includes(getCurrentUserId()) ? 'active' : ''}"><i class="${favoritadoPor.includes(getCurrentUserId()) ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}"></i> ${favoritadoPor.length}</button>
             </div>
             <button class="edit"><i class="fa-solid fa-pen-to-square"></i></button>
             <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <p class="answer-div">Id do produto: ${flashcard.id}</p>
             <p class="answer-div">Última edição: ${flashcard.lastEdited}</p>
             <p class="answer-div">Author: Guilherme Faccin</p>
-            <p class="answer-div">Favoritado por: ${flashcard.favoritadoPor.length} pessoas</p>
+            <p class="answer-div">Favoritado por: ${favoritadoPor.length} pessoas</p>
           `;
           showMoreTitle.innerHTML = flashcard.question + additionalInfo;
           showMoreModal.classList.remove("hide");
@@ -171,6 +171,9 @@ document.addEventListener('DOMContentLoaded', function() {
       const index = flashcards.findIndex(flashcard => flashcard.id === id);
       if (index !== -1) {
         const userId = getCurrentUserId();
+        if (!flashcards[index].favoritadoPor) {
+          flashcards[index].favoritadoPor = [];
+        }
         if (!flashcards[index].favoritadoPor.includes(userId)) {
           flashcards[index].favoritadoPor.push(userId);
         } else {
@@ -183,11 +186,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function getCurrentUserId() {
-      // Implemente a lógica para obter o ID do usuário atual
-      return 'currentUserId'; // Substitua isso pela lógica real para obter o ID do usuário
+      return 'currentUserId'; 
     }
 
-    // Inicializa a lista de flashcards
     viewlist();
     const addCommentButton = document.getElementById("add-comment-btn");
     const commentTextArea = document.getElementById("comment");
@@ -199,18 +200,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const commentElement = document.createElement("div");
         commentElement.classList.add("comment");
     
-        // Criar elemento de imagem
         const imageElement = document.createElement("img");
-        imageElement.src = "/images/profile.jpg"; // Caminho para a imagem
-        imageElement.alt = "Profile Picture"; // Texto alternativo para acessibilidade
+        imageElement.src = "/images/profile.jpg"; 
+        imageElement.alt = "Profile Picture"; 
         commentElement.appendChild(imageElement);
     
-        // Criar elemento de texto para o nome
         const nameElement = document.createElement("span");
-        nameElement.textContent = "Faccin"; // Nome do autor do comentário
+        nameElement.textContent = "Faccin"; 
         commentElement.appendChild(nameElement);
     
-        // Criar elemento de texto para o comentário
         const textElement = document.createElement("span");
         textElement.textContent = commentText;
         commentElement.appendChild(textElement);
@@ -219,21 +217,18 @@ document.addEventListener('DOMContentLoaded', function() {
         commentTextArea.value = ""; 
       }
     });
-    
-
   } else {
     console.error('Flashcard elements not found in the DOM');
   }
 
-  // login
   const content = document.getElementById('content');
   const registerBtn = document.getElementById('register');
   const loginBtn = document.getElementById('login');
 
-  console.log('DOM fully loaded and parsed'); // depurando
-  console.log('registerBtn:', registerBtn); // depurando
-  console.log('loginBtn:', loginBtn); // depurando
-  console.log('content:', content); // depurando
+  console.log('DOM fully loaded and parsed'); 
+  console.log('registerBtn:', registerBtn); 
+  console.log('loginBtn:', loginBtn); 
+  console.log('content:', content); 
 
   if (registerBtn && loginBtn && content) {
     registerBtn.addEventListener('click', () => {
