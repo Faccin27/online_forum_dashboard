@@ -38,10 +38,12 @@ document.addEventListener('DOMContentLoaded', function() {
       question.value = "";
       answer.value = "";
       addQuestionCard.classList.remove("hide");
+      document.body.classList.add('no-scroll');
     });
 
     closeBtn.addEventListener("click", () => {
       addQuestionCard.classList.add("hide");
+      document.body.classList.remove('no-scroll');
       if (editBool) {
         editBool = false;
       }
@@ -49,29 +51,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
     closeShowMore.addEventListener("click", () => {
       showMoreModal.classList.add("hide");
+      document.body.classList.remove('no-scroll');
     });
 
     cardButton.addEventListener("click", () => {
-  let tempQuestion = question.value.trim();
-  let tempAnswer = answer.value.trim();
-  if (!tempQuestion || !tempAnswer) {
-    errorMessage.classList.remove("hide");
-  } else {
-    let now = new Date().toLocaleString();
-    if (editBool) {
-      flashcards = flashcards.filter(flashcard => flashcard.id !== originalId);
-    }
-    let id = editBool ? originalId : nextId++;
-    flashcards.push({ id, question: tempQuestion, answer: tempAnswer, lastEdited: now, favoritadoPor: [] });
-    localStorage.setItem('flashcards', JSON.stringify(flashcards));
-    errorMessage.classList.add("hide");
-    viewlist();
-    question.value = "";
-    answer.value = "";
-    editBool = false;
-    addQuestionCard.classList.add("hide");
-  }
-});
+      let tempQuestion = question.value.trim();
+      let tempAnswer = answer.value.trim();
+      if (!tempQuestion || !tempAnswer) {
+        errorMessage.classList.remove("hide");
+      } else {
+        let now = new Date().toLocaleString();
+        if (editBool) {
+          flashcards = flashcards.filter(flashcard => flashcard.id !== originalId);
+        }
+        let id = editBool ? originalId : nextId++;
+        flashcards.push({ id, question: tempQuestion, answer: tempAnswer, lastEdited: now, favoritadoPor: [] });
+        localStorage.setItem('flashcards', JSON.stringify(flashcards));
+        errorMessage.classList.add("hide");
+        viewlist();
+        question.value = "";
+        answer.value = "";
+        editBool = false;
+        addQuestionCard.classList.add("hide");
+        document.body.classList.remove('no-scroll');
+      }
+    });
 
     function viewlist() {
       const listCard = document.querySelector(".card-list-container");
@@ -113,12 +117,14 @@ document.addEventListener('DOMContentLoaded', function() {
           `;
           showMoreTitle.innerHTML = flashcard.question + additionalInfo;
           showMoreModal.classList.remove("hide");
+          document.body.classList.add('no-scroll');
         });
 
         editButton.addEventListener("click", () => {
           editBool = true;
           modifyElement(editButton, true);
           addQuestionCard.classList.remove("hide");
+          document.body.classList.add('no-scroll');
         });
 
         deleteButton.addEventListener("click", () => {
@@ -192,13 +198,30 @@ document.addEventListener('DOMContentLoaded', function() {
       if (commentText !== "") {
         const commentElement = document.createElement("div");
         commentElement.classList.add("comment");
-        commentElement.textContent = commentText;
+    
+        // Criar elemento de imagem
+        const imageElement = document.createElement("img");
+        imageElement.src = "/images/profile.jpg"; // Caminho para a imagem
+        imageElement.alt = "Profile Picture"; // Texto alternativo para acessibilidade
+        commentElement.appendChild(imageElement);
+    
+        // Criar elemento de texto para o nome
+        const nameElement = document.createElement("span");
+        nameElement.textContent = "Faccin"; // Nome do autor do comentário
+        commentElement.appendChild(nameElement);
+    
+        // Criar elemento de texto para o comentário
+        const textElement = document.createElement("span");
+        textElement.textContent = commentText;
+        commentElement.appendChild(textElement);
+    
         commentList.appendChild(commentElement);
-        commentTextArea.value = ""; // Limpa o campo de comentário após adicionar o comentário
+        commentTextArea.value = ""; 
       }
     });
+    
 
-  }else {
+  } else {
     console.error('Flashcard elements not found in the DOM');
   }
 

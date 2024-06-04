@@ -316,6 +316,10 @@ button {
   background-color: #1F2833;
 }
 
+.no-scroll {
+  overflow: hidden;
+}
+
 .question-container {
   width: 70%;
   max-width: 100%;
@@ -871,15 +875,16 @@ footer{
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  width: 100%; /* Botão ocupa toda a largura */
+  width: 40%; /* Botão ocupa toda a largura */
   margin-top: 10px; /* Espaço acima do botão */
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #add-comment-btn:hover {
   background-color: #0056b3;
 }
 
-/* Estilo para os comentários */
 .comment {
   color: #fff;
   background-color: #2b3644;
@@ -887,4 +892,25 @@ footer{
   margin-bottom: 10px;
   border-radius: 5px;
   border: #fff 0.5px solid; 
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.comment img {
+  width: 40px; 
+  height: 40px;
+  border-radius: 50%; 
+  margin-right: 10px;
+}
+
+.comment .comment-author {
+  font-weight: bold; 
+  color: blue; 
+  margin-bottom: 5px; 
+}
+
+
+.bx-paper-plane {
+  font-size: 28px; 
 }
