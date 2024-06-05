@@ -11,7 +11,31 @@ class PostagemDAO {
     } finally {
       return newPostagem; // Retorne a postagem criada
     }
+  
+}
+
+async getAll() {
+  let newPostagem;
+  try {
+    newPostagem = await Postagem.findAll();
+  } catch (error) {
+    console.error('Erro ao buscar postagens:', error);
+  } finally {
+    return newPostagem;
   }
+}
+
+// Busca um post no banco de dados pela sua ID
+async getById(postagemId) {
+  let newPostagem;
+  try {
+    newPostagem = await newPostagem.findByPk(postagemId);
+  } catch (error) {
+    console.error('Erro ao buscar post por ID:', error);
+  } finally {
+    return newPostagem;
+  }
+}
 }
 
 module.exports = new PostagemDAO();

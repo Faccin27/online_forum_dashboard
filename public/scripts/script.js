@@ -205,24 +205,33 @@ document.addEventListener('DOMContentLoaded', function() {
         imageElement.alt = "Profile Picture";
         commentElement.appendChild(imageElement);
     
-        const nameElement = document.createElement("span");
-        nameElement.textContent = "Faccin";
-        commentElement.appendChild(nameElement);
+        const nameAndTextContainer = document.createElement("div");
     
+        const nameElement = document.createElement("span");
+        nameElement.textContent = "Faccin ";
+        nameAndTextContainer.appendChild(nameElement);
+    
+        nameAndTextContainer.appendChild(document.createElement("br"));
+        
         const textElement = document.createElement("span");
         textElement.textContent = commentText;
-        commentElement.appendChild(textElement);
+        nameAndTextContainer.appendChild(textElement);
     
-        // Adicionando o horário do comentário
+        commentElement.appendChild(nameAndTextContainer);
+    
         const dateElement = document.createElement("span");
+        dateElement.classList.add("date"); // Adiciona a classe 'date'
         const currentTime = new Date();
-        dateElement.textContent = currentTime.toLocaleTimeString(); // n sai os segundos de jeito nenhum
+        dateElement.textContent = currentTime.toLocaleTimeString();
         commentElement.appendChild(dateElement);
     
         commentList.appendChild(commentElement);
-        commentTextArea.value = ""; // cçlar
+        commentTextArea.value = ""; // Limpar o campo de texto
       }
     });
+    
+    
+    
     
   } else {
     console.error('Flashcard elements not found in the DOM');

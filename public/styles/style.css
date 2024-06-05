@@ -15,10 +15,61 @@ body {
 .sidebar {
   position: fixed;
   height: 100%;
-  width: 240px;
+  width: 240px; /* Tamanho original da sidebar */
   background: #1F2833;
   transition: all 0.5s ease;
 }
+
+.sidebar.active {
+  width: 60px;
+}
+
+/* Ajustes para resoluções menores */
+@media (max-width: 1440px) {
+  .sidebar {
+    width: 200px; /* Largura ajustada */
+  }
+
+  .sidebar.active {
+    width: 50px;
+  }
+
+  .home-section {
+    width: calc(100% - 200px);
+    left: 200px;
+  }
+
+  .sidebar.active ~ .home-section {
+    width: calc(100% - 50px);
+    left: 50px;
+  }
+
+  .home-section nav {
+    width: calc(100% - 200px);
+    left: 200px;
+  }
+
+  .sidebar.active ~ .home-section nav {
+    left: 50px;
+    width: calc(100% - 50px);
+  }
+}
+
+/* Media queries para telas ainda menores */
+@media (max-width: 800px) {
+  .sidebar {
+    width: 100%; /* Sidebar como um menu de tela cheia */
+    position: relative; /* Posicionamento ajustado */
+  }
+
+  .home-section, .home-section nav {
+    width: 100%;
+    left: 0;
+  }
+}
+
+/* Mais ajustes de responsividade podem ser adicionados aqui */
+
 
 .sidebar.active {
   width: 60px;
@@ -929,4 +980,23 @@ footer {
 
 .bx-paper-plane {
   font-size: 28px;
+}
+
+.comment .date {
+  font-size: 0.8em;
+  color: #707070;
+  margin-left: 10px; 
+  margin-top: 0.3%;
+}
+
+#show-more-title {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.show-more-favorite {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;  /* Ajuste conforme necessário */
+  cursor: pointer;
 }

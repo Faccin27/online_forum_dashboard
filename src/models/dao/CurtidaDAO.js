@@ -37,24 +37,7 @@ class CurtidaDAO {
     }
   }
 
-  // Atualiza uma curtida no banco de dados
-  async update(curtidaId, curtidaAtualizada) {
-    let curtida;
-    try {
-      curtida = await Curtida.findByPk(curtidaId);
-      if (curtida) {
-        curtida.idUsuario = curtidaAtualizada.idUsuario || curtida.idUsuario; // Atualiza o campo de idUsuario se ele foi alterado
-        curtida.idPostagem = curtidaAtualizada.idPostagem || curtida.idPostagem; // Atualiza o campo de idPostagem se ele foi alterado
-        await curtida.save(); // Salve as alterações
-      } else {
-        console.log('Curtida não encontrada para atualização.');
-      }
-    } catch (error) {
-      console.error('Erro ao atualizar curtida:', error);
-    } finally {
-      return curtida;
-    }
-  }
+
 
   // Exclui uma curtida do banco de dados
   async delete(curtidaId) {
