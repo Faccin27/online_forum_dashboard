@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
           `;
           showMoreTitle.innerHTML = flashcard.question + additionalInfo;
           showMoreModal.classList.remove("hide");
-          document.body.classList.add('no-scroll');
+          document.body.classList.add('no-scroll');// pra n rolar 
         });
 
         editButton.addEventListener("click", () => {
@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const addCommentButton = document.getElementById("add-comment-btn");
     const commentTextArea = document.getElementById("comment");
     const commentList = document.querySelector(".comment-list");
-
+    
     addCommentButton.addEventListener("click", function () {
       const commentText = commentTextArea.value.trim();
       if (commentText !== "") {
@@ -201,22 +201,29 @@ document.addEventListener('DOMContentLoaded', function() {
         commentElement.classList.add("comment");
     
         const imageElement = document.createElement("img");
-        imageElement.src = "/images/profile.jpg"; 
-        imageElement.alt = "Profile Picture"; 
+        imageElement.src = "/images/profile.jpg";
+        imageElement.alt = "Profile Picture";
         commentElement.appendChild(imageElement);
     
         const nameElement = document.createElement("span");
-        nameElement.textContent = "Faccin"; 
+        nameElement.textContent = "Faccin";
         commentElement.appendChild(nameElement);
     
         const textElement = document.createElement("span");
         textElement.textContent = commentText;
         commentElement.appendChild(textElement);
     
+        // Adicionando o horário do comentário
+        const dateElement = document.createElement("span");
+        const currentTime = new Date();
+        dateElement.textContent = currentTime.toLocaleTimeString(); // n sai os segundos de jeito nenhum
+        commentElement.appendChild(dateElement);
+    
         commentList.appendChild(commentElement);
-        commentTextArea.value = ""; 
+        commentTextArea.value = ""; // cçlar
       }
     });
+    
   } else {
     console.error('Flashcard elements not found in the DOM');
   }
