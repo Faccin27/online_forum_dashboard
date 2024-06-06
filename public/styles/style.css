@@ -562,7 +562,7 @@ textarea:focus {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
   position: relative;
   overflow: hidden;
-  width: 768px;
+  width: 500px;
   max-width: 100%;
   min-height: 480px;
   color: #C5C6C7;
@@ -574,6 +574,10 @@ textarea:focus {
   letter-spacing: 0.3px;
   margin: 20px 0;
   color: #C5C6C7;
+}
+
+.content h1 {
+  margin-top: 7%;
 }
 
 .content span {
@@ -625,53 +629,10 @@ textarea:focus {
   padding: 10px 15px;
   font-size: 13px;
   border-radius: 8px;
-  width: 100%;
+  width: 80%;
+  height: 50%;
   outline: none;
   color: #222b35;
-}
-
-.form-content {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  transition: all 0.6s ease-in-out;
-}
-
-.sign-in {
-  left: 0;
-  width: 50%;
-  z-index: 2;
-}
-
-.content.active .sign-in {
-  transform: translateX(100%);
-}
-
-.sign-up {
-  left: 0;
-  width: 50%;
-  opacity: 0;
-  z-index: 1;
-}
-
-.content.active .sign-up {
-  transform: translateX(100%);
-  opacity: 1;
-  z-index: 5;
-  animation: move 0.6s;
-}
-
-@keyframes move {
-  0%,
-  49.99% {
-    opacity: 0;
-    z-index: 1;
-  }
-  50%,
-  100% {
-    opacity: 1;
-    z-index: 5;
-  }
 }
 
 .social-icons {
@@ -690,72 +651,6 @@ textarea:focus {
   color: #66FCF1;
 }
 
-.toggle-content {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 50%;
-  height: 100%;
-  overflow: hidden;
-  transition: all 0.6s ease-in-out;
-  border-radius: 150px 0 0 100px;
-  z-index: 1000;
-}
-
-.content.active .toggle-content {
-  transform: translateX(-100%);
-  border-radius: 0 150px 100px 0;
-}
-
-.toggle {
-  background-color: #1F2833;
-  height: 100%;
-  background: linear-gradient(to right, #45A29E, #1F2833);
-  color: #C5C6C7;
-  position: relative;
-  left: -100%;
-  height: 100%;
-  width: 200%;
-  transform: translateX(0);
-  transition: all 0.6s ease-in-out;
-}
-
-.content.active .toggle {
-  transform: translateX(50%);
-}
-
-.toggle-panel {
-  position: absolute;
-  width: 50%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 0 30px;
-  text-align: center;
-  top: 0;
-  transform: translateX(0);
-  transition: all 0.6s ease-in-out;
-}
-
-.toggle-left {
-  transform: translateX(-200%);
-}
-
-.content.active .toggle-left {
-  transform: translateX(0);
-}
-
-.toggle-right {
-  right: 0;
-  transform: translateX(0);
-}
-
-.content.active .toggle-right {
-  transform: translateX(200%);
-}
-
 .loginpage {
   display: flex;
   justify-content: center;
@@ -763,6 +658,7 @@ textarea:focus {
   height: 100vh;
   background-color: #0B0C10;
 }
+
 
 footer {
   background-color: #1F2833;
