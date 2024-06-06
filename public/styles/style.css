@@ -891,8 +891,33 @@ footer {
 }
 
 .show-more-favorite {
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 10px;  /* Ajuste conforme necessário */
+  position: fixed;
+  top: 10px; /* ajuste conforme necessário */
+  right: 10px; /* ajuste conforme necessário */
+}
+
+/* Estilo adicional para o botão de favorito, se necessário */
+.show-more-favorite button {
+    position: fixed;
+  background-color: transparent;
+  border: none;
   cursor: pointer;
+  outline: none;
+}
+
+.register-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;  /* largura do botão */
+  height: 40px;  /* altura do botão */
+  background-color: white;  /* cor de fundo branco */
+  border: 1px solid #000;  /* borda preta */
+  border-radius: 5px;  /* opcional: cantos arredondados */
+  cursor: pointer;
+}
+
+.register-button i {
+  color: black;  /* ícone na cor preta */
+  font-size: 24px;  /* tamanho do ícone */
 }
