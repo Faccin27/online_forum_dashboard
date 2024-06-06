@@ -1,10 +1,10 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   console.log('Script carregado');
 
   const sidebar = document.querySelector(".sidebar");
   const sidebarBtn = document.querySelector(".sidebarBtn");
   if (sidebarBtn) {
-    sidebarBtn.onclick = function() {
+    sidebarBtn.onclick = function () {
       sidebar.classList.toggle("active");
       if (sidebar.classList.contains("active")) {
         sidebarBtn.classList.replace("bx-menu", "bx-menu-alt-right");
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const infoButton = div.querySelector(".info");
 
         showMoreBtn.addEventListener("click", (event) => {
-          event.preventDefault(); 
+          event.preventDefault();
           const additionalInfo = `
             <p class="answer-div">${flashcard.answer}</p>
             <p class="answer-div">Id do produto: ${flashcard.id}</p>
@@ -186,77 +186,55 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function getCurrentUserId() {
-      return 'currentUserId'; 
+      return 'currentUserId';
     }
 
     viewlist();
     const addCommentButton = document.getElementById("add-comment-btn");
     const commentTextArea = document.getElementById("comment");
     const commentList = document.querySelector(".comment-list");
-    
+
     addCommentButton.addEventListener("click", function () {
       const commentText = commentTextArea.value.trim();
       if (commentText !== "") {
         const commentElement = document.createElement("div");
         commentElement.classList.add("comment");
-    
+
         const imageElement = document.createElement("img");
         imageElement.src = "/images/profile.jpg";
         imageElement.alt = "Profile Picture";
         commentElement.appendChild(imageElement);
-    
+
         const nameAndTextContainer = document.createElement("div");
-    
+
         const nameElement = document.createElement("span");
         nameElement.textContent = "Faccin ";
         nameAndTextContainer.appendChild(nameElement);
-    
+
         nameAndTextContainer.appendChild(document.createElement("br"));
-        
+
         const textElement = document.createElement("span");
         textElement.textContent = commentText;
         nameAndTextContainer.appendChild(textElement);
-    
+
         commentElement.appendChild(nameAndTextContainer);
-    
+
         const dateElement = document.createElement("span");
         dateElement.classList.add("date"); // Adiciona a classe 'date'
         const currentTime = new Date();
         dateElement.textContent = currentTime.toLocaleTimeString();
         commentElement.appendChild(dateElement);
-    
+
         commentList.appendChild(commentElement);
         commentTextArea.value = ""; // Limpar o campo de texto
       }
     });
-    
-    
-    
-    
+
+
+
+
   } else {
     console.error('Flashcard elements not found in the DOM');
   }
 
-  const content = document.getElementById('content');
-  const registerBtn = document.getElementById('register');
-  const loginBtn = document.getElementById('login');
-
-  console.log('DOM fully loaded and parsed'); 
-  console.log('registerBtn:', registerBtn); 
-  console.log('loginBtn:', loginBtn); 
-  console.log('content:', content); 
-
-  if (registerBtn && loginBtn && content) {
-    registerBtn.addEventListener('click', () => {
-      console.log('Register button clicked');
-      content.classList.add("active");
-    });
-
-    loginBtn.addEventListener('click', () => {
-      console.log('Login button clicked');
-      content.classList.remove("active");
-    });
-  } else {
-    console.error('Login/Register elements not found in the DOM');
-  }
 });
