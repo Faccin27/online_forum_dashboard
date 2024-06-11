@@ -236,6 +236,7 @@ document.addEventListener('DOMContentLoaded', function () {
   } else {
     console.error('Flashcard elements not found in the DOM');
   }
+  
   const content = document.getElementById('content');
   const registerBtn = document.getElementById('register');
   const loginBtn = document.getElementById('login');
