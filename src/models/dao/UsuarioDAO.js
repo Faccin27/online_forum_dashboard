@@ -5,7 +5,7 @@ class UsuarioDAO {
   async create({ nome, email, senha }) {
     let newUser;
     try {
-      newUser = await User.create({ nome, email, senha })
+      newUser = await User.create({ nome, email, senha });
     } catch (error) {
       console.error('Erro ao criar usuário:', error);
     } finally {
@@ -59,11 +59,11 @@ class UsuarioDAO {
 
   // Exclui um usuário do banco de dados
   async delete(userId) {
-    let deletado = false
+    let deletado = false;
     try {
       const user = await User.findByPk(userId);
       if (user) {
-        await user.destroy()
+        await user.destroy();
         deletado = true;
       } else {
         console.error('Usuário não encontrado para exclusão.');
@@ -72,6 +72,17 @@ class UsuarioDAO {
       console.error('Erro ao excluir usuário:', error);
     } finally {
       return deletado;
+    }
+  }
+  // Busca um usuário no banco de dados pelo nome ou email
+  async findOne(query) {
+    let user;
+    try {
+      user = await User.findOne({ where: query });
+    } catch (error) {
+      console.error('Erro ao buscar usuário:', error);
+    } finally {
+      return user;
     }
   }
 }
