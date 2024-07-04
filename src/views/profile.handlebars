@@ -62,23 +62,50 @@
             <i class="bx bx-search"></i>
         </div>
 
+
         <div class="nightmode-btn">
             <i class="bx bx-moon"></i>
         </div>
-
         <div class="profile-details" onclick="toggleCombobox()">
+
             <img src="images/profile.jpg" alt="" />
             <span class="admin_name">{{usuarioLogado.nome}}</span>
             <i class="bx bx-chevron-down"></i>
             <div class="combobox" id="profileCombobox">
+                <a href="/profile"> <i class="bx bx-user" style="font-size: 18px;"></i> Profile</a>
                 <a href="/deslogar"> <i class="bx bx-log-out" style="font-size: 18px;"></i> Deslogar</a>
             </div>
         </div>
     </nav>
-    {{> card}}
+
+
 
 </section>
-
-
-
-{{> footer}}
+<div class="profile-box">
+    <div class="image-container">
+        <img src="images/profile.jpg" alt="" class="profile-image">
+        <div class="edit-overlay">
+            <button class="edit-button">Editar</button>
+        </div>
+    </div>
+    <div class="profile-info">
+        <div class="info-row">
+            <label for="email">Email:</label>
+            <input type="email" id="email" value="{{usuarioLogado.email}}" readonly>
+            <button class="edit-button" onclick="toggleEdit('email')"><i class="bx bx-edit-alt"
+                    style="font-size: 18px;"></i></button>
+        </div>
+        <div class="info-row">
+            <label for="username">Nome de usuário:</label>
+            <input type="text" id="username" value="{{usuarioLogado.nome}}">
+            <button class="edit-button" onclick="toggleEdit('username')"><i class="bx bx-edit-alt"
+                    style="font-size: 18px;"></i></button>
+        </div>
+        <div class="info-row">
+            <label for="password">Senha:</label>
+            <input type="password" id="password" value="{{usuarioLogado.senha}}" readonly>
+            <button class="edit-button" onclick="toggleEdit('password')"><i class="bx bx-edit-alt"
+                    style="font-size: 18px;"></i></button>
+        </div>
+    </div>
+</div>

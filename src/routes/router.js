@@ -24,6 +24,10 @@ router.get('/login', (req, res) => {
   res.status(200).render("login")
 })
 
+router.get('/profile', (req, res) => {
+  res.status(200).render("profile")
+})
+
 router.get('/produtos', async (req, res) => {
   await getUsuarioLogado(req);
   if (usuarioLogado) {

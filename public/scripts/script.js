@@ -286,3 +286,32 @@ function toggleCombobox() {
     icon.classList.add("bx-chevron-up");
   }
 }
+document.addEventListener('DOMContentLoaded', function() {
+  const button = document.querySelector('.nightmode-btn');
+  const icon = button.querySelector('i');
+
+  if (icon.classList.contains('bx-moon')) {
+    button.classList.add('moon-mode');
+  } else {
+    button.classList.remove('moon-mode');
+  }
+
+  button.addEventListener('click', function() {
+    icon.classList.add('animate-icon');
+
+    setTimeout(() => {
+      if (icon.classList.contains('bx-moon')) {
+        icon.classList.remove('bx-moon');
+        icon.classList.add('bx-sun');
+        button.classList.remove('moon-mode');
+      } else {
+        icon.classList.remove('bx-sun');
+        icon.classList.add('bx-moon');
+        button.classList.add('moon-mode');
+      }
+      icon.classList.remove('animate-icon');
+    }, 300);
+  });
+});
+
+
