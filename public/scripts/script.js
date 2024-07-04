@@ -286,15 +286,34 @@ function toggleCombobox() {
     icon.classList.add("bx-chevron-up");
   }
 }
+
 document.addEventListener('DOMContentLoaded', function() {
   const button = document.querySelector('.nightmode-btn');
   const icon = button.querySelector('i');
+  const lightTheme = document.getElementById('light');
+  const darkTheme = document.getElementById('dark');
 
-  if (icon.classList.contains('bx-moon')) {
-    button.classList.add('moon-mode');
-  } else {
-    button.classList.remove('moon-mode');
+  function setTheme(theme) {
+    if (theme === 'light') {
+      lightTheme.disabled = false;
+      darkTheme.disabled = true;
+    } else if (theme === 'dark') {
+      lightTheme.disabled = true;
+      darkTheme.disabled = false;
+    }
   }
+
+  function initializeTheme() {
+    if (icon.classList.contains('bx-moon')) {
+      setTheme('dark');
+      button.classList.add('moon-mode');
+    } else {
+      setTheme('light');
+      button.classList.remove('moon-mode');
+    }
+  }
+
+  initializeTheme();
 
   button.addEventListener('click', function() {
     icon.classList.add('animate-icon');
@@ -303,15 +322,16 @@ document.addEventListener('DOMContentLoaded', function() {
       if (icon.classList.contains('bx-moon')) {
         icon.classList.remove('bx-moon');
         icon.classList.add('bx-sun');
+        setTheme('light');
         button.classList.remove('moon-mode');
       } else {
         icon.classList.remove('bx-sun');
         icon.classList.add('bx-moon');
+        setTheme('dark');
         button.classList.add('moon-mode');
       }
       icon.classList.remove('animate-icon');
     }, 300);
   });
 });
-
 

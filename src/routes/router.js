@@ -20,9 +20,6 @@ router.get('/', (req, res) => {
   res.status(200).redirect("login");
 });
 
-router.get('/login', (req, res) => {
-  res.status(200).render("login")
-})
 
 router.get('/profile', (req, res) => {
   res.status(200).render("profile")
@@ -55,7 +52,7 @@ router.get('/produtos', async (req, res) => {
 router.get('/login', async (req, res) => {
   await getUsuarioLogado(req);
   if (usuarioLogado) {
-    res.redirect('produtos', { usuarioLogado: usuarioLogado.get() });
+    res.redirect('/produtos');
   } else {
     res.status(200).render("login", {
     })

@@ -8,7 +8,7 @@
 }
 
 body {
-  background-color: #C5C6C7;
+  background-color: #2c2c2c;
   height: 100vh;
 }
 
@@ -16,8 +16,7 @@ body {
   position: fixed;
   height: 100%;
   width: 240px;
-  /* Tamanho original da sidebar */
-  background: #1F2833;
+  background: #1a1a1a;
   transition: all 0.5s ease;
 }
 
@@ -29,7 +28,6 @@ body {
 @media (max-width: 1440px) {
   .sidebar {
     width: 200px;
-    /* Largura ajustada */
   }
 
   .sidebar.active {
@@ -60,9 +58,7 @@ body {
 @media (max-width: 800px) {
   .sidebar {
     width: 100%;
-    /* Sidebar como um menu de tela cheia */
     position: relative;
-    /* Posicionamento ajustado */
   }
 
   .home-section,
@@ -70,13 +66,6 @@ body {
     width: 100%;
     left: 0;
   }
-}
-
-/* Mais ajustes de responsividade podem ser adicionados aqui */
-
-
-.sidebar.active {
-  width: 60px;
 }
 
 .sidebar .logo-details {
@@ -88,7 +77,7 @@ body {
 .sidebar .logo-details i {
   font-size: 28px;
   font-weight: 500;
-  color: #C5C6C7;
+  color: #e0e0e0;
   min-width: 60px;
   text-align: center;
 }
@@ -142,18 +131,18 @@ body {
 }
 
 .sidebar .nav-links li a.active {
-  background: #1F2833;
+  background: #1a1a1a;
 }
 
 .sidebar .nav-links li a:hover {
-  background: #12181f;
+  background: #2c2c2c;
 }
 
 .sidebar .nav-links li i {
   min-width: 60px;
   text-align: center;
   font-size: 18px;
-  color: #C5C6C7;
+  color: #e0e0e0;
 }
 
 .sidebar .nav-links li a .links_name {
@@ -171,12 +160,11 @@ body {
 
 .home-section {
   position: relative;
-  background: #C5C6C7;
+  background: #2c2c2c;
   width: calc(100% - 240px);
   left: 240px;
   transition: all 0.5s ease;
   padding-bottom: 20px;
-  /* Adicionado para dar espaço ao conteúdo */
 }
 
 .sidebar.active~.home-section {
@@ -188,21 +176,17 @@ body {
   display: flex;
   justify-content: space-between;
   height: 80px;
-  background: #fff;
+  background: #1a1a1a;
   display: flex;
   align-items: center;
   position: sticky;
-  /* Alterado de fixed para sticky */
   top: 0;
-  /* Adicionado para manter o nav no topo */
   width: 100%;
-  /* Alterado para ocupar toda a largura */
   z-index: 100;
   padding: 0 20px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 1px rgba(255, 255, 255, 0.1);
   transition: all 0.5s ease;
 }
-
 
 .sidebar.active~.home-section nav {
   left: 60px;
@@ -237,11 +221,12 @@ nav .search-box input {
   height: 100%;
   width: 100%;
   outline: none;
-  background: #F5F6FA;
-  border: 2px solid #EFEEF1;
+  background: #3a3a3a;
+  border: 2px solid #4a4a4a;
   border-radius: 6px;
   font-size: 18px;
   padding: 0 15px;
+  color: #e0e0e0;
 }
 
 nav .search-box .bx-search {
@@ -263,9 +248,9 @@ nav .search-box .bx-search {
 .home-section nav .profile-details {
   display: flex;
   align-items: center;
-  box-shadow: 1px 3px 7px 4px rgba(0, 0, 0, 0.3);
-  background: #e9e9e9e5;
-  border: 2px solid #EFEEF1;
+  box-shadow: 1px 3px 7px 4px rgba(255, 255, 255, 0.1);
+  background: #2c2c2c;
+  border: 2px solid #4a4a4a;
   border-radius: 6px;
   height: 50px;
   min-width: 150px;
@@ -276,7 +261,7 @@ nav .search-box .bx-search {
 }
 
 .home-section nav .profile-details:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.15);
 }
 
 nav .profile-details img {
@@ -289,26 +274,26 @@ nav .profile-details img {
 nav .profile-details .admin_name {
   font-size: 15px;
   font-weight: 500;
-  color: #333;
+  color: #e0e0e0;
   margin: 0 10px;
   white-space: nowrap;
 }
 
 nav .profile-details i {
   font-size: 25px;
-  color: #333;
+  color: #e0e0e0;
 }
 
 .combobox {
   display: none;
   position: absolute;
-  background: #e9e9e9e5;
+  background: #2c2c2c;
   min-width: 150px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 8px 16px 0px rgba(255, 255, 255, 0.1);
   z-index: 1;
   top: 100%;
   left: 0;
-  border: 2px solid #EFEEF1;
+  border: 2px solid #4a4a4a;
   border-top: none;
   border-radius: 0 0 6px 6px;
   transform: translateY(-10px);
@@ -323,7 +308,7 @@ nav .profile-details i {
 }
 
 .combobox a {
-  color: #333;
+  color: #e0e0e0;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
@@ -332,7 +317,7 @@ nav .profile-details i {
 }
 
 .combobox a:hover {
-  background-color: #EFEEF1;
+  background-color: #3a3a3a;
 }
 
 .modal {
@@ -345,15 +330,16 @@ nav .profile-details i {
   height: 100%;
   overflow: auto;
   background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 .modal-content {
-  background-color: #fefefe;
+  background-color: #2c2c2c;
   margin: 15% auto;
   padding: 20px;
-  border: 1px solid #888;
+  border: 1px solid #4a4a4a;
   width: 80%;
+  color: #e0e0e0;
 }
 
 .close {
@@ -365,7 +351,7 @@ nav .profile-details i {
 
 .close:hover,
 .close:focus {
-  color: black;
+  color: #fff;
   text-decoration: none;
   cursor: pointer;
 }
@@ -422,8 +408,8 @@ button {
   flex: 1 1 calc(25% - 1em);
   box-sizing: border-box;
   padding: 1em;
-  border: 1px solid #ccc;
-  background-color: #1F2833;
+  border: 1px solid #4a4a4a;
+  background-color: #2c2c2c;
 }
 
 .no-scroll {
@@ -438,14 +424,14 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: #1F2833;
+  background-color: #2c2c2c;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 3em 2em;
   border-radius: 0.6em;
-  box-shadow: 0 1em 2em rgba(28, 0, 80, 0.1);
+  box-shadow: 0 1em 2em rgba(255, 255, 255, 0.1);
   overflow: auto;
 }
 
@@ -495,9 +481,10 @@ label {
 textarea {
   width: 100%;
   padding: 0.7em 0.5em;
-  border: 1px solid #C5C6C7;
+  border: 1px solid #4a4a4a;
   outline: none;
-  color: #222b35;
+  color: #e0e0e0;
+  background-color: #3a3a3a;
   border-radius: 0.3em;
   resize: none;
 }
@@ -527,8 +514,8 @@ textarea:focus {
 }
 
 .card {
-  background-color: #1F2833;
-  box-shadow: 0 0.4em 1.2em rgba(28, 0, 80, 0.08);
+  background-color: #2c2c2c;
+  box-shadow: 0 0.4em 1.2em rgba(255, 255, 255, 0.08);
   padding: 1.2em;
   border-radius: 0.4em;
 }
@@ -548,7 +535,7 @@ textarea:focus {
   line-height: 1.2;
   margin-top: 1em;
   font-weight: 400;
-  color: #C5C6C7;
+  color: #e0e0e0;
 }
 
 .answer-container .answer-div {
@@ -570,6 +557,8 @@ textarea:focus {
   display: flex;
   justify-content: flex-end;
 }
+
+
 
 .edit,
 .delete,
@@ -1268,3 +1257,4 @@ footer {
   height: 100%;
   
 }
+
