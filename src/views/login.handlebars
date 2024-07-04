@@ -17,8 +17,10 @@
             </form>
         </div>
         <div class="form-content sign-in">
+
             <form method="post" action="/login">
                 <h1>Sign In</h1>
+
                 <div class="social-icons">
                     <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
                     <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
@@ -29,7 +31,14 @@
                 <input type="email" name="LoginEmail" placeholder="Email">
                 <input type="password" name="LoginPassword" placeholder="Password">
                 <a href="#">Forget Your Password?</a>
-                <input type="submit" value="sign in">
+                <button type="submit">sign in</button>
+
+
+                {{#if message}}
+                <div class="incorrect-alert" role="alert">
+                    {{message}}
+                </div>
+                {{/if}}
 
             </form>
         </div>

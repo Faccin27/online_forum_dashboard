@@ -43,11 +43,12 @@
             </a>
         </li>
         <li class="log_out">
-            <a href="/login">
+            <a href="/deslogar">
                 <i class="bx bx-log-out"></i>
                 <span class="links_name">Log out</span>
             </a>
         </li>
+
     </ul>
 </div>
 <section class="home-section">
@@ -60,22 +61,15 @@
             <input type="text" placeholder="Search..." />
             <i class="bx bx-search"></i>
         </div>
-<a href="login">
-    <div class="register-button">
-        <i class="bx bx-door-open" id="door"></i>
-    </div>
-</a>
-<a href="register">
-    <div class="register-button">
-        <i class="bx bx-user-plus"></i>
-    </div>
-</a>
 
 
-        <div class="profile-details">
+        <div class="profile-details" onclick="toggleCombobox()">
             <img src="images/profile.jpg" alt="" />
-            <span class="admin_name">Ramone</span>
-            <i class="bx bx-chevron-down"></i>
+            <span class="admin_name">{{usuarioLogado.nome}}</span>
+            <i class="bx bx-chevron-down" ></i>
+            <div class="combobox" id="profileCombobox">
+                <a href="/deslogar"> <i class="bx bx-log-out" style="font-size: 18px;"></i> Deslogar</a>
+            </div>
         </div>
     </nav>
     {{> card}}

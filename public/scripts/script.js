@@ -261,3 +261,28 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
 });
+
+function toggleCombobox() {
+  var combobox = document.getElementById("profileCombobox");
+  var icon = document.querySelector(".bx-chevron-down, .bx-chevron-up");
+
+  if (combobox.classList.contains("show")) {
+    combobox.classList.remove("show");
+    icon.classList.remove("bx-chevron-up");
+    icon.classList.add("bx-chevron-down");
+    
+    // Aguarda o fim da animação antes de esconder completamente
+    setTimeout(() => {
+      combobox.style.display = "none";
+    }, 300); // 300ms é a duração da animação no CSS
+  } else {
+    combobox.style.display = "block";
+    
+    // Força um reflow para que a transição funcione
+    combobox.offsetHeight;
+    
+    combobox.classList.add("show");
+    icon.classList.remove("bx-chevron-down");
+    icon.classList.add("bx-chevron-up");
+  }
+}
