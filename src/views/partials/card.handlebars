@@ -1,45 +1,51 @@
+<div class="container">
+  <div class="add-flashcard-con">
+    <button id="add-flashcard">Adicionar Produto</button>
+  </div>
 
-  <div class="container">
-    <div class="add-flashcard-con">
-      <button id="add-flashcard">Adicionar Produto</button>
-    </div>
-
-    <div id="card-con">
-      <div class="card-list-container">
+  <div id="card-con">
+    <div class="card-list-container">
+      {{#each products}}
+      <div class="card">
+        <h3>{{this.name}}</h3>
+        <p>{{this.description}}</p>
       </div>
+      {{/each}}
     </div>
   </div>
+</div>
 
-  <!-- Modal de Adicionar Produto -->
-  <div class="question-container hide" id="add-question-card">
-    <h2>Adicionar produto</h2>
-    <div class="wrapper">
-      <!-- Botão de Fechar, tem que alinhar o X -->
-      <i class="fa-solid fa-xmark" id="close-btn"></i>
-    </div>
-
-    <label for="question">Produto</label>
-    <textarea class="input" id="question" placeholder="Digite o nome do produto aqui" rows="2"></textarea>
-    <label for="answer">Descrição</label>
-    <textarea class="input" id="answer" rows="4" placeholder="Digite a descrição do produto aqui"></textarea>
-    <button id="save-btn">Salvar</button>
+<!-- Modal de Adicionar Produto -->
+<div class="question-container hide" id="add-question-card">
+  <h2>Adicionar produto</h2>
+  <div class="wrapper">
+    <!-- Botão de Fechar, tem que alinhar o X -->
+    <i class="fa-solid fa-xmark" id="close-btn"></i>
   </div>
 
-  <!-- Modal para mostrar mais -->
-  <div class="question-container hide" id="show-more-modal">
-    <h2 id="show-more-title">Detalhes do Produto</h2>
-    <button class="favorite show-more-favorite"><i class="fa-regular fa-heart"></i> <span class="favorite-count">0</span></button>
-    <div class="wrapper">
-      <!-- Botão de Fechar -->
-      <i class="fa-solid fa-xmark" id="close-show-more"></i>
-    </div>
+  <label for="question">Produto</label>
+  <textarea class="input" id="question" placeholder="Digite o nome do produto aqui" rows="2"></textarea>
+  <label for="answer">Descrição</label>
+  <textarea class="input" id="answer" rows="4" placeholder="Digite a descrição do produto aqui"></textarea>
+  <button id="save-btn">Salvar</button>
+</div>
 
-    <!-- Caixa de Comentários -->
-    <div class="comment-box">
-      <textarea class="input" id="comment" rows="3" placeholder="Adicione um comentário"></textarea>
-      <button id="add-comment-btn"><i class="bx bx-paper-plane"></i></button>
-    </div>
-
-    <!-- Lista de comentários -->
-    <div class="comment-list"></div>
+<!-- Modal para mostrar mais -->
+<div class="question-container hide" id="show-more-modal">
+  <h2 id="show-more-title">Detalhes do Produto</h2>
+  <button class="favorite show-more-favorite"><i class="fa-regular fa-heart"></i> <span
+      class="favorite-count">0</span></button>
+  <div class="wrapper">
+    <!-- Botão de Fechar -->
+    <i class="fa-solid fa-xmark" id="close-show-more"></i>
   </div>
+
+  <!-- Caixa de Comentários -->
+  <div class="comment-box">
+    <textarea class="input" id="comment" rows="3" placeholder="Adicione um comentário"></textarea>
+    <button id="add-comment-btn"><i class="bx bx-paper-plane"></i></button>
+  </div>
+
+  <!-- Lista de comentários -->
+  <div class="comment-list"></div>
+</div>

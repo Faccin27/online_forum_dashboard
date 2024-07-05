@@ -2,6 +2,7 @@
 const { Router } = require("express");
 const router = new Router();
 const RegisterController = require('../controllers/RegisterController');
+const PostagemDAO = require('../models/dao/PostagemDAO');
 
 // O módulo 'jsonwebtoken' é usado para criar e verificar tokens JWT (JSON Web Tokens)
 const jwt = require('jsonwebtoken');
@@ -27,9 +28,14 @@ router.get('/profile', (req, res) => {
 
 router.get('/produtos', async (req, res) => {
   await getUsuarioLogado(req);
+
+  let listaPosts = await PostagemDAO.getAll(); 
+  if (listaPosts) listaPosts = listaPosts.map(post => post.get());
+  console.log(listaPosts);
   if (usuarioLogado) {
     res.status(200).render("produtos", {
-      usuarioLogado: usuarioLogado.get()
+      usuarioLogado: usuarioLogado.get(),
+      listaPosts: listaPosts
     })
   }
   else {
