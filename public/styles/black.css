@@ -1212,6 +1212,176 @@ footer {
   
 }
 
-.sidebar-button{
-  color: #ffffff;
+/* General Responsive Styles */
+@media screen and (max-width: 1200px) {
+  .sidebar {
+    width: 200px;
+  }
+
+  .home-section {
+    width: calc(100% - 200px);
+    left: 200px;
+  }
+
+  .sidebar.active ~ .home-section {
+    width: calc(100% - 60px);
+    left: 60px;
+  }
+
+  .container {
+    margin-left: 10%;
+    width: 80vw;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .sidebar {
+    width: 60px;
+  }
+
+  .sidebar.active {
+    width: 220px;
+  }
+
+  .home-section {
+    width: calc(100% - 60px);
+    left: 60px;
+  }
+
+  .sidebar.active ~ .home-section {
+    width: calc(100% - 220px);
+    left: 220px;
+  }
+
+  .container {
+    margin-left: 5%;
+    width: 90vw;
+  }
+
+  .card-list-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .sidebar.active {
+    width: 100%;
+  }
+
+  .home-section {
+    width: 100%;
+    left: 0;
+  }
+
+  .sidebar.active ~ .home-section {
+    width: 100%;
+    left: 0;
+  }
+
+  .container {
+    margin-left: 0;
+    width: 95vw;
+  }
+
+  .question-container {
+    width: 90%;
+    padding: 2em 1em;
+  }
+
+  .content {
+    width: 90%;
+  }
+
+  .toggle-content {
+    display: none;
+  }
+
+  .form-content {
+    width: 100%;
+  }
+
+  .sign-in, .sign-up {
+    width: 100%;
+  }
+
+  .row {
+    flex-direction: column;
+  }
+
+  .col {
+    width: 100%;
+    padding: 1rem;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .home-section nav {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1em;
+  }
+
+  .home-section nav .search-box {
+    width: 100%;
+    margin: 1em 0;
+  }
+
+  .card-list-container {
+    grid-template-columns: 1fr;
+  }
+
+  .question-container h2 {
+    font-size: 1.8em;
+  }
+
+  .wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .content input[type="submit"],
+  .content button {
+    width: 100%;
+  }
+
+  .profile-box {
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+  }
+
+  .image-container {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+
+  .profile-info {
+    width: 100%;
+  }
+}
+
+/* Adjustments for larger screens */
+@media screen and (min-width: 1400px) {
+  .container {
+    max-width: 1320px;
+  }
+
+  .card-list-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.file-uploader {
+  opacity: 0;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+  position: absolute;
+  top: 0%;
+  left: 0%;
 }
