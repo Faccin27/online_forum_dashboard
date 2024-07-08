@@ -50,9 +50,6 @@ if(lightTheme){
     const addQuestionCard = document.getElementById("add-question-card");
     addQuestionCard.classList.add("hide");
     document.body.classList.remove('no-scroll');
-    if (editBool) {
-      editBool = false;
-    }
   }
 
   if (addQuestion && closeBtn && cardButton && question && answer && showMoreModal && closeShowMore && showMoreTitle) {
@@ -97,7 +94,6 @@ if(lightTheme){
         let id = editBool ? originalId : nextId++;
         flashcards.push({ id, question: tempQuestion, answer: tempAnswer, lastEdited: now, favoritadoPor: [] });
         localStorage.setItem('flashcards', JSON.stringify(flashcards));
-        errorMessage.classList.add("hide");
         viewlist();
         question.value = "";
         answer.value = "";
@@ -105,6 +101,7 @@ if(lightTheme){
         addQuestionCard.classList.add("hide");
         document.body.classList.remove('no-scroll');
         closeAddQuestionModal();
+        console.log("F")
       }
     });
 
@@ -360,3 +357,28 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+
+
+function upload(){
+  const fileUploadInput = document.querySelector('.file-uploader');
+  const image = fileUploadInput.files[0];
+  if (!image.type.includes('image')) {
+    return alert('Only images are allowed!');
+  }
+  if (image.size > 10_000_000) {
+    return alert('Maximum upload size is 10MB!');    
+  }
+
+  const fileReader = new FileReader();
+  fileReader.readAsDataURL(image);
+
+  fileReader.onload = (fileReaderEvent) => {
+    const profilePicture = document.querySelector('.profile-image');
+    profilePicture.src = fileReaderEvent.target.result;
+    const profilePicture2 = document.querySelector('.profile-image-sidebar');
+    profilePicture2.src = fileReaderEvent.target.result;
+  }
+}
+
+//https://dev.to/mirzaleka/upload-the-image-with-a-preview-using-html-css-javascript-53cb
+//Ajuda do bonekazz https://github.com/Bonekazz

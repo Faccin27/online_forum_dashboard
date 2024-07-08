@@ -1081,6 +1081,7 @@ footer {
 
 
 .profile-box {
+  align-items: center;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -1209,4 +1210,8 @@ footer {
 .home-section2 {
   height: 100%;
   
+}
+
+.sidebar-button{
+  color: #ffffff;
 }

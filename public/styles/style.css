@@ -1156,14 +1156,19 @@ footer {
 
 
 .profile-box {
+  align-items: center;
   background-color: white;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.6 );
   display: flex;
   justify-content: center;
   width: 50%;
   height: 50%;
 
+}
+
+.profile-box h1, h2{
+  color: black;
 }
 
 .image-container {
@@ -1448,4 +1453,17 @@ footer {
   .card-list-container {
     grid-template-columns: repeat(4, 1fr);
   }
+}
+
+.file-uploader {
+  /* make it invisible */
+  opacity: 0;
+  /* make it take the full height and width of the parent container */
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+  /* make it absolute */
+  position: absolute;
+  top: 0%;
+  left: 0%;
 }

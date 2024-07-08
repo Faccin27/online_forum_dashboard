@@ -1,9 +1,10 @@
 {{> sidebar}}
+
 <div class="profile-box">
     <div class="image-container">
         <img src="images/profile.jpg" alt="" class="profile-image">
         <div class="edit-overlay">
-            <button class="edit-button">Editar</button>
+            <input class="file-uploader" type="file" onchange="upload()" accept="image/*" />
         </div>
     </div>
     <div class="profile-info">
