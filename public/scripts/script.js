@@ -1,4 +1,20 @@
+
+
 document.addEventListener('DOMContentLoaded', function () {
+  const lightTheme = document.getElementById('light');
+const darkTheme = document.getElementById('dark');
+const styleTheme = document.getElementById('style');
+
+if(styleTheme){
+  console.log("a")
+}
+
+if(darkTheme){
+  console.log("d")
+}
+if(lightTheme){
+  console.log("w")
+}
   console.log('Script carregado');
 
   const sidebar = document.querySelector(".sidebar");
@@ -16,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
     console.error('Sidebar button not found');
   }
 
+
   const container = document.querySelector(".container");
   const addQuestionCard = document.getElementById("add-question-card");
   const cardButton = document.getElementById("save-btn");
@@ -28,16 +45,29 @@ document.addEventListener('DOMContentLoaded', function () {
   const closeShowMore = document.getElementById("close-show-more");
   const showMoreTitle = document.getElementById("show-more-title");
 
+
+  function closeAddQuestionModal() {
+    const addQuestionCard = document.getElementById("add-question-card");
+    addQuestionCard.classList.add("hide");
+    document.body.classList.remove('no-scroll');
+    if (editBool) {
+      editBool = false;
+    }
+  }
+
   if (addQuestion && closeBtn && cardButton && question && answer && showMoreModal && closeShowMore && showMoreTitle) {
     let editBool = false;
     let flashcards = JSON.parse(localStorage.getItem('flashcards')) || [];
     let nextId = flashcards.length ? Math.max(...flashcards.map(flashcard => flashcard.id)) + 1 : 1;
 
     addQuestion.addEventListener("click", () => {
+      
       question.value = "";
       answer.value = "";
       addQuestionCard.classList.remove("hide");
       document.body.classList.add('no-scroll');
+      viewlist()
+      
     });
 
     closeBtn.addEventListener("click", () => {
@@ -46,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (editBool) {
         editBool = false;
       }
+      viewlist()
     });
 
     closeShowMore.addEventListener("click", () => {
@@ -73,6 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
         editBool = false;
         addQuestionCard.classList.add("hide");
         document.body.classList.remove('no-scroll');
+        closeAddQuestionModal();
       }
     });
 
@@ -297,23 +329,16 @@ document.addEventListener('DOMContentLoaded', function() {
     if (theme === 'light') {
       lightTheme.disabled = false;
       darkTheme.disabled = true;
+      
     } else if (theme === 'dark') {
       lightTheme.disabled = true;
       darkTheme.disabled = false;
+      
     }
+    console.log(theme);
   }
 
-  function initializeTheme() {
-    if (icon.classList.contains('bx-moon')) {
-      setTheme('dark');
-      button.classList.add('moon-mode');
-    } else {
-      setTheme('light');
-      button.classList.remove('moon-mode');
-    }
-  }
 
-  initializeTheme();
 
   button.addEventListener('click', function() {
     icon.classList.add('animate-icon');
