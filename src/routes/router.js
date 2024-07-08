@@ -22,10 +22,7 @@ router.get('/', (req, res) => {
 });
 
 
-router.get('/profile', (req, res) => {
-  res.status(200).render("profile")
-})
-/*
+
 router.get('/produtos', async (req, res) => {
   await getUsuarioLogado(req);
 
@@ -53,10 +50,16 @@ router.get('/produtos', async (req, res) => {
   } else {
     res.status(403).send("Acesso negado!")
   }
-});*/
+});
 
-router.get('/produtos', async (req, res) => {
-    res.render('produtos');
+
+router.get('/profile', async (req, res) => {
+  await getUsuarioLogado(req);
+  if (usuarioLogado) {
+    res.render('profile', { usuarioLogado: usuarioLogado.get() });
+  } else {
+    res.status(403).send("Acesso negado!")
+  }
 });
 
 router.get('/login', async (req, res) => {

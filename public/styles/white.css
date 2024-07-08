@@ -1156,14 +1156,25 @@ footer {
 
 
 .profile-box {
+  align-items: center;
   background-color: white;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   width: 50%;
   height: 50%;
+  justify-content: center;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: #fff;
+  margin-left: 30%;
+  margin-top: 10%;
+}
 
+.profile-box h1, h2 {
+  color: black;
 }
 
 .image-container {
@@ -1220,7 +1231,8 @@ footer {
 .info-row label {
   display: block;
   margin-bottom: 5px;
-  font-weight: bold;
+  font-weight: 800;
+  color: #2c2c2c;
 }
 
 .info-row input {
@@ -1283,7 +1295,7 @@ footer {
 
 .home-section2 {
   height: 100%;
-  
+
 }
 
 /* General Responsive Styles */
@@ -1297,7 +1309,7 @@ footer {
     left: 200px;
   }
 
-  .sidebar.active ~ .home-section {
+  .sidebar.active~.home-section {
     width: calc(100% - 60px);
     left: 60px;
   }
@@ -1322,7 +1334,7 @@ footer {
     left: 60px;
   }
 
-  .sidebar.active ~ .home-section {
+  .sidebar.active~.home-section {
     width: calc(100% - 220px);
     left: 220px;
   }
@@ -1353,7 +1365,7 @@ footer {
     left: 0;
   }
 
-  .sidebar.active ~ .home-section {
+  .sidebar.active~.home-section {
     width: 100%;
     left: 0;
   }
@@ -1451,10 +1463,13 @@ footer {
 }
 
 .file-uploader {
+  /* make it invisible */
   opacity: 0;
+  /* make it take the full height and width of the parent container */
   height: 100%;
   width: 100%;
   cursor: pointer;
+  /* make it absolute */
   position: absolute;
   top: 0%;
   left: 0%;

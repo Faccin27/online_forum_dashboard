@@ -1082,14 +1082,19 @@ footer {
 
 .profile-box {
   align-items: center;
-  background-color: white;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   width: 50%;
   height: 50%;
-
+  justify-content: center;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: rgb(56, 54, 54);
+  margin-left: 30%;
+  margin-top: 10%;
 }
 
 .image-container {
@@ -1146,14 +1151,17 @@ footer {
 .info-row label {
   display: block;
   margin-bottom: 5px;
-  font-weight: bold;
+  font-weight:800;
+  color: rgb(172, 172, 172);
 }
 
 .info-row input {
   width: calc(100% - 70px);
   padding: 8px;
+  background-color: rgb(88, 88, 88);
   border: 1px solid #ddd;
   border-radius: 4px;
+  color: white;
 }
 
 .info-row .edit-button {
@@ -1384,4 +1392,8 @@ footer {
   position: absolute;
   top: 0%;
   left: 0%;
+}
+
+.sidebar-button{
+  color: white;
 }
