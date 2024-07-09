@@ -1,45 +1,61 @@
-<div class="container">
-  <div class="add-flashcard-con">
-    <button id="add-flashcard">Adicionar Produto</button>
-  </div>
 
-  <div id="card-con">
-    <div class="card-list-container">
+  <div class="container">
+    <div class="add-flashcard-con">
+      <button id="add-flashcard">Adicionar Produto</button>
+    </div>
+
+    <div id="card-con">
+      <div class="card-list-container">
+        {{#each listaPosts}}
+          <div class="card" data-id="{{this.id}}">
+            <p class="question-div">{{this.titulo}}</p>
+            <div class="answer-container hide">
+              <p class="answer-div">{{this.descricao}}</p>
+              <p class="answer-div">Id do produto: {{this.id}}</p>
+              <p class="answer-div">Última edição: {{this.lastEdited}}</p>
+              <p class="answer-div">Author: {{this.autor}}</p>
+            </div>
+            <a href="#" class="show-more-btn">Show More</a>
+            <div class="buttons-con">
+              <button class="info"><i class="fa-solid fa-circle-info"></i></button>
+              <div class="favorite-container">
+                <button class="favorite"><i class="fa-regular fa-heart"></i> {{this.favoritadoPor.length}}</button>
+              </div>
+              <button class="edit"><i class="fa-solid fa-pen-to-square"></i></button>
+              <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
+            </div>
+          </div>
+        {{/each}}
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Modal de Adicionar Produto -->
-<div class="question-container hide" id="add-question-card">
-  <h2>Adicionar produto</h2>
-  <div class="wrapper">
-    <!-- Botão de Fechar, tem que alinhar o X -->
-    <i class="fa-solid fa-xmark" id="close-btn"></i>
+  <!-- Modal de Adicionar Produto -->
+  <div class="question-container hide" id="add-question-card">
+    <h2>Adicionar produto</h2>
+    <div class="wrapper">
+      <i class="fa-solid fa-xmark" id="close-btn"></i>
+    </div>
+    <label for="question">Produto</label>
+    <textarea class="input" id="question" placeholder="Digite o nome do produto aqui" rows="2"></textarea>
+    <label for="answer">Descrição</label>
+    <textarea class="input" id="answer" rows="4" placeholder="Digite a descrição do produto aqui"></textarea>
+    <button id="save-btn">Salvar</button>
+    <div id="error" class="hide">Por favor, preencha todos os campos.</div>
   </div>
 
-  <label for="question">Produto</label>
-  <textarea class="input" id="question" placeholder="Digite o nome do produto aqui" rows="2"></textarea>
-  <label for="answer">Descrição</label>
-  <textarea class="input" id="answer" rows="4" placeholder="Digite a descrição do produto aqui"></textarea>
-  <button id="save-btn">Salvar</button>
-</div>
-
-<!-- Modal para mostrar mais -->
-<div class="question-container hide" id="show-more-modal">
-  <h2 id="show-more-title">Detalhes do Produto</h2>
-  <button class="favorite show-more-favorite"><i class="fa-regular fa-heart"></i> <span
-      class="favorite-count">0</span></button>
-  <div class="wrapper">
-    <!-- Botão de Fechar -->
-    <i class="fa-solid fa-xmark" id="close-show-more"></i>
+  <!-- Modal para mostrar mais -->
+  <div class="question-container hide" id="show-more-modal">
+    <h2 id="show-more-title">Detalhes do Produto</h2>
+    <button class="favorite show-more-favorite"><i class="fa-regular fa-heart"></i> <span class="favorite-count">0</span></button>
+    <div class="wrapper">
+      <i class="fa-solid fa-xmark" id="close-show-more"></i>
+    </div>
+    <div class="comment-box">
+      <textarea class="input" id="comment" rows="3" placeholder="Adicione um comentário"></textarea>
+      <button id="add-comment-btn"><i class="bx bx-paper-plane"></i></button>
+    </div>
+    <div class="comment-list"></div>
   </div>
 
-  <!-- Caixa de Comentários -->
-  <div class="comment-box">
-    <textarea class="input" id="comment" rows="3" placeholder="Adicione um comentário"></textarea>
-    <button id="add-comment-btn"><i class="bx bx-paper-plane"></i></button>
-  </div>
 
-  <!-- Lista de comentários -->
-  <div class="comment-list"></div>
-</div>

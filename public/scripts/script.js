@@ -46,6 +46,24 @@ if(lightTheme){
   const showMoreTitle = document.getElementById("show-more-title");
 
 
+  
+document.addEventListener('DOMContentLoaded', () => {
+  initializeFlashcards();
+});
+
+
+  function initializeFlashcards() {
+    const cardElements = cardListContainer.querySelectorAll('.card');
+    flashcards = Array.from(cardElements).map(card => ({
+      id: parseInt(card.dataset.id),
+      question: card.querySelector('.question-div').textContent,
+      answer: card.querySelector('.answer-div').textContent,
+      lastEdited: card.querySelector('.answer-div:nth-child(3)').textContent.split(': ')[1],
+      autor: card.querySelector('.answer-div:nth-child(4)').textContent.split(': ')[1],
+      favoritadoPor: []
+    }));
+  }
+
   function closeAddQuestionModal() {
     const addQuestionCard = document.getElementById("add-question-card");
     addQuestionCard.classList.add("hide");

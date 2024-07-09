@@ -42,16 +42,6 @@ router.get('/produtos', async (req, res) => {
 })
 
 
-// Esta rota verifica se o usuário está logado e, em caso afirmativo, renderiza a página protegida
-router.get('/produtos', async (req, res) => {
-  await getUsuarioLogado(req);
-  if (usuarioLogado) {
-    res.render('produtos', { usuarioLogado: usuarioLogado.get() });
-  } else {
-    res.status(403).send("Acesso negado!")
-  }
-});
-
 
 router.get('/profile', async (req, res) => {
   await getUsuarioLogado(req);
@@ -72,9 +62,6 @@ router.get('/login', async (req, res) => {
   }
 });
 
-router.get('/register', (req, res) => {
-  res.render('register');
-});
 
 router.post('/register', RegisterController.register);
 
