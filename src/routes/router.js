@@ -23,6 +23,29 @@ router.get('/', (req, res) => {
 
 
 
+//postar
+router.post('/produtos', async (req, res) =>{
+
+  await getUsuarioLogado(req);
+
+  if(usuarioLogado){
+  const { idUsuario, titulo, conteudo, DataHora } = req.body;
+  try{
+    const newPostagem = await PostagemDAO.create({
+      idUsuario, titulo, conteudo, DataHora
+    });
+    res.status(201).json(newPostagem);
+
+  } catch (error){
+    res.status(500).json({error: 'erro ao criar postagem'})
+  }
+} else{
+  res.redirect('/login');
+}
+});
+
+
+
 router.get('/produtos', async (req, res) => {
   await getUsuarioLogado(req);
 
@@ -40,6 +63,7 @@ router.get('/produtos', async (req, res) => {
     })
   }
 })
+
 
 
 
@@ -89,5 +113,7 @@ router.get('/deslogar', (req, res) => {
   res.clearCookie('tokenJWT');
   return res.redirect(301, '/');
 });
+
+
 
 module.exports = router;

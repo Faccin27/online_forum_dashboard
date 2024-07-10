@@ -2,19 +2,19 @@
 
 document.addEventListener('DOMContentLoaded', function () {
   const lightTheme = document.getElementById('light');
-const darkTheme = document.getElementById('dark');
-const styleTheme = document.getElementById('style');
+  const darkTheme = document.getElementById('dark');
+  const styleTheme = document.getElementById('style');
 
-if(styleTheme){
-  console.log("a")
-}
+  if (styleTheme) {
+    console.log("a")
+  }
 
-if(darkTheme){
-  console.log("d")
-}
-if(lightTheme){
-  console.log("w")
-}
+  if (darkTheme) {
+    console.log("d")
+  }
+  if (lightTheme) {
+    console.log("w")
+  }
   console.log('Script carregado');
 
   const sidebar = document.querySelector(".sidebar");
@@ -32,7 +32,6 @@ if(lightTheme){
     console.error('Sidebar button not found');
   }
 
-
   const container = document.querySelector(".container");
   const addQuestionCard = document.getElementById("add-question-card");
   const cardButton = document.getElementById("save-btn");
@@ -44,13 +43,15 @@ if(lightTheme){
   const showMoreModal = document.getElementById("show-more-modal");
   const closeShowMore = document.getElementById("close-show-more");
   const showMoreTitle = document.getElementById("show-more-title");
+  const cardListContainer = document.querySelector(".card-list-container");
 
+  let editBool = false;
+  let originalId;
+  let flashcards = JSON.parse(localStorage.getItem('flashcards')) || [];
 
-  
-document.addEventListener('DOMContentLoaded', () => {
-  initializeFlashcards();
-});
-
+  document.addEventListener('DOMContentLoaded', () => {
+    initializeFlashcards();
+  });
 
   function initializeFlashcards() {
     const cardElements = cardListContainer.querySelectorAll('.card');
@@ -64,226 +65,184 @@ document.addEventListener('DOMContentLoaded', () => {
     }));
   }
 
-  function closeAddQuestionModal() {
-    const addQuestionCard = document.getElementById("add-question-card");
+  addQuestion.addEventListener("click", showAddQuestionCard);
+  closeBtn.addEventListener("click", hideAddQuestionCard);
+  closeShowMore.addEventListener("click", hideShowMoreModal);
+  cardButton.addEventListener("click", saveFlashcard);
+  cardListContainer.addEventListener("click", handleCardActions);
+
+  function showAddQuestionCard() {
+    question.value = "";
+    answer.value = "";
+    addQuestionCard.classList.remove("hide");
+    document.body.classList.add('no-scroll');
+  }
+
+  function hideAddQuestionCard() {
     addQuestionCard.classList.add("hide");
+    document.body.classList.remove('no-scroll');
+    editBool = false;
+  }
+
+  function hideShowMoreModal() {
+    showMoreModal.classList.add("hide");
     document.body.classList.remove('no-scroll');
   }
 
-  if (addQuestion && closeBtn && cardButton && question && answer && showMoreModal && closeShowMore && showMoreTitle) {
-    let editBool = false;
-    let flashcards = JSON.parse(localStorage.getItem('flashcards')) || [];
-    let nextId = flashcards.length ? Math.max(...flashcards.map(flashcard => flashcard.id)) + 1 : 1;
+  function saveFlashcard() {
+    const tempQuestion = question.value.trim();
+    const tempAnswer = answer.value.trim();
+    if (!tempQuestion || !tempAnswer) {
+      errorMessage.classList.remove("hide");
+      return;
+    }
 
-    addQuestion.addEventListener("click", () => {
-      
-      question.value = "";
-      answer.value = "";
+    const now = new Date().toLocaleString();
+    const id = editBool ? originalId : Date.now();
+    const newFlashcard = { id, question: tempQuestion, answer: tempAnswer, lastEdited: now, favoritadoPor: [] };
+
+    if (editBool) {
+      updateExistingFlashcard(newFlashcard);
+    } else {
+      addNewFlashcard(newFlashcard);
+    }
+
+    hideAddQuestionCard();
+    question.value = "";
+    answer.value = "";
+    editBool = false;
+  }
+
+  function addNewFlashcard(flashcard) {
+    flashcards.push(flashcard);
+    const newCardElement = createCardElement(flashcard);
+    cardListContainer.appendChild(newCardElement);
+  }
+
+  function updateExistingFlashcard(updatedFlashcard) {
+    const index = flashcards.findIndex(f => f.id === updatedFlashcard.id);
+    if (index !== -1) {
+      flashcards[index] = updatedFlashcard;
+      const existingCard = cardListContainer.querySelector(`[data-id="${updatedFlashcard.id}"]`);
+      if (existingCard) {
+        existingCard.replaceWith(createCardElement(updatedFlashcard));
+      }
+    }
+  }
+
+  function createCardElement(flashcard) {
+    const div = document.createElement("div");
+    div.classList.add("card");
+    div.setAttribute('data-id', flashcard.id);
+    div.innerHTML = `
+      <p class="question-div">${flashcard.question}</p>
+      <div class="answer-container hide">
+        <p class="answer-div">${flashcard.answer}</p>
+        <p class="answer-div">Id do produto: ${flashcard.id}</p>
+        <p class="answer-div">Última edição: ${flashcard.lastEdited}</p>
+        <p class="answer-div">Author: ${flashcard.autor || 'Não especificado'}</p>
+      </div>
+      <a href="#" class="show-more-btn">Show More</a>
+      <div class="buttons-con">
+        <div class="favorite-container">
+          <button class="favorite"><i class="fa-regular fa-heart"></i> ${flashcard.favoritadoPor.length}</button>
+        </div>
+        <button class="edit"><i class="fa-solid fa-pen-to-square"></i></button>
+        <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
+      </div>
+    `;
+    return div;
+  }
+
+  function handleCardActions(event) {
+    const target = event.target;
+    const card = target.closest('.card');
+    if (!card) return;
+
+    const flashcardId = parseInt(card.dataset.id);
+
+    if (target.classList.contains('show-more-btn')) {
+      showMoreInfo(flashcardId);
+    }
+    else if (target.classList.contains('favorite') || target.closest('.favorite')) {
+      toggleFavorite(flashcardId);
+    } else if (target.classList.contains('edit') || target.closest('.edit')) {
+      editFlashcard(flashcardId);
+    } else if (target.classList.contains('delete') || target.closest('.delete')) {
+      deleteFlashcard(flashcardId);
+    }
+  }
+
+  function showMoreInfo(id) {
+    const flashcard = flashcards.find(f => f.id === id);
+    if (flashcard) {
+      const additionalInfo = `
+        <p class="answer-div">${flashcard.answer}</p>
+        <p class="answer-div">Id do produto: ${flashcard.id}</p>
+        <p class="answer-div">Última edição: ${flashcard.lastEdited}</p>
+        <p class="answer-div">Author: ${flashcard.autor || 'Não especificado'}</p>
+        <p class="answer-div">Favoritado por: ${flashcard.favoritadoPor.length} pessoas</p>
+      `;
+      showMoreTitle.innerHTML = flashcard.question + additionalInfo;
+      showMoreModal.classList.remove("hide");
+      document.body.classList.add('no-scroll');
+    }
+  }
+
+
+  function toggleFavorite(id) {
+    const flashcard = flashcards.find(f => f.id === id);
+    if (flashcard) {
+      const userId = getCurrentUserId();
+      const index = flashcard.favoritadoPor.indexOf(userId);
+      if (index === -1) {
+        flashcard.favoritadoPor.push(userId);
+      } else {
+        flashcard.favoritadoPor.splice(index, 1);
+      }
+      updateFavoriteDisplay(id);
+    }
+  }
+
+  function updateFavoriteDisplay(id) {
+    const card = cardListContainer.querySelector(`[data-id="${id}"]`);
+    if (card) {
+      const flashcard = flashcards.find(f => f.id === id);
+      const favoriteButton = card.querySelector('.favorite');
+      const heartIcon = favoriteButton.querySelector('i');
+      const favCount = flashcard.favoritadoPor.length;
+
+      heartIcon.className = flashcard.favoritadoPor.includes(getCurrentUserId())
+        ? 'fa-solid fa-heart'
+        : 'fa-regular fa-heart';
+      favoriteButton.innerHTML = `${heartIcon.outerHTML} ${favCount}`;
+    }
+  }
+
+  function editFlashcard(id) {
+    const flashcard = flashcards.find(f => f.id === id);
+    if (flashcard) {
+      editBool = true;
+      originalId = id;
+      question.value = flashcard.question;
+      answer.value = flashcard.answer;
       addQuestionCard.classList.remove("hide");
       document.body.classList.add('no-scroll');
-      viewlist()
-      
-    });
-
-    closeBtn.addEventListener("click", () => {
-      addQuestionCard.classList.add("hide");
-      document.body.classList.remove('no-scroll');
-      if (editBool) {
-        editBool = false;
-      }
-      viewlist()
-    });
-
-    closeShowMore.addEventListener("click", () => {
-      showMoreModal.classList.add("hide");
-      document.body.classList.remove('no-scroll');
-    });
-
-    cardButton.addEventListener("click", () => {
-      let tempQuestion = question.value.trim();
-      let tempAnswer = answer.value.trim();
-      if (!tempQuestion || !tempAnswer) {
-        errorMessage.classList.remove("hide");
-      } else {
-        let now = new Date().toLocaleString();
-        if (editBool) {
-          flashcards = flashcards.filter(flashcard => flashcard.id !== originalId);
-        }
-        let id = editBool ? originalId : nextId++;
-        flashcards.push({ id, question: tempQuestion, answer: tempAnswer, lastEdited: now, favoritadoPor: [] });
-        localStorage.setItem('flashcards', JSON.stringify(flashcards));
-        viewlist();
-        question.value = "";
-        answer.value = "";
-        editBool = false;
-        addQuestionCard.classList.add("hide");
-        document.body.classList.remove('no-scroll');
-        closeAddQuestionModal();
-        console.log("F")
-      }
-    });
-
-    function viewlist() {
-      const listCard = document.querySelector(".card-list-container");
-      listCard.innerHTML = '';
-      flashcards.forEach(flashcard => {
-        const favoritadoPor = flashcard.favoritadoPor || [];
-        const div = document.createElement("div");
-        div.classList.add("card");
-        div.innerHTML = `
-          <p class="question-div">${flashcard.question}</p>
-          <div class="answer-container hide">
-            <p class="answer-div">Author: Guilherme Faccin</p>
-          </div>
-          <a href="#" class="show-more-btn">Show More</a>
-          <div class="buttons-con">
-            <button class="info"><i class="fa-solid fa-circle-info"></i></button>
-            <div class="favorite-container">
-              <button class="favorite ${favoritadoPor.includes(getCurrentUserId()) ? 'active' : ''}"><i class="${favoritadoPor.includes(getCurrentUserId()) ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}"></i> ${favoritadoPor.length}</button>
-            </div>
-            <button class="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-            <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
-          </div>
-        `;
-        div.setAttribute('data-id', flashcard.id);
-        const answerContainer = div.querySelector(".answer-container");
-        const showMoreBtn = div.querySelector(".show-more-btn");
-        const editButton = div.querySelector(".edit");
-        const deleteButton = div.querySelector(".delete");
-        const favoriteButton = div.querySelector(".favorite");
-        const infoButton = div.querySelector(".info");
-
-        showMoreBtn.addEventListener("click", (event) => {
-          event.preventDefault();
-          const additionalInfo = `
-            <p class="answer-div">${flashcard.answer}</p>
-            <p class="answer-div">Id do produto: ${flashcard.id}</p>
-            <p class="answer-div">Última edição: ${flashcard.lastEdited}</p>
-            <p class="answer-div">Author: Guilherme Faccin</p>
-            <p class="answer-div">Favoritado por: ${favoritadoPor.length} pessoas</p>
-          `;
-          showMoreTitle.innerHTML = flashcard.question + additionalInfo;
-          showMoreModal.classList.remove("hide");
-          document.body.classList.add('no-scroll');// pra n rolar 
-        });
-
-        editButton.addEventListener("click", () => {
-          editBool = true;
-          modifyElement(editButton, true);
-          addQuestionCard.classList.remove("hide");
-          document.body.classList.add('no-scroll');
-        });
-
-        deleteButton.addEventListener("click", () => {
-          modifyElement(deleteButton);
-        });
-
-        favoriteButton.addEventListener("click", () => {
-          toggleFavorite(flashcard.id);
-        });
-
-        infoButton.addEventListener("click", () => {
-          answerContainer.classList.toggle("hide");
-        });
-
-        listCard.appendChild(div);
-      });
     }
-
-    const modifyElement = (element, edit = false) => {
-      const parentDiv = element.parentElement.parentElement;
-      const id = Number(parentDiv.getAttribute('data-id'));
-      const parentQuestion = parentDiv.querySelector(".question-div").innerText;
-      if (edit) {
-        const parentAns = parentDiv.querySelector(".answer-div").innerText;
-        answer.value = parentAns;
-        question.value = parentQuestion;
-        originalId = id;
-        disableButtons(true);
-      } else {
-        flashcards = flashcards.filter(flashcard => flashcard.id !== id);
-        localStorage.setItem('flashcards', JSON.stringify(flashcards));
-      }
-      parentDiv.remove();
-    };
-
-    const disableButtons = (value) => {
-      const editButtons = document.getElementsByClassName("edit");
-      Array.from(editButtons).forEach((element) => {
-        element.disabled = value;
-      });
-    };
-
-    function toggleFavorite(id) {
-      const index = flashcards.findIndex(flashcard => flashcard.id === id);
-      if (index !== -1) {
-        const userId = getCurrentUserId();
-        if (!flashcards[index].favoritadoPor) {
-          flashcards[index].favoritadoPor = [];
-        }
-        if (!flashcards[index].favoritadoPor.includes(userId)) {
-          flashcards[index].favoritadoPor.push(userId);
-        } else {
-          const userIndex = flashcards[index].favoritadoPor.indexOf(userId);
-          flashcards[index].favoritadoPor.splice(userIndex, 1);
-        }
-        localStorage.setItem('flashcards', JSON.stringify(flashcards));
-        viewlist();
-      }
-    }
-
-    function getCurrentUserId() {
-      return 'currentUserId';
-    }
-
-    viewlist();
-    const addCommentButton = document.getElementById("add-comment-btn");
-    const commentTextArea = document.getElementById("comment");
-    const commentList = document.querySelector(".comment-list");
-
-    addCommentButton.addEventListener("click", function () {
-      const commentText = commentTextArea.value.trim();
-      if (commentText !== "") {
-        const commentElement = document.createElement("div");
-        commentElement.classList.add("comment");
-
-        const imageElement = document.createElement("img");
-        imageElement.src = "/images/profile.jpg";
-        imageElement.alt = "Profile Picture";
-        commentElement.appendChild(imageElement);
-
-        const nameAndTextContainer = document.createElement("div");
-
-        const nameElement = document.createElement("span");
-        nameElement.textContent = "Faccin ";
-        nameAndTextContainer.appendChild(nameElement);
-
-        nameAndTextContainer.appendChild(document.createElement("br"));
-
-        const textElement = document.createElement("span");
-        textElement.textContent = commentText;
-        nameAndTextContainer.appendChild(textElement);
-
-        commentElement.appendChild(nameAndTextContainer);
-
-        const dateElement = document.createElement("span");
-        dateElement.classList.add("date"); // Adiciona a classe 'date'
-        const currentTime = new Date();
-        dateElement.textContent = currentTime.toLocaleTimeString();
-        commentElement.appendChild(dateElement);
-
-        commentList.appendChild(commentElement);
-        commentTextArea.value = ""; // Limpar o campo de texto
-      }
-    });
-
-
-
-
-  } else {
-    console.error('Flashcard elements not found in the DOM');
   }
-  
+
+  function deleteFlashcard(id) {
+    flashcards = flashcards.filter(f => f.id !== id);
+    const cardToRemove = cardListContainer.querySelector(`[data-id="${id}"]`);
+    if (cardToRemove) {
+      cardToRemove.remove();
+    }
+  }
+
+  function getCurrentUserId() {
+    return usuarioLogado.nome;
+  }
+
   const content = document.getElementById('content');
   const registerBtn = document.getElementById('register');
   const loginBtn = document.getElementById('login');
@@ -317,24 +276,24 @@ function toggleCombobox() {
     combobox.classList.remove("show");
     icon.classList.remove("bx-chevron-up");
     icon.classList.add("bx-chevron-down");
-    
+
     // Aguarda o fim da animação antes de esconder completamente
     setTimeout(() => {
       combobox.style.display = "none";
     }, 300); // 300ms é a duração da animação no CSS
   } else {
     combobox.style.display = "block";
-    
+
     // Força um reflow para que a transição funcione
     combobox.offsetHeight;
-    
+
     combobox.classList.add("show");
     icon.classList.remove("bx-chevron-down");
     icon.classList.add("bx-chevron-up");
   }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const button = document.querySelector('.nightmode-btn');
   const icon = button.querySelector('i');
   const lightTheme = document.getElementById('light');
@@ -344,18 +303,18 @@ document.addEventListener('DOMContentLoaded', function() {
     if (theme === 'light') {
       lightTheme.disabled = false;
       darkTheme.disabled = true;
-      
+
     } else if (theme === 'dark') {
       lightTheme.disabled = true;
       darkTheme.disabled = false;
-      
+
     }
     console.log(theme);
   }
 
 
 
-  button.addEventListener('click', function() {
+  button.addEventListener('click', function () {
     icon.classList.add('animate-icon');
 
     setTimeout(() => {
@@ -377,14 +336,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-function upload(){
+function upload() {
   const fileUploadInput = document.querySelector('.file-uploader');
   const image = fileUploadInput.files[0];
   if (!image.type.includes('image')) {
     return alert('Only images are allowed!');
   }
   if (image.size > 10_000_000) {
-    return alert('Maximum upload size is 10MB!');    
+    return alert('Maximum upload size is 10MB!');
   }
 
   const fileReader = new FileReader();
