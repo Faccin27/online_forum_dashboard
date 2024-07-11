@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const container = document.querySelector(".container");
   const addQuestionCard = document.getElementById("add-question-card");
   const cardButton = document.getElementById("save-btn");
-  const question = document.getElementById("question");
+  const question = document.getElementsByName("titulo");
   const answer = document.getElementById("answer");
   const errorMessage = document.getElementById("error");
   const addQuestion = document.getElementById("add-flashcard");
@@ -277,10 +277,9 @@ function toggleCombobox() {
     icon.classList.remove("bx-chevron-up");
     icon.classList.add("bx-chevron-down");
 
-    // Aguarda o fim da animação antes de esconder completamente
     setTimeout(() => {
       combobox.style.display = "none";
-    }, 300); // 300ms é a duração da animação no CSS
+    }, 300);
   } else {
     combobox.style.display = "block";
 

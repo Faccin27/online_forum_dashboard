@@ -24,34 +24,44 @@ router.get('/', (req, res) => {
 
 
 //postar
-router.post('/produtos', async (req, res) =>{
-
+router.post('/produtos/create', async (req, res) => {
   await getUsuarioLogado(req);
 
-  if(usuarioLogado){
-  const { idUsuario, titulo, conteudo, DataHora } = req.body;
-  try{
-    const newPostagem = await PostagemDAO.create({
-      idUsuario, titulo, conteudo, DataHora
-    });
-    res.status(201).json(newPostagem);
+  if (usuarioLogado) {
+    
+    const { titulo, conteudo } = req.body;
+    console.log('Request body:', req.body);
+    console.log('Titulo:', titulo);
+    console.log('Conteudo:', conteudo);
+    
+    try {
+      const newPostagem = await PostagemDAO.create({
+        idUsuario: usuarioLogado.id,
+        titulo: titulo,
+        conteudo: conteudo,
+        dataHora: new Date()
+      });
+      
+      res.status(201).redirect('/produtos');
 
-  } catch (error){
-    res.status(500).json({error: 'erro ao criar postagem'})
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao criar postagem' });
+    }
+  } else {
+    res.redirect('/login');
   }
-} else{
-  res.redirect('/login');
-}
 });
+
 
 
 
 router.get('/produtos', async (req, res) => {
   await getUsuarioLogado(req);
 
-  let listaPosts = await PostagemDAO.getAll(); 
+  const idPost = req.query.post;
+  let listaPosts = await PostagemDAO.getAll();
   if (listaPosts) listaPosts = listaPosts.map(post => post.get());
-  console.log(listaPosts);
+
   if (usuarioLogado) {
     res.status(200).render("produtos", {
       usuarioLogado: usuarioLogado.get(),
@@ -62,7 +72,9 @@ router.get('/produtos', async (req, res) => {
     res.status(200).render("login", {
     })
   }
-})
+});
+
+
 
 
 
