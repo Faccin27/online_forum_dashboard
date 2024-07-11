@@ -62,10 +62,14 @@ router.get('/produtos', async (req, res) => {
   let listaPosts = await PostagemDAO.getAll();
   if (listaPosts) listaPosts = listaPosts.map(post => post.get());
 
+  let postagemUnica = PostagemDAO.getById(idPost);
+  
+  
   if (usuarioLogado) {
     res.status(200).render("produtos", {
       usuarioLogado: usuarioLogado.get(),
-      listaPosts: listaPosts
+      listaPosts: listaPosts,
+      postagemUnica: postagemUnica
     })
   }
   else {

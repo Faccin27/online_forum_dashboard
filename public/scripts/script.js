@@ -1,4 +1,4 @@
-
+// CLASSE HIDE MOSTRA MODAL FLATA ISSO
 
 document.addEventListener('DOMContentLoaded', function () {
   const lightTheme = document.getElementById('light');
@@ -51,7 +51,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
   document.addEventListener('DOMContentLoaded', () => {
     initializeFlashcards();
+
+    showMoreModal.classList.remove("hide");
+    document.body.classList.add('no-scroll');
+    
+    if (closeShowMore) {
+      closeShowMore.addEventListener("click", hideShowMoreModal);
+    }
+
+    console.log()
+    hideShowMoreModal()
   });
+
+  
 
   function initializeFlashcards() {
     const cardElements = cardListContainer.querySelectorAll('.card');
@@ -64,6 +76,8 @@ document.addEventListener('DOMContentLoaded', function () {
       favoritadoPor: []
     }));
   }
+
+  
 
   addQuestion.addEventListener("click", showAddQuestionCard);
   closeBtn.addEventListener("click", hideAddQuestionCard);
