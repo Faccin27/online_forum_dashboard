@@ -23,16 +23,16 @@ router.get('/', (req, res) => {
 
 
 
-//postar
-router.post('/produtos', async (req, res) => {
 
+//postar
+router.post('/produtos/create', async (req, res) => {
   await getUsuarioLogado(req);
 
   if (usuarioLogado) {
-    const { idUsuario, titulo, conteudo, DataHora } = req.body;
+    const { titulo, conteudo, dataHora } = req.body;
     try {
       const newPostagem = await PostagemDAO.create({
-        idUsuario, titulo, conteudo, DataHora
+        idUsuario : usuarioLogado.id, titulo, conteudo, dataHora
       });
       res.status(201).json(newPostagem);
 
@@ -43,7 +43,6 @@ router.post('/produtos', async (req, res) => {
     res.redirect('/login');
   }
 });
-
 
 
 router.get('/produtos', async (req, res) => {
@@ -63,7 +62,7 @@ router.get('/produtos', async (req, res) => {
 
       let autor = await UsuarioDAO.getById(post.idUsuario);
       post.autor = autor.get().nome;
-     // post.DatahoraS = post.DataHora.toLocaleString('pt-br', {timezone: 'UTC'})
+      
     } else {
       res.status(404).send('Postagem Inexistente');
     }
@@ -85,6 +84,46 @@ router.get('/produtos', async (req, res) => {
     })
   }
 })
+
+/*
+router.get('/produtos', async (req, res) => {
+  await getUsuarioLogado(req);
+
+  let listaPosts = await PostagemDAO.getAll();
+  let idPost = req.query.post;
+  let post;
+
+  if (idPost) {
+    
+    post = await PostagemDAO.getById(idPost);
+    console.log("post", post);
+    if (post) {
+      
+      post = post.get();
+
+      let autor = await UsuarioDAO.getById(post.idUsuario);
+      post.autor = autor.get().nome;
+    } else {
+      res.status(404).send('Postagem Inexistente');
+    }
+  } else{
+    console.log("n pegou post");
+  }
+
+
+  if (listaPosts) listaPosts = listaPosts.map(post => post.get());
+  if (usuarioLogado) {
+    res.status(200).render("produtos", {
+      usuarioLogado: usuarioLogado.get(),
+      listaPosts: listaPosts,
+      post: post
+    })
+  }
+  else {
+    res.status(200).render("login", {
+    })
+  }
+})*/
 
 
 

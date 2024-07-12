@@ -3,14 +3,14 @@
 document.addEventListener('DOMContentLoaded', function () {
 
   // Get the modal
-  var modal = document.getElementById("productModal");
+  const modal = document.getElementById("productModal");
 
   // Get the <span> element that closes the modal
-  var span = document.getElementsByClassName("close")[0];
+  const span = document.getElementsByClassName("close")[0];
 
   // Function to open the modal
   function openModal(title, author, dateTime, description) {
-    document.getElementById("modalTitle").textContent = "Titulo:" + title;
+    document.getElementById("modalTitle").textContent = "Title : " + title;
     document.getElementById("modalAuthor").textContent = "Author: " + author;
     document.getElementById("modalDateTime").textContent = "Last edited: " + dateTime;
     document.getElementById("modalDescription").textContent = "Descricao" + description;
@@ -18,12 +18,14 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
 
+  let closemodal = document.getElementById("closemodalbutton");
 //ESSE IF QUE TA COMENTADO TA FAZENDO O LOGIN FUNCIONAR, NÃO SEI CONCERTAR ESSA MERDA
-  //if (span) {
+console.log(span)
+ if (span) {
     span.onclick = function () {
       modal.style.display = "none";
     }
- // }
+ }
 
 
   // When the user clicks anywhere outside of the modal, close it
@@ -39,9 +41,11 @@ document.addEventListener('DOMContentLoaded', function () {
       e.preventDefault();
       const card = this.closest('.card');
       const title = card.querySelector('.question-div').textContent;
+      console.log(title);
       const description = card.querySelector('.answer-div-descricao').textContent;
       const author = card.querySelector('.answer-div-autor').textContent;
       const lastEdited = card.querySelector('.answer-div-lastedit').textContent;
+
       openModal(title, author, lastEdited, description);
     });
   });
@@ -192,10 +196,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const flashcardId = parseInt(card.dataset.id);
 
-    if (target.classList.contains('show-more-btn')) {
-      showMoreInfo(flashcardId);
-    }
-    else if (target.classList.contains('favorite') || target.closest('.favorite')) {
+
+    if (target.classList.contains('favorite') || target.closest('.favorite')) {
       toggleFavorite(flashcardId);
     } else if (target.classList.contains('edit') || target.closest('.edit')) {
       editFlashcard(flashcardId);
@@ -204,21 +206,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  function showMoreInfo(id) {
-    const flashcard = flashcards.find(f => f.id === id);
-    if (flashcard) {
-      const additionalInfo = `
-        <p class="answer-div">${flashcard.answer}</p>
-        <p class="answer-div">Id do produto: ${flashcard.id}</p>
-        <p class="answer-div">Última edição: ${flashcard.lastEdited}</p>
-        <p class="answer-div">Author: ${flashcard.autor || 'Não especificado'}</p>
-        <p class="answer-div">Favoritado por: ${flashcard.favoritadoPor.length} pessoas</p>
-      `;
-      showMoreTitle.innerHTML = flashcard.question + additionalInfo;
-      showMoreModal.classList.remove("hide");
-      document.body.classList.add('no-scroll');
-    }
-  }
 
 
   function toggleFavorite(id) {
