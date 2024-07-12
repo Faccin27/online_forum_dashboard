@@ -9,9 +9,9 @@
       <div class="card" data-id="{{this.id}}">
         <p class="question-div">{{this.titulo}}</p>
         <div class="answer-container hide">
-          <p class="answer-div-descricao">{{this.descricao}}</p>
+          <p class="answer-div-descricao">{{this.conteudo}}</p>
           <p class="answer-div">Id do produto: {{this.id}}</p>
-          <p class="answer-div-lastedit"> {{this.lastEdited}}</p>
+          <p class="answer-div-lastedit"> {{this.createdAt}}</p>
           <p class="answer-div-autor"> {{this.autor}}</p>
         </div>
         <a href="/produtos/?post={{this.id}}" class="show-more-btn">Show More</a>

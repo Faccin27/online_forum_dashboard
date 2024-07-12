@@ -1,83 +1,52 @@
-// Get the modal
-var modal = document.getElementById("productModal");
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// Function to open the modal
-function openModal(title, author, dateTime, description) {
-  document.getElementById("modalTitle").textContent = "Titulo:" + title;
-  document.getElementById("modalAuthor").textContent = "Author: " + author;
-  document.getElementById("modalDateTime").textContent = "Last edited: " + dateTime;
-  document.getElementById("modalDescription").textContent = "Descricao" + description;
-  modal.style.display = "block";
-}
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
-
-// Add click event listeners to all "Show More" buttons
-/*document.querySelectorAll('.show-more-btn').forEach(button => {
-  button.addEventListener('click', function(e) {
-    e.preventDefault();
-    const card = this.closest('.card');
-    const title = card.querySelector('.question-div').textContent;
-    const description = card.querySelector('.answer-div-descricao').textContent;
-    const author = card.querySelector('.answer-div-autor').textContent;
-    const lastEdited = card.querySelector('.answer-div-lastedit').textContent;
-    openModal(title, author, lastEdited, description);
-  });
-});*/
-
 
 
 document.addEventListener('DOMContentLoaded', function () {
 
-  let modal = document.getElementById("productModal");
-  console.log(modal);
-  
+  // Get the modal
+  var modal = document.getElementById("productModal");
 
-  const lightTheme = document.getElementById('light');
-  const darkTheme = document.getElementById('dark');
-  const styleTheme = document.getElementById('style');
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
 
-  if (styleTheme) {
-    console.log("a")
+  // Function to open the modal
+  function openModal(title, author, dateTime, description) {
+    document.getElementById("modalTitle").textContent = "Titulo:" + title;
+    document.getElementById("modalAuthor").textContent = "Author: " + author;
+    document.getElementById("modalDateTime").textContent = "Last edited: " + dateTime;
+    document.getElementById("modalDescription").textContent = "Descricao" + description;
+    modal.style.display = "block";
   }
 
-  if (darkTheme) {
-    console.log("d")
-  }
-  if (lightTheme) {
-    console.log("w")
-  }
-  console.log('Script carregado');
 
-  const sidebar = document.querySelector(".sidebar");
+//ESSE IF QUE TA COMENTADO TA FAZENDO O LOGIN FUNCIONAR, NÃO SEI CONCERTAR ESSA MERDA
+  //if (span) {
+    span.onclick = function () {
+      modal.style.display = "none";
+    }
+ // }
+
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+
+  // Add click event listeners to all "Show More" buttons
+  document.querySelectorAll('.show-more-btn').forEach(button => {
+    button.addEventListener('click', function (e) {
+      e.preventDefault();
+      const card = this.closest('.card');
+      const title = card.querySelector('.question-div').textContent;
+      const description = card.querySelector('.answer-div-descricao').textContent;
+      const author = card.querySelector('.answer-div-autor').textContent;
+      const lastEdited = card.querySelector('.answer-div-lastedit').textContent;
+      openModal(title, author, lastEdited, description);
+    });
+  });
+
   const sidebarBtn = document.querySelector(".sidebarBtn");
-  if (sidebarBtn) {
-    sidebarBtn.onclick = function () {
-      sidebar.classList.toggle("active");
-      if (sidebar.classList.contains("active")) {
-        sidebarBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-      } else {
-        sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-      }
-    };
-  } else {
-    console.error('Sidebar button not found');
-  }
-
-  const container = document.querySelector(".container");
   const addQuestionCard = document.getElementById("add-question-card");
   const cardButton = document.getElementById("save-btn");
   const question = document.getElementById("question");
@@ -89,32 +58,49 @@ document.addEventListener('DOMContentLoaded', function () {
   const closeShowMore = document.getElementById("close-show-more");
   const showMoreTitle = document.getElementById("show-more-title");
   const cardListContainer = document.querySelector(".card-list-container");
+  const styleTheme = document.getElementById('style');
 
-  let editBool = false;
-  let originalId;
-  let flashcards = JSON.parse(localStorage.getItem('flashcards')) || [];
-
-  document.addEventListener('DOMContentLoaded', () => {
-    initializeFlashcards();
-  });
-
-  function initializeFlashcards() {
-    const cardElements = cardListContainer.querySelectorAll('.card');
-    flashcards = Array.from(cardElements).map(card => ({
-      id: parseInt(card.dataset.id),
-      question: card.querySelector('.question-div').textContent,
-      answer: card.querySelector('.answer-div').textContent,
-      lastEdited: card.querySelector('.answer-div:nth-child(3)').textContent.split(': ')[1],
-      autor: card.querySelector('.answer-div:nth-child(4)').textContent.split(': ')[1],
-      favoritadoPor: []
-    }));
+  if (styleTheme) {
+    console.log("Estilo do tema encontrado.");
+  } else {
+    console.error('Estilo do tema não encontrado.');
   }
 
-  addQuestion.addEventListener("click", showAddQuestionCard);
-  closeBtn.addEventListener("click", hideAddQuestionCard);
-  closeShowMore.addEventListener("click", hideShowMoreModal);
-  cardButton.addEventListener("click", saveFlashcard);
-  cardListContainer.addEventListener("click", handleCardActions);
+  if (sidebarBtn) {
+    sidebarBtn.onclick = function () {
+      const sidebar = document.querySelector(".sidebar");
+      sidebar.classList.toggle("active");
+      if (sidebar.classList.contains("active")) {
+        sidebarBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+      } else {
+        sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+      }
+    };
+  } else {
+    console.error('Botão da barra lateral não encontrado.');
+  }
+
+  if (addQuestion) {
+    addQuestion.addEventListener("click", showAddQuestionCard);
+  }
+  if (closeBtn) {
+    closeBtn.addEventListener("click", hideAddQuestionCard);
+  }
+
+  if (closeShowMore) {
+    closeShowMore.addEventListener("click", hideShowMoreModal);
+  }
+
+  if (cardButton) {
+    cardButton.addEventListener("click", saveFlashcard);
+  }
+
+  if (cardListContainer) {
+    cardListContainer.addEventListener("click", handleCardActions);
+  }
+
+
+  console.log('Script carregado com sucesso.');
 
   function showAddQuestionCard() {
     question.value = "";
@@ -264,6 +250,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+
   function editFlashcard(id) {
     const flashcard = flashcards.find(f => f.id === id);
     if (flashcard) {
@@ -401,6 +388,3 @@ function upload() {
     profilePicture2.src = fileReaderEvent.target.result;
   }
 }
-
-//https://dev.to/mirzaleka/upload-the-image-with-a-preview-using-html-css-javascript-53cb
-//Ajuda do bonekazz https://github.com/Bonekazz
