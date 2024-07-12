@@ -1,6 +1,51 @@
+// Get the modal
+var modal = document.getElementById("productModal");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// Function to open the modal
+function openModal(title, author, dateTime, description) {
+  document.getElementById("modalTitle").textContent = "Titulo:" + title;
+  document.getElementById("modalAuthor").textContent = "Author: " + author;
+  document.getElementById("modalDateTime").textContent = "Last edited: " + dateTime;
+  document.getElementById("modalDescription").textContent = "Descricao" + description;
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+// Add click event listeners to all "Show More" buttons
+/*document.querySelectorAll('.show-more-btn').forEach(button => {
+  button.addEventListener('click', function(e) {
+    e.preventDefault();
+    const card = this.closest('.card');
+    const title = card.querySelector('.question-div').textContent;
+    const description = card.querySelector('.answer-div-descricao').textContent;
+    const author = card.querySelector('.answer-div-autor').textContent;
+    const lastEdited = card.querySelector('.answer-div-lastedit').textContent;
+    openModal(title, author, lastEdited, description);
+  });
+});*/
+
 
 
 document.addEventListener('DOMContentLoaded', function () {
+
+  let modal = document.getElementById("productModal");
+  console.log(modal);
+  
+
   const lightTheme = document.getElementById('light');
   const darkTheme = document.getElementById('dark');
   const styleTheme = document.getElementById('style');

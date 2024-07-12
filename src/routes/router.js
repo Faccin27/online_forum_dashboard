@@ -24,24 +24,24 @@ router.get('/', (req, res) => {
 
 
 //postar
-router.post('/produtos', async (req, res) =>{
+router.post('/produtos', async (req, res) => {
 
   await getUsuarioLogado(req);
 
-  if(usuarioLogado){
-  const { idUsuario, titulo, conteudo, DataHora } = req.body;
-  try{
-    const newPostagem = await PostagemDAO.create({
-      idUsuario, titulo, conteudo, DataHora
-    });
-    res.status(201).json(newPostagem);
+  if (usuarioLogado) {
+    const { idUsuario, titulo, conteudo, DataHora } = req.body;
+    try {
+      const newPostagem = await PostagemDAO.create({
+        idUsuario, titulo, conteudo, DataHora
+      });
+      res.status(201).json(newPostagem);
 
-  } catch (error){
-    res.status(500).json({error: 'erro ao criar postagem'})
+    } catch (error) {
+      res.status(500).json({ error: 'erro ao criar postagem' })
+    }
+  } else {
+    res.redirect('/login');
   }
-} else{
-  res.redirect('/login');
-}
 });
 
 
@@ -49,13 +49,35 @@ router.post('/produtos', async (req, res) =>{
 router.get('/produtos', async (req, res) => {
   await getUsuarioLogado(req);
 
-  let listaPosts = await PostagemDAO.getAll(); 
+  let listaPosts = await PostagemDAO.getAll();
+  let idPost = req.query.post;
+  let post;
+
+  if (idPost) {
+    
+    post = await PostagemDAO.getById(idPost);
+    console.log("post", post);
+    if (post) {
+      
+      post = post.get();
+
+      let autor = await UsuarioDAO.getById(post.idUsuario);
+      post.autor = autor.get().nome;
+     // post.DatahoraS = post.DataHora.toLocaleString('pt-br', {timezone: 'UTC'})
+    } else {
+      res.status(404).send('Postagem Inexistente');
+    }
+  } else{
+    console.log("n pegou post");
+  }
+
+
   if (listaPosts) listaPosts = listaPosts.map(post => post.get());
-  console.log(listaPosts);
   if (usuarioLogado) {
     res.status(200).render("produtos", {
       usuarioLogado: usuarioLogado.get(),
-      listaPosts: listaPosts
+      listaPosts: listaPosts,
+      post: post
     })
   }
   else {
@@ -63,6 +85,8 @@ router.get('/produtos', async (req, res) => {
     })
   }
 })
+
+
 
 
 

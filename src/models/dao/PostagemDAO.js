@@ -29,7 +29,7 @@ async getAll() {
 async getById(postagemId) {
   let newPostagem;
   try {
-    newPostagem = await newPostagem.findByPk(postagemId);
+    newPostagem = await Postagem.findByPk(postagemId);
   } catch (error) {
     console.error('Erro ao buscar post por ID:', error);
   } finally {
