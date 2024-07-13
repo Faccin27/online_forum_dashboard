@@ -1,31 +1,63 @@
 
 
+
 document.addEventListener('DOMContentLoaded', function () {
+  const modal = document.getElementById("productModal");
+  let url = new URL(window.location.href);
+  let params = new URLSearchParams(url.search);
+  let postParam = params.get('post');
+  console.log(postParam);
+
+  let variabel = document.querySelectorAll(`[data-id="${postParam}"]`)[0]
+  console.log(variabel);
+  
+
+  const title2 = variabel.querySelector('.question-div').textContent;
+  const description2 = variabel.querySelector('.answer-div-descricao').textContent;
+  const author2 = variabel.querySelector('.answer-div-autor').textContent;
+  console.log(author2);
+  const lastEdited2 = variabel.querySelector('.answer-div-lastedit').textContent;
+  
+  openModal(title2, author2, lastEdited2, description2);
+
+
+ /* let carde = document.getElementById("carde")
+  dataId = carde.getAttribute('data-id');*/
+
+  
+   if(postParam != null){
+
+   }
+
+
+   function openModal(title, author, dateTime, description) {
+    document.getElementById("modalTitle").textContent = "Title : " + title;
+    document.getElementById("modalAuthor").textContent = "Author: " + author;
+    document.getElementById("modalDateTime").textContent = "Last edited: " + dateTime;
+    document.getElementById("modalDescription").textContent = "Descricao: " + description;
+    modal.style.display = "block";
+  }
+
+
+
 
   // Get the modal
-  const modal = document.getElementById("productModal");
+  
 
   // Get the <span> element that closes the modal
   const span = document.getElementsByClassName("close")[0];
 
   // Function to open the modal
-  function openModal(title, author, dateTime, description) {
-    document.getElementById("modalTitle").textContent = "Title : " + title;
-    document.getElementById("modalAuthor").textContent = "Author: " + author;
-    document.getElementById("modalDateTime").textContent = "Last edited: " + dateTime;
-    document.getElementById("modalDescription").textContent = "Descricao" + description;
-    modal.style.display = "block";
-  }
+
 
 
   let closemodal = document.getElementById("closemodalbutton");
-//ESSE IF QUE TA COMENTADO TA FAZENDO O LOGIN FUNCIONAR, NÃO SEI CONCERTAR ESSA MERDA
-console.log(span)
- if (span) {
+  //ESSE IF QUE TA COMENTADO TA FAZENDO O LOGIN FUNCIONAR, NÃO SEI CONCERTAR ESSA MERDA
+  if (span) {
     span.onclick = function () {
       modal.style.display = "none";
     }
- }
+  }
 
 
   // When the user clicks anywhere outside of the modal, close it
@@ -38,10 +70,9 @@ console.log(span)
   // Add click event listeners to all "Show More" buttons
   document.querySelectorAll('.show-more-btn').forEach(button => {
     button.addEventListener('click', function (e) {
-      e.preventDefault();
+
       const card = this.closest('.card');
       const title = card.querySelector('.question-div').textContent;
-      console.log(title);
       const description = card.querySelector('.answer-div-descricao').textContent;
       const author = card.querySelector('.answer-div-autor').textContent;
       const lastEdited = card.querySelector('.answer-div-lastedit').textContent;

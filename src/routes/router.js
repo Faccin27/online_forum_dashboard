@@ -51,7 +51,7 @@ router.get('/produtos', async (req, res) => {
   let listaPosts = await PostagemDAO.getAll();
   let idPost = req.query.post;
   let post;
-
+  
   if (idPost) {
     
     post = await PostagemDAO.getById(idPost);

@@ -1,4 +1,5 @@
 const Postagem = require('../Postagem'); // Importe o modelo da postagem
+const User = require('../Usuario'); // Importe o modelo do usuário
 
 class PostagemDAO {
   // Cria e persiste uma postagem
@@ -14,10 +15,11 @@ class PostagemDAO {
   
 }
 
+
 async getAll() {
   let newPostagem;
   try {
-    newPostagem = await Postagem.findAll();
+    newPostagem = await Postagem.findAll({});
   } catch (error) {
     console.error('Erro ao buscar postagens:', error);
   } finally {
@@ -37,5 +39,8 @@ async getById(postagemId) {
   }
 }
 }
+
+
+
 
 module.exports = new PostagemDAO();
