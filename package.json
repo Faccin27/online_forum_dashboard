@@ -12,7 +12,7 @@
     "nodejs",
     "projeto-base"
   ],
-  "author": "Dionathan Luan de Vargas",
+  "author": "Guilherme Faccin",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",

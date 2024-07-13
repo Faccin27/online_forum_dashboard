@@ -1,5 +1,7 @@
 const Postagem = require('../Postagem'); // Importe o modelo da postagem
 const User = require('../Usuario'); // Importe o modelo do usuário
+const { Sequelize, DataTypes } = require('sequelize');
+const {sequelize} = require("../../config/database");
 
 class PostagemDAO {
   // Cria e persiste uma postagem
@@ -12,32 +14,43 @@ class PostagemDAO {
     } finally {
       return newPostagem; // Retorne a postagem criada
     }
-  
-}
 
-
-async getAll() {
-  let newPostagem;
-  try {
-    newPostagem = await Postagem.findAll({});
-  } catch (error) {
-    console.error('Erro ao buscar postagens:', error);
-  } finally {
-    return newPostagem;
   }
-}
 
-// Busca um post no banco de dados pela sua ID
-async getById(postagemId) {
-  let newPostagem;
-  try {
-    newPostagem = await Postagem.findByPk(postagemId);
-  } catch (error) {
-    console.error('Erro ao buscar post por ID:', error);
-  } finally {
-    return newPostagem;
+
+  async getAll() {
+    let newPostagem;
+    try {
+      newPostagem = await sequelize.query(
+        `SELECT postagens.*, usuarios.nome 
+         FROM postagens 
+         LEFT JOIN usuarios 
+         ON postagens.idUsuario = usuarios.id;`
+        , {
+          type: Sequelize.QueryTypes.SELECT,
+        });
+
+
+
+      console.log("quiaba", newPostagem)
+    } catch (error) {
+      console.error('Erro ao buscar postagens:', error);
+    } finally {
+      return newPostagem;
+    }
   }
-}
+
+  // Busca um post no banco de dados pela sua ID
+  async getById(postagemId) {
+    let newPostagem;
+    try {
+      newPostagem = await Postagem.findByPk(postagemId);
+    } catch (error) {
+      console.error('Erro ao buscar post por ID:', error);
+    } finally {
+      return newPostagem;
+    }
+  }
 }
 
 

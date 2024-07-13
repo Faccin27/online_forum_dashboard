@@ -49,6 +49,7 @@ router.get('/produtos', async (req, res) => {
   await getUsuarioLogado(req);
 
   let listaPosts = await PostagemDAO.getAll();
+  console.log("querrabo", listaPosts);
   let idPost = req.query.post;
   let post;
   
@@ -71,7 +72,7 @@ router.get('/produtos', async (req, res) => {
   }
 
 
-  if (listaPosts) listaPosts = listaPosts.map(post => post.get());
+
   if (usuarioLogado) {
     res.status(200).render("produtos", {
       usuarioLogado: usuarioLogado.get(),
