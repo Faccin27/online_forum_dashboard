@@ -40,6 +40,50 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
+  let comments = [
+    { name: "Usuário Anônimo", avatar: "https://via.placeholder.com/50", text: "Great product!" },
+    { name: "Usuário Anônimo", avatar: "https://via.placeholder.com/50", text: "I love it!" }
+];
+
+// Function to render comments
+function renderComments() {
+    const commentsList = document.getElementById('commentsList');
+    commentsList.innerHTML = '';
+    comments.forEach(comment => {
+        const commentElement = document.createElement('div');
+        commentElement.className = 'comment';
+        commentElement.innerHTML = `
+            <img src="${comment.avatar}" alt="${comment.name}" class="comment-avatar">
+            <div class="comment-content">
+                <div class="comment-author">${comment.name}</div>
+                <div class="comment-text">${comment.text}</div>
+            </div>
+        `;
+        commentsList.appendChild(commentElement);
+    });
+}
+
+// Function to add a new comment
+function addComment(text) {
+    comments.push({
+        name: "Usuário Anônimo",
+        avatar: "https://via.placeholder.com/50", // Default avatar
+        text: text
+    });
+    renderComments();
+}
+
+// Event listener for submit comment button
+document.getElementById('submitComment').addEventListener('click', function() {
+    const text = document.getElementById('commentText').value;
+    if (text) {
+        addComment(text);
+        document.getElementById('commentText').value = '';
+    }
+});
+
+// Initial render of comments
+renderComments();
 
   // Get the modal
   

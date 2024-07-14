@@ -46,14 +46,25 @@
 
 {{#if post}}
 
-<div id="productModal" class="modal">
-  <div class="modal-content">
-    <span class="close" id="closemodalbutton">&times;</span>
-    <h2 id="modalTitle">{{post.titulo}}</h2>
-    <p id="modalAuthor">{{post.autor}}</p>
-    <p id="modalDateTime"></p>
-    <p id="modalDescription">{{post.conteudo}}</p>
-  </div>
-</div>
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closemodalbutton">&times;</span>
+            <h2 id="modalTitle"></h2>
+            <p id="modalAuthor"></p>
+            <p id="modalDateTime"></p>
+            <p id="modalDescription"></p>
+            
+            <div class="comments-section">
+                <h3>Comments</h3>
+                <div id="commentsList"></div>
+                
+                <div class="comment-form">
+                    <h4>Add a comment</h4>
+                    <textarea id="commentText" placeholder="Your comment" required></textarea>
+                    <button id="submitComment">Submit Comment</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {{/if}}
