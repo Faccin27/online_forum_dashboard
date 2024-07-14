@@ -14,13 +14,15 @@
           <p class="answer-div-lastedit">{{this.createdAt}}</p>
           <p class="answer-div-autor">{{this.nome}}</p>
         </div>
-      
+
         <a href="/produtos?post={{this.id}}" onclick="getatr()" class="show-more-btn">Show More</a>
         <div class="buttons-con">
           <div class="favorite-container">
             <button class="favorite"><i class="fa-regular fa-heart"></i> {{this.favoritadoPor.length}}</button>
           </div>
-          <button class="edit"><i class="fa-solid fa-pen-to-square"></i></button>
+          <a href="/produtos?post={{this.id}}" class="edit">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </a>
           <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
         </div>
       </div>
@@ -46,25 +48,25 @@
 
 {{#if post}}
 
-    <div id="productModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closemodalbutton">&times;</span>
-            <h2 id="modalTitle"></h2>
-            <p id="modalAuthor"></p>
-            <p id="modalDateTime"></p>
-            <p id="modalDescription"></p>
-            
-            <div class="comments-section">
-                <h3>Comments</h3>
-                <div id="commentsList"></div>
-                
-                <div class="comment-form">
-                    <h4>Add a comment</h4>
-                    <textarea id="commentText" placeholder="Your comment" required></textarea>
-                    <button id="submitComment">Submit Comment</button>
-                </div>
-            </div>
-        </div>
+<div id="productModal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="closemodalbutton">&times;</span>
+    <h2 id="modalTitle"></h2>
+    <p id="modalAuthor"></p>
+    <p id="modalDateTime"></p>
+    <p id="modalDescription"></p>
+
+    <div class="comments-section">
+      <h3>Comments</h3>
+      <div id="commentsList"></div>
+
+      <div class="comment-form">
+        <h4>Add a comment</h4>
+        <textarea id="commentText" placeholder="Your comment" required></textarea>
+        <button id="submitComment">Submit Comment</button>
+      </div>
     </div>
+  </div>
+</div>
 
 {{/if}}

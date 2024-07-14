@@ -85,7 +85,42 @@ document.getElementById('submitComment').addEventListener('click', function() {
 // Initial render of comments
 renderComments();
 
-  // Get the modal
+const cardContainer = document.getElementById('card-con');
+
+cardContainer.addEventListener('click', function(event) {
+  if (event.target.classList.contains('delete') || event.target.closest('.delete')) {
+    const card = event.target.closest('.card');
+    const productId = card.dataset.id;
+
+    if (confirm('Are you sure you want to delete this product?')) {
+      deleteProduct(productId, card);
+    }
+  }
+});
+
+function deleteProduct(id, cardElement) {
+  fetch(`/produtos/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('Success:', data);
+    cardElement.remove();
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+    alert('An error occurred while deleting the product.');
+  });
+}
+
   
 
   // Get the <span> element that closes the modal
