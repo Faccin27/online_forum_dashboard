@@ -1,4 +1,4 @@
-const Curtida = require('../Curtida'); // Importe o modelo de curtida
+const Curtida = require('../Curtida'); // Importe o modelo da curtida
 
 class CurtidaDAO {
   // Cria e persiste uma curtida
@@ -37,23 +37,40 @@ class CurtidaDAO {
     }
   }
 
-
+  // Atualiza uma curtida no banco de dados
+  async update(curtidaId, curtidaAtualizada) {
+    let curtida;
+    try {
+      curtida = await Curtida.findByPk(curtidaId);
+      if (curtida) {
+        curtida.idUsuario = curtidaAtualizada.idUsuario || curtida.idUsuario;
+        curtida.idPostagem = curtidaAtualizada.idPostagem || curtida.idPostagem;
+        await curtida.save(); // Salva as alterações
+      } else {
+        console.log('Curtida não encontrada para atualização.');
+      }
+    } catch (error) {
+      console.error('Erro ao atualizar curtida:', error);
+    } finally {
+      return curtida;
+    }
+  }
 
   // Exclui uma curtida do banco de dados
   async delete(curtidaId) {
-    let deletado = false;
+    let deletada = false;
     try {
       const curtida = await Curtida.findByPk(curtidaId);
       if (curtida) {
         await curtida.destroy();
-        deletado = true;
+        deletada = true;
       } else {
         console.error('Curtida não encontrada para exclusão.');
       }
     } catch (error) {
       console.error('Erro ao excluir curtida:', error);
     } finally {
-      return deletado;
+      return deletada;
     }
   }
 }

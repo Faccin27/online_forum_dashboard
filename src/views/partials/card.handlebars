@@ -1,3 +1,17 @@
+<ul>
+  {{#each posts}}
+  <li><a href="/?post={{this.id}}">{{this.titulo}}</a>
+    <form action="/postagem/curtida/{{this.id}}" method="POST">
+      {{#if this.curtido}}
+      <button class="btn btn-light" type="submit"><i class="bi bi-star-fill"></i> {{this.curtidas}} </button>
+      {{else}}
+      <button class="btn btn-light" type="submit"><i class="bi bi-star"></i> {{this.curtidas}} </button>
+      {{/if}}
+    </form>
+  </li>
+  {{/each}}
+</ul>
+
 <div class="container">
   <div class="add-flashcard-con">
     <button id="add-flashcard">Adicionar Produto</button>
@@ -17,7 +31,12 @@
         <a href="/produtos/?post={{this.id}}" class="show-more-btn">Show More</a>
         <div class="buttons-con">
           <div class="favorite-container">
-            <button class="favorite"><i class="fa-regular fa-heart"></i> {{this.favoritadoPor.length}}</button>
+            {{#if post.curtido}}
+            <i class="favorite fa-solid fa-heart"></i>
+            {{else}}
+            <i class="favorite fa-regular fa-heart"></i>
+            {{/if}}
+            <span class="ms-2">{{post.curtidas}}</span>
           </div>
           <button class="edit"><i class="fa-solid fa-pen-to-square"></i></button>
           <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
@@ -35,10 +54,10 @@
       <i class="fa-solid fa-xmark" id="close-btn"></i>
     </div>
     <label for="question">Produto</label>
-    <input type="text" id="question" name="titulo" placeholder="Aqui teste produto" > </input>
+    <input type="text" id="question" name="titulo" placeholder="Aqui teste produto"> </input>
     <label for="answer">Descrição</label>
-    <input type="text" id="answer" name="conteudo" placeholder="Aqui teste" > </input>
-    <button  type="submit" id="save-btn">Salvar</button>
+    <input type="text" id="answer" name="conteudo" placeholder="Aqui teste"> </input>
+    <button type="submit" id="save-btn">Salvar</button>
     <div id="error" class="hide">Por favor, preencha todos os campos.</div>
   </div>
 </form>
@@ -53,6 +72,3 @@
     <p id="modalDescription">{{post.conteudo}}</p>
   </div>
 </div>
-
-
-

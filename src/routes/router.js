@@ -3,6 +3,9 @@ const { Router } = require("express");
 const router = new Router();
 const RegisterController = require('../controllers/RegisterController');
 const PostagemDAO = require('../models/dao/PostagemDAO');
+const CurtidaDAO = require("../models/dao/CurtidaDAO");
+const Curtida = require("../models/Curtida");
+
 
 // O módulo 'jsonwebtoken' é usado para criar e verificar tokens JWT (JSON Web Tokens)
 const jwt = require('jsonwebtoken');
@@ -44,6 +47,22 @@ router.post('/produtos/create', async (req, res) => {
   }
 });
 
+router.post("/produtos/curtida/:id", async (req, res) => {
+  await getUsuarioLogado(req);
+
+  let idPostagem = req.params.id;
+
+  let curtida = await Curtida.findOne({ where: { idPostagem: idPostagem, idUsuario: usuarioLogado } })
+
+  if (curtida) {
+    CurtidaDAO.delete(curtida.id)
+  } else {
+    CurtidaDAO.create({ idUsuario: usuarioLogado, idPostagem: idPostagem })
+  }
+
+  res.redirect("/produtos");
+});
+
 
 router.get('/produtos', async (req, res) => {
   await getUsuarioLogado(req);
@@ -52,6 +71,16 @@ router.get('/produtos', async (req, res) => {
   console.log("querrabo", listaPosts);
   let idPost = req.query.post;
   let post;
+  
+
+  for (let i = 0; i < listaPosts.length; i++) {
+    let curtidasPost = await Curtida.findAll({ where: { idPostagem: listaPosts[i].id } });
+    let ctdCurtidasPost = curtidasPost.length;
+    listaPosts[i].curtidas = ctdCurtidasPost;
+    listaPosts[i].curtido = await Curtida.findOne({ where: { idPostagem: listaPosts[i].id, idUsuario: usuarioLogado } })
+  }
+
+  console.log(listaPosts)
   
   if (idPost) {
     
