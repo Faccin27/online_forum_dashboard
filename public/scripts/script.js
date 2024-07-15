@@ -1,142 +1,31 @@
 
 
-
 document.addEventListener('DOMContentLoaded', function () {
+
+  // Get the modal
   const modal = document.getElementById("productModal");
-  let url = new URL(window.location.href);
-  let params = new URLSearchParams(url.search);
-  let postParam = params.get('post');
-  console.log(postParam);
-
-  let variabel = document.querySelectorAll(`[data-id="${postParam}"]`)[0]
-  console.log(variabel);
-  
-
-  const title2 = variabel.querySelector('.question-div').textContent;
-  const description2 = variabel.querySelector('.answer-div-descricao').textContent;
-  const author2 = variabel.querySelector('.answer-div-autor').textContent;
-  console.log(author2);
-  const lastEdited2 = variabel.querySelector('.answer-div-lastedit').textContent;
-  
-  openModal(title2, author2, lastEdited2, description2);
-
-
- /* let carde = document.getElementById("carde")
-  dataId = carde.getAttribute('data-id');*/
-
-  
-   if(postParam != null){
-
-   }
-
-
-   function openModal(title, author, dateTime, description) {
-    document.getElementById("modalTitle").textContent = "Title : " + title;
-    document.getElementById("modalAuthor").textContent = "Author: " + author;
-    document.getElementById("modalDateTime").textContent = "Last edited: " + dateTime;
-    document.getElementById("modalDescription").textContent = "Descricao: " + description;
-    modal.style.display = "block";
-  }
-
-
-
-  let comments = [
-    { name: "Usuário Anônimo", avatar: "https://via.placeholder.com/50", text: "Great product!" },
-    { name: "Usuário Anônimo", avatar: "https://via.placeholder.com/50", text: "I love it!" }
-];
-
-// Function to render comments
-function renderComments() {
-    const commentsList = document.getElementById('commentsList');
-    commentsList.innerHTML = '';
-    comments.forEach(comment => {
-        const commentElement = document.createElement('div');
-        commentElement.className = 'comment';
-        commentElement.innerHTML = `
-            <img src="${comment.avatar}" alt="${comment.name}" class="comment-avatar">
-            <div class="comment-content">
-                <div class="comment-author">${comment.name}</div>
-                <div class="comment-text">${comment.text}</div>
-            </div>
-        `;
-        commentsList.appendChild(commentElement);
-    });
-}
-
-// Function to add a new comment
-function addComment(text) {
-    comments.push({
-        name: "Usuário Anônimo",
-        avatar: "https://via.placeholder.com/50", // Default avatar
-        text: text
-    });
-    renderComments();
-}
-
-// Event listener for submit comment button
-document.getElementById('submitComment').addEventListener('click', function() {
-    const text = document.getElementById('commentText').value;
-    if (text) {
-        addComment(text);
-        document.getElementById('commentText').value = '';
-    }
-});
-
-// Initial render of comments
-renderComments();
-
-const cardContainer = document.getElementById('card-con');
-
-cardContainer.addEventListener('click', function(event) {
-  if (event.target.classList.contains('delete') || event.target.closest('.delete')) {
-    const card = event.target.closest('.card');
-    const productId = card.dataset.id;
-
-    if (confirm('Are you sure you want to delete this product?')) {
-      deleteProduct(productId, card);
-    }
-  }
-});
-
-function deleteProduct(id, cardElement) {
-  fetch(`/produtos/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json();
-  })
-  .then(data => {
-    console.log('Success:', data);
-    cardElement.remove();
-  })
-  .catch((error) => {
-    console.error('Error:', error);
-    alert('An error occurred while deleting the product.');
-  });
-}
-
-  
 
   // Get the <span> element that closes the modal
   const span = document.getElementsByClassName("close")[0];
 
   // Function to open the modal
-
+  function openModal(title, author, dateTime, description) {
+    document.getElementById("modalTitle").textContent = "Title : " + title;
+    document.getElementById("modalAuthor").textContent = "Author: " + author;
+    document.getElementById("modalDateTime").textContent = "Last edited: " + dateTime;
+    document.getElementById("modalDescription").textContent = "Descricao" + description;
+    modal.style.display = "block";
+  }
 
 
   let closemodal = document.getElementById("closemodalbutton");
-  //ESSE IF QUE TA COMENTADO TA FAZENDO O LOGIN FUNCIONAR, NÃO SEI CONCERTAR ESSA MERDA
-  if (span) {
+//ESSE IF QUE TA COMENTADO TA FAZENDO O LOGIN FUNCIONAR, NÃO SEI CONCERTAR ESSA MERDA
+console.log(span)
+ if (span) {
     span.onclick = function () {
       modal.style.display = "none";
     }
-  }
+ }
 
 
   // When the user clicks anywhere outside of the modal, close it
@@ -149,16 +38,24 @@ function deleteProduct(id, cardElement) {
   // Add click event listeners to all "Show More" buttons
   document.querySelectorAll('.show-more-btn').forEach(button => {
     button.addEventListener('click', function (e) {
-
+      e.preventDefault();
       const card = this.closest('.card');
       const title = card.querySelector('.question-div').textContent;
+      console.log(title);
       const description = card.querySelector('.answer-div-descricao').textContent;
       const author = card.querySelector('.answer-div-autor').textContent;
       const lastEdited = card.querySelector('.answer-div-lastedit').textContent;
-
+  
+      
+      const postId = card.dataset.id; 
+      const newUrl = `/produtos/?post=${postId}`;
+  
+      history.pushState({ postId: postId }, '', newUrl);
+  
       openModal(title, author, lastEdited, description);
     });
   });
+  
 
   const sidebarBtn = document.querySelector(".sidebarBtn");
   const addQuestionCard = document.getElementById("add-question-card");

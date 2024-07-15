@@ -6,23 +6,20 @@
   <div id="card-con">
     <div class="card-list-container">
       {{#each listaPosts}}
-      <div class="card" id="carde{{this.id}}" data-id="{{this.id}}">
+      <div class="card" data-id="{{this.id}}">
         <p class="question-div">{{this.titulo}}</p>
         <div class="answer-container hide">
           <p class="answer-div-descricao">{{this.conteudo}}</p>
           <p class="answer-div">Id do produto: {{this.id}}</p>
-          <p class="answer-div-lastedit">{{this.createdAt}}</p>
-          <p class="answer-div-autor">{{this.nome}}</p>
+          <p class="answer-div-lastedit"> {{this.createdAt}}</p>
+          <p class="answer-div-autor"> {{this.nome}}</p>
         </div>
-
-        <a href="/produtos?post={{this.id}}" onclick="getatr()" class="show-more-btn">Show More</a>
+        <a href="/produtos/?post={{this.id}}" class="show-more-btn">Show More</a>
         <div class="buttons-con">
           <div class="favorite-container">
             <button class="favorite"><i class="fa-regular fa-heart"></i> {{this.favoritadoPor.length}}</button>
           </div>
-          <a href="/produtos?post={{this.id}}" class="edit">
-            <i class="fa-solid fa-pen-to-square"></i>
-          </a>
+          <button class="edit"><i class="fa-solid fa-pen-to-square"></i></button>
           <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
         </div>
       </div>
@@ -38,35 +35,24 @@
       <i class="fa-solid fa-xmark" id="close-btn"></i>
     </div>
     <label for="question">Produto</label>
-    <input type="text" id="question" name="titulo" placeholder="Aqui teste produto"> </input>
+    <input type="text" id="question" name="titulo" placeholder="Aqui teste produto" > </input>
     <label for="answer">Descrição</label>
-    <input type="text" id="answer" name="conteudo" placeholder="Aqui teste"> </input>
-    <button type="submit" id="save-btn">Salvar</button>
+    <input type="text" id="answer" name="conteudo" placeholder="Aqui teste" > </input>
+    <button  type="submit" id="save-btn">Salvar</button>
     <div id="error" class="hide">Por favor, preencha todos os campos.</div>
   </div>
 </form>
 
-{{#if post}}
 
 <div id="productModal" class="modal">
   <div class="modal-content">
     <span class="close" id="closemodalbutton">&times;</span>
-    <h2 id="modalTitle"></h2>
-    <p id="modalAuthor"></p>
-    <p id="modalDateTime"></p>
-    <p id="modalDescription"></p>
-
-    <div class="comments-section">
-      <h3>Comments</h3>
-      <div id="commentsList"></div>
-
-      <div class="comment-form">
-        <h4>Add a comment</h4>
-        <textarea id="commentText" placeholder="Your comment" required></textarea>
-        <button id="submitComment">Submit Comment</button>
-      </div>
-    </div>
+    <h2 id="modalTitle">{{post.titulo}}</h2>
+    <p id="modalAuthor">{{post.autor}}</p>
+    <p id="modalDateTime">DATA</p>
+    <p id="modalDescription">{{post.conteudo}}</p>
   </div>
 </div>
 
-{{/if}}
+
+
