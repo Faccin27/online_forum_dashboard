@@ -1,17 +1,3 @@
-<ul>
-  {{#each posts}}
-  <li><a href="/?post={{this.id}}">{{this.titulo}}</a>
-    <form action="/postagem/curtida/{{this.id}}" method="POST">
-      {{#if this.curtido}}
-      <button class="btn btn-light" type="submit"><i class="fa-solid fa-heart"></i> {{this.curtidas}} </button>
-      {{else}}
-      <button class="btn btn-light" type="submit"><i class="fa-regular fa-heart"></i> {{this.curtidas}} </button>
-      {{/if}}
-    </form>
-  </li>
-  {{/each}}
-</ul>
-
 <div class="container">
   <div class="add-flashcard-con">
     <button id="add-flashcard">Adicionar Produto</button>
@@ -72,5 +58,15 @@
     <p id="modalAuthor">{{post.autor}}</p>
     <p id="modalDateTime">DATA</p>
     <p id="modalDescription">{{post.conteudo}}</p>
+    <form action="/produtos/comentar/:id" method="POST">
+      <div class="comment-box">
+        <textarea class="input" id="comment" rows="3" placeholder="Adicione um comentário"></textarea>
+        <button id="add-comment-btn"><i class="bx bx-paper-plane"></i></button>
+      </div>
+    
+
+    <!-- Lista de comentários -->
+    <div class="comment-list"></div>
+    </form>
   </div>
 </div>

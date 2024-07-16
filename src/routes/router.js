@@ -35,7 +35,7 @@ router.post('/produtos/create', async (req, res) => {
     const { titulo, conteudo, dataHora } = req.body;
     try {
       const newPostagem = await PostagemDAO.create({
-        idUsuario : usuarioLogado.id, titulo, conteudo, dataHora
+        idUsuario: usuarioLogado.id, titulo, conteudo, dataHora
       });
       res.status(201).json(newPostagem);
 
@@ -50,115 +50,103 @@ router.post('/produtos/create', async (req, res) => {
 router.post("/produtos/curtida/:id", async (req, res) => {
   await getUsuarioLogado(req);
 
-  if(usuarioLogado){
+  if (usuarioLogado) {
 
-  
-  let idPostagem = req.params.id;
 
-  let curtida = await Curtida.findOne({ where: { idPostagem: idPostagem, idUsuario: usuarioLogado.id } })
+    let idPostagem = req.params.id;
 
-  if (curtida) {
-    CurtidaDAO.delete(curtida.id)
+    let curtida = await Curtida.findOne({ where: { idPostagem: idPostagem, idUsuario: usuarioLogado.id } })
+
+    if (curtida) {
+      CurtidaDAO.delete(curtida.id)
+    } else {
+      CurtidaDAO.create({ idUsuario: usuarioLogado.id, idPostagem: idPostagem })
+    }
+
+    res.redirect("/produtos");
   } else {
-    CurtidaDAO.create({ idUsuario: usuarioLogado.id, idPostagem: idPostagem })
+    res.redirect("/login")
   }
-
-  res.redirect("/produtos");
-}else{
-  res.redirect("/login")
-}
 });
 
 
+
+
+
 router.get('/produtos', async (req, res) => {
   await getUsuarioLogado(req);
 
-  let listaPosts = await PostagemDAO.getAll();
-  let idPost = req.query.post;
-  let post;
-  
-
-  for (let i = 0; i < listaPosts.length; i++) {
-    let curtidasPost = await Curtida.findAll({ where: { idPostagem: listaPosts[i].id } });
-    let ctdCurtidasPost = curtidasPost.length;
-    listaPosts[i].curtidas = ctdCurtidasPost;
-    listaPosts[i].curtido = await Curtida.findOne({ where: { idPostagem: listaPosts[i].id, idUsuario: usuarioLogado.id } })
-
-  }
-
-
-  
-  if (idPost) {
-    
-    post = await PostagemDAO.getById(idPost);
-    if (post) {
-      
-      post = post.get();
-
-      let autor = await UsuarioDAO.getById(post.idUsuario);
-      post.autor = autor.get().nome;
-      
-    } else {
-      res.status(404).send('Postagem Inexistente');
-    }
-  } else{
-    console.log("n pegou post");
-  }
-
-
-
   if (usuarioLogado) {
-    res.status(200).render("produtos", {
-      usuarioLogado: usuarioLogado.get(),
-      listaPosts: listaPosts
-    })
-  }
-  else {
-    res.status(200).render("login", {
-    })
-  }
-})
 
-/*
-router.get('/produtos', async (req, res) => {
+
+    let listaPosts = await PostagemDAO.getAll();
+    let idPost = req.query.post;
+    let post;
+
+
+    for (let i = 0; i < listaPosts.length; i++) {
+      let curtidasPost = await Curtida.findAll({ where: { idPostagem: listaPosts[i].id } });
+      let ctdCurtidasPost = curtidasPost.length;
+      listaPosts[i].curtidas = ctdCurtidasPost;
+      listaPosts[i].curtido = await Curtida.findOne({ where: { idPostagem: listaPosts[i].id, idUsuario: usuarioLogado.id } })
+    }
+
+
+
+    if (idPost) {
+
+      post = await PostagemDAO.getById(idPost);
+      if (post) {
+
+        post = post.get();
+
+        let autor = await UsuarioDAO.getById(post.idUsuario);
+        post.autor = autor.get().nome;
+
+      } else {
+        res.status(404).send('Postagem Inexistente');
+      }
+    } else {
+      console.log("n pegou post");
+    }
+
+
+
+    if (usuarioLogado) {
+      res.status(200).render("produtos", {
+        usuarioLogado: usuarioLogado.get(),
+        listaPosts: listaPosts
+      })
+    }
+    else {
+      res.status(200).render("login", {
+      })
+    }
+  }
+});
+
+//postar commentario
+router.post("/produtos/comentar/:id", async (req, res) => {
   await getUsuarioLogado(req);
-
-  let listaPosts = await PostagemDAO.getAll();
-  let idPost = req.query.post;
-  let post;
-
-  if (idPost) {
-    
-    post = await PostagemDAO.getById(idPost);
-    console.log("post", post);
-    if (post) {
-      
-      post = post.get();
-
-      let autor = await UsuarioDAO.getById(post.idUsuario);
-      post.autor = autor.get().nome;
-    } else {
-      res.status(404).send('Postagem Inexistente');
-    }
-  } else{
-    console.log("n pegou post");
-  }
-
-
-  if (listaPosts) listaPosts = listaPosts.map(post => post.get());
   if (usuarioLogado) {
-    res.status(200).render("produtos", {
-      usuarioLogado: usuarioLogado.get(),
-      listaPosts: listaPosts,
-      post: post
-    })
-  }
-  else {
-    res.status(200).render("login", {
-    })
-  }
-})*/
+    let idPostagem = req.params.id;
+    let nomeUsuarioLogado = usuarioLogado.nome;
+    let textoComentario = req.body.textoComentario;
 
+    console.log("idPostagem", idPostagem)
+    console.log("nomeUsuarioLogado", nomeUsuarioLogado)
+
+    posts[idPostagem - 1].comentarios.push({
+      usuario: nomeUsuarioLogado,
+      conteudo: textoComentario,
+      dataHora: new Date()
+    })
+
+    console.log(posts[idPostagem - 1].comentarios)
+
+    res.status(200).redirect("/?post=" + idPostagem);
+  }
+});
 
 
 
@@ -172,6 +160,8 @@ router.get('/profile', async (req, res) => {
     res.status(403).send("Acesso negado!")
   }
 });
+
+
 
 router.get('/login', async (req, res) => {
   await getUsuarioLogado(req);

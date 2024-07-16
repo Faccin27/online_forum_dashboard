@@ -17,11 +17,10 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
 
-  let botaocurtido = document.getElementById("botaoboneka");
   function curtir() {
     const userEmail = document.getElementById("email").value;
     console.log(userEmail);
-}
+  }
 
 
 
@@ -29,13 +28,13 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log(boneca);
 
   let closemodal = document.getElementById("closemodalbutton");
-//ESSE IF QUE TA COMENTADO TA FAZENDO O LOGIN FUNCIONAR, NÃO SEI CONCERTAR ESSA MERDA
-console.log(span)
- if (span) {
+  //ESSE IF QUE TA COMENTADO TA FAZENDO O LOGIN FUNCIONAR, NÃO SEI CONCERTAR ESSA MERDA
+  console.log(span)
+  if (span) {
     span.onclick = function () {
       modal.style.display = "none";
     }
- }
+  }
 
 
   // When the user clicks anywhere outside of the modal, close it
@@ -55,17 +54,59 @@ console.log(span)
       const description = card.querySelector('.answer-div-descricao').textContent;
       const author = card.querySelector('.answer-div-autor').textContent;
       const lastEdited = card.querySelector('.answer-div-lastedit').textContent;
-  
-      
-      const postId = card.dataset.id; 
+
+
+      const postId = card.dataset.id;
       const newUrl = `/produtos/?post=${postId}`;
-  
+
       history.pushState({ postId: postId }, '', newUrl);
-  
+
       openModal(title, author, lastEdited, description);
     });
   });
+
+  const addCommentButton = document.getElementById("add-comment-btn");
+  const commentTextArea = document.getElementById("comment");
+  const commentList = document.querySelector(".comment-list");
+
   
+
+  addCommentButton.addEventListener("click", function () {
+    const commentText = commentTextArea.value.trim();
+    if (commentText !== "") {
+      const commentElement = document.createElement("div");
+      commentElement.classList.add("comment");
+
+      const imageElement = document.createElement("img");
+      imageElement.src = "/images/profile.jpg";
+      imageElement.alt = "Profile Picture";
+      commentElement.appendChild(imageElement);
+
+      const nameAndTextContainer = document.createElement("div");
+
+      const nameElement = document.createElement("span");
+      nameElement.textContent = "Faccin ";
+      nameAndTextContainer.appendChild(nameElement);
+
+      nameAndTextContainer.appendChild(document.createElement("br"));
+
+      const textElement = document.createElement("span");
+      textElement.textContent = commentText;
+      nameAndTextContainer.appendChild(textElement);
+
+      commentElement.appendChild(nameAndTextContainer);
+
+      const dateElement = document.createElement("span");
+      dateElement.classList.add("date"); // Adiciona a classe 'date'
+      const currentTime = new Date();
+      dateElement.textContent = currentTime.toLocaleTimeString();
+      commentElement.appendChild(dateElement);
+
+      commentList.appendChild(commentElement);
+      commentTextArea.value = ""; // Limpar o campo de texto
+    }
+  });
+
 
   const sidebarBtn = document.querySelector(".sidebarBtn");
   const addQuestionCard = document.getElementById("add-question-card");
