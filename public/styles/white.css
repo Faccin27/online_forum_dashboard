@@ -1420,3 +1420,8 @@ footer {
 .change-button:hover {
   background-color: #0056b3;
 }
+
+.favorite, .fa-solid, .fa-heart{
+  background-color: transparent;
+
+}

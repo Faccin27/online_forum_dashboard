@@ -3,9 +3,9 @@
   <li><a href="/?post={{this.id}}">{{this.titulo}}</a>
     <form action="/postagem/curtida/{{this.id}}" method="POST">
       {{#if this.curtido}}
-      <button class="btn btn-light" type="submit"><i class="bi bi-star-fill"></i> {{this.curtidas}} </button>
+      <button class="btn btn-light" type="submit"><i class="fa-solid fa-heart"></i> {{this.curtidas}} </button>
       {{else}}
-      <button class="btn btn-light" type="submit"><i class="bi bi-star"></i> {{this.curtidas}} </button>
+      <button class="btn btn-light" type="submit"><i class="fa-regular fa-heart"></i> {{this.curtidas}} </button>
       {{/if}}
     </form>
   </li>
@@ -31,12 +31,14 @@
         <a href="/produtos/?post={{this.id}}" class="show-more-btn">Show More</a>
         <div class="buttons-con">
           <div class="favorite-container">
-            {{#if post.curtido}}
-            <i class="favorite fa-solid fa-heart"></i>
-            {{else}}
-            <i class="favorite fa-regular fa-heart"></i>
-            {{/if}}
-            <span class="ms-2">{{post.curtidas}}</span>
+            <form action="/produtos/curtida/{{this.id}}" method="POST">
+              {{#if this.curtido}}
+              <button class="clebers" type="submit"><i class="favorite fa-solid fa-heart"></i></button>
+              {{else}}
+              <button class="clebers" type="submit"><i class="favorite fa-regular fa-heart"></i></button>
+              {{/if}}
+            </form>
+            <span class="curtidasn" id="boneka">{{this.curtidas}}</span>
           </div>
           <button class="edit"><i class="fa-solid fa-pen-to-square"></i></button>
           <button class="delete"><i class="fa-solid fa-trash-can"></i></button>

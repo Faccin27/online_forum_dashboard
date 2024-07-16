@@ -50,17 +50,23 @@ router.post('/produtos/create', async (req, res) => {
 router.post("/produtos/curtida/:id", async (req, res) => {
   await getUsuarioLogado(req);
 
+  if(usuarioLogado){
+
+  
   let idPostagem = req.params.id;
 
-  let curtida = await Curtida.findOne({ where: { idPostagem: idPostagem, idUsuario: usuarioLogado } })
+  let curtida = await Curtida.findOne({ where: { idPostagem: idPostagem, idUsuario: usuarioLogado.id } })
 
   if (curtida) {
     CurtidaDAO.delete(curtida.id)
   } else {
-    CurtidaDAO.create({ idUsuario: usuarioLogado, idPostagem: idPostagem })
+    CurtidaDAO.create({ idUsuario: usuarioLogado.id, idPostagem: idPostagem })
   }
 
   res.redirect("/produtos");
+}else{
+  res.redirect("/login")
+}
 });
 
 
@@ -68,7 +74,6 @@ router.get('/produtos', async (req, res) => {
   await getUsuarioLogado(req);
 
   let listaPosts = await PostagemDAO.getAll();
-  console.log("querrabo", listaPosts);
   let idPost = req.query.post;
   let post;
   
@@ -77,15 +82,15 @@ router.get('/produtos', async (req, res) => {
     let curtidasPost = await Curtida.findAll({ where: { idPostagem: listaPosts[i].id } });
     let ctdCurtidasPost = curtidasPost.length;
     listaPosts[i].curtidas = ctdCurtidasPost;
-    listaPosts[i].curtido = await Curtida.findOne({ where: { idPostagem: listaPosts[i].id, idUsuario: usuarioLogado } })
+    listaPosts[i].curtido = await Curtida.findOne({ where: { idPostagem: listaPosts[i].id, idUsuario: usuarioLogado.id } })
+
   }
 
-  console.log(listaPosts)
+
   
   if (idPost) {
     
     post = await PostagemDAO.getById(idPost);
-    console.log("post", post);
     if (post) {
       
       post = post.get();
@@ -105,8 +110,7 @@ router.get('/produtos', async (req, res) => {
   if (usuarioLogado) {
     res.status(200).render("produtos", {
       usuarioLogado: usuarioLogado.get(),
-      listaPosts: listaPosts,
-      post: post
+      listaPosts: listaPosts
     })
   }
   else {

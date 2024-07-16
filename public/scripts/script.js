@@ -1,7 +1,5 @@
 
-
 document.addEventListener('DOMContentLoaded', function () {
-
   // Get the modal
   const modal = document.getElementById("productModal");
 
@@ -13,10 +11,22 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("modalTitle").textContent = "Title : " + title;
     document.getElementById("modalAuthor").textContent = "Author: " + author;
     document.getElementById("modalDateTime").textContent = "Last edited: " + dateTime;
-    document.getElementById("modalDescription").textContent = "Descricao" + description;
+    document.getElementById("modalDescription").textContent = "Descricao: " + description;
     modal.style.display = "block";
+    curtir();
   }
 
+
+  let botaocurtido = document.getElementById("botaoboneka");
+  function curtir() {
+    const userEmail = document.getElementById("email").value;
+    console.log(userEmail);
+}
+
+
+
+  let boneca = document.getElementById("boneka");
+  console.log(boneca);
 
   let closemodal = document.getElementById("closemodalbutton");
 //ESSE IF QUE TA COMENTADO TA FAZENDO O LOGIN FUNCIONAR, NÃO SEI CONCERTAR ESSA MERDA
@@ -203,71 +213,8 @@ console.log(span)
 
     const flashcardId = parseInt(card.dataset.id);
 
-
-    if (target.classList.contains('favorite') || target.closest('.favorite')) {
-      toggleFavorite(flashcardId);
-    } else if (target.classList.contains('edit') || target.closest('.edit')) {
-      editFlashcard(flashcardId);
-    } else if (target.classList.contains('delete') || target.closest('.delete')) {
-      deleteFlashcard(flashcardId);
-    }
   }
 
-
-
-  function toggleFavorite(id) {
-    const flashcard = flashcards.find(f => f.id === id);
-    if (flashcard) {
-      const userId = getCurrentUserId();
-      const index = flashcard.favoritadoPor.indexOf(userId);
-      if (index === -1) {
-        flashcard.favoritadoPor.push(userId);
-      } else {
-        flashcard.favoritadoPor.splice(index, 1);
-      }
-      updateFavoriteDisplay(id);
-    }
-  }
-
-  function updateFavoriteDisplay(id) {
-    const card = cardListContainer.querySelector(`[data-id="${id}"]`);
-    if (card) {
-      const flashcard = flashcards.find(f => f.id === id);
-      const favoriteButton = card.querySelector('.favorite');
-      const heartIcon = favoriteButton.querySelector('i');
-      const favCount = flashcard.favoritadoPor.length;
-
-      heartIcon.className = flashcard.favoritadoPor.includes(getCurrentUserId())
-        ? 'fa-solid fa-heart'
-        : 'fa-regular fa-heart';
-      favoriteButton.innerHTML = `${heartIcon.outerHTML} ${favCount}`;
-    }
-  }
-
-
-  function editFlashcard(id) {
-    const flashcard = flashcards.find(f => f.id === id);
-    if (flashcard) {
-      editBool = true;
-      originalId = id;
-      question.value = flashcard.question;
-      answer.value = flashcard.answer;
-      addQuestionCard.classList.remove("hide");
-      document.body.classList.add('no-scroll');
-    }
-  }
-
-  function deleteFlashcard(id) {
-    flashcards = flashcards.filter(f => f.id !== id);
-    const cardToRemove = cardListContainer.querySelector(`[data-id="${id}"]`);
-    if (cardToRemove) {
-      cardToRemove.remove();
-    }
-  }
-
-  function getCurrentUserId() {
-    return usuarioLogado.nome;
-  }
 
   const content = document.getElementById('content');
   const registerBtn = document.getElementById('register');

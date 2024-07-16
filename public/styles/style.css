@@ -588,6 +588,11 @@ textarea:focus {
   justify-content: flex-end;
 }
 
+.favorite, .fa-solid, .fa-heart{
+  background-color: transparent;
+
+}
+
 .edit,
 .delete,
 .favorite,
