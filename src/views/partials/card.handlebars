@@ -12,7 +12,7 @@
           <p class="answer-div-descricao">{{this.conteudo}}</p>
           <p class="answer-div">Id do produto: {{this.id}}</p>
           <p class="answer-div-lastedit"> {{this.createdAt}}</p>
-          <p class="answer-div-autor"> {{this.nomeAutorComentario}}</p>
+          <p class="answer-div-autor"> {{this.nome}}</p>
         </div>
         <a href="/produtos/?post={{this.id}}" data-id="{{this.id}}" class="show-more-btn">Show More</a>
         <div class="buttons-con">
@@ -70,7 +70,7 @@
     </div>
 
     <form id="comentarioForm" method="POST">
-      <textarea name="textoComentario" placeholder="Escreva seu comentário aqui..." required></textarea>
+      <textarea name="conteudo" placeholder="Escreva seu comentário aqui..." required></textarea>
       <button type="submit">Comentar</button>
     </form>
 

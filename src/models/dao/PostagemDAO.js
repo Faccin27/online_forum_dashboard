@@ -29,7 +29,6 @@ class PostagemDAO {
         , {
           type: Sequelize.QueryTypes.SELECT,
         });
-      console.log("quiaba", newPostagem)
     } catch (error) {
       console.error('Erro ao buscar postagens:', error);
     } finally {

@@ -99,18 +99,15 @@ router.get('/produtos', async (req, res) => {
 
 
         let comentarios = await RespostaDAO.getRespostaByPostagem(post);
-        
+        console.log(comentarios, "Aqui estão os seus comentarios")
         if(comentarios){
-
           for(let i = 0; i < comentarios.length; i++){
             comentarios[i] = comentarios[i].get();
             let comentador = await UsuarioDAO.getById(comentarios[i].idUsuario);
             comentarios[i].nome = comentador.get().nome;
-            console.log(comentarios[i]);
             comentarios[i].dataHoraS = comentarios[i].dataHora.toLocaleString('pt-br',{timezone: "UTC"})
           }
         }
-        console.log("o que vcquer ver", comentarios);
 
         post.comentarios = comentarios;
 
@@ -120,8 +117,6 @@ router.get('/produtos', async (req, res) => {
     } else {
       console.log("n pegou post");
     }
-
-
 
     if (usuarioLogado) {
       res.status(200).render("produtos", {
@@ -140,31 +135,21 @@ router.get('/produtos', async (req, res) => {
 //postar comentario
 router.post("/produtos/comentar/:id", async (req, res) => {
   await getUsuarioLogado(req);
-
   if (usuarioLogado) {
-    let comentario = await RespostaDAO.getAll();
+    let usuarioLogado = getUsuarioLogado(req);
     let idPostagem = req.params.id;
-    let nomeUsuarioLogado = usuarioLogado.nome;
-    let textoComentario = req.body.textoComentario;
+    let conteudo = req.body.conteudo; 
 
-    let listaPosts = await PostagemDAO.getAll();
-
-
-    if(listaPosts[idPostagem - 1].comentario == null){
-      listaPosts[idPostagem - 1].comentario = []
-    } 
-
-
-    listaPosts[idPostagem - 1].comentario.push({
-      usuario: nomeUsuarioLogado,
-      conteudo: textoComentario,
+    await RespostaDAO.create({
+      idUsuario: usuarioLogado.id,
+      idPostagem: idPostagem,
+      conteudo: conteudo,
       dataHora: new Date()
     });
 
-
-    res.status(200).redirect("/?post=" + idPostagem);
+    res.status(201).redirect("/?post=" + idPostagem);
   } else {
-    res.status(401).send("Você precisa estar logado para comentar.");
+    res.redirect("/login");
   }
 });
 

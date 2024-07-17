@@ -18,31 +18,41 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
+  
+
   function getQueryParam(param) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
   }
 
-  const opostId = getQueryParam('post');
+  const postId = getQueryParam('post');
 
- if(opostId){
+  if (postId) {
     const form = document.getElementById('comentarioForm');
-    form.action = `/produtos/comentar/${opostId}`;
- }else{
-   console.log("errrororr")
- }
+    if (form) {
+      form.action = `/produtos/comentar/${postId}`;
+    } else {
+      console.log("Formulário não encontrado");
+    }
+  } else {
+    console.log("Erro: parâmetro 'post' não encontrado na URL");
+  }
+
+
+
+  
 
   let boneca = document.getElementById("boneka");
   console.log(boneca);
 
   let closemodal = document.getElementById("closemodalbutton");
-//ESSE IF QUE TA COMENTADO TA FAZENDO O LOGIN FUNCIONAR, NÃO SEI CONCERTAR ESSA MERDA
-console.log(span)
- if (span) {
+  //ESSE IF QUE TA COMENTADO TA FAZENDO O LOGIN FUNCIONAR, NÃO SEI CONCERTAR ESSA MERDA
+  console.log(span)
+  if (span) {
     span.onclick = function () {
       modal.style.display = "none";
     }
- }
+  }
 
 
   // When the user clicks anywhere outside of the modal, close it
@@ -62,17 +72,17 @@ console.log(span)
       const description = card.querySelector('.answer-div-descricao').textContent;
       const author = card.querySelector('.answer-div-autor').textContent;
       const lastEdited = card.querySelector('.answer-div-lastedit').textContent;
-  
-      
-      const postId = card.dataset.id; 
+
+
+      const postId = card.dataset.id;
       const newUrl = `/produtos/?post=${postId}`;
-  
+
       history.pushState({ postId: postId }, '', newUrl);
-  
+
       openModal(title, author, lastEdited, description);
     });
   });
-  
+
 
   const sidebarBtn = document.querySelector(".sidebarBtn");
   const addQuestionCard = document.getElementById("add-question-card");
