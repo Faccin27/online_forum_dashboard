@@ -6,11 +6,11 @@ const PostagemDAO = require('../models/dao/PostagemDAO');
 const CurtidaDAO = require("../models/dao/CurtidaDAO");
 const Curtida = require("../models/Curtida");
 
-
-// O módulo 'jsonwebtoken' é usado para criar e verificar tokens JWT (JSON Web Tokens)
 const jwt = require('jsonwebtoken');
 const Usuario = require("../models/Usuario");
 const UsuarioDAO = require("../models/dao/UsuarioDAO");
+const RespostaDAO = require("../models/dao/RespostaDAO");
+const Resposta = require("../models/Resposta");
 
 // Variável para armazenar o usuário logado
 let usuarioLogado;
@@ -26,7 +26,6 @@ router.get('/', (req, res) => {
 
 
 
-
 //postar
 router.post('/produtos/create', async (req, res) => {
   await getUsuarioLogado(req);
@@ -35,7 +34,7 @@ router.post('/produtos/create', async (req, res) => {
     const { titulo, conteudo, dataHora } = req.body;
     try {
       const newPostagem = await PostagemDAO.create({
-        idUsuario : usuarioLogado.id, titulo, conteudo, dataHora
+        idUsuario: usuarioLogado.id, titulo, conteudo, dataHora
       });
       res.status(201).json(newPostagem);
 
@@ -50,114 +49,124 @@ router.post('/produtos/create', async (req, res) => {
 router.post("/produtos/curtida/:id", async (req, res) => {
   await getUsuarioLogado(req);
 
-  if(usuarioLogado){
+  if (usuarioLogado) {
 
-  
-  let idPostagem = req.params.id;
 
-  let curtida = await Curtida.findOne({ where: { idPostagem: idPostagem, idUsuario: usuarioLogado.id } })
+    let idPostagem = req.params.id;
 
-  if (curtida) {
-    CurtidaDAO.delete(curtida.id)
+    let curtida = await Curtida.findOne({ where: { idPostagem: idPostagem, idUsuario: usuarioLogado.id } })
+
+    if (curtida) {
+      CurtidaDAO.delete(curtida.id)
+    } else {
+      CurtidaDAO.create({ idUsuario: usuarioLogado.id, idPostagem: idPostagem })
+    }
+
+    res.redirect("/produtos");
   } else {
-    CurtidaDAO.create({ idUsuario: usuarioLogado.id, idPostagem: idPostagem })
+    res.redirect("/login")
   }
-
-  res.redirect("/produtos");
-}else{
-  res.redirect("/login")
-}
 });
 
 
+
+
+
 router.get('/produtos', async (req, res) => {
   await getUsuarioLogado(req);
 
-  let listaPosts = await PostagemDAO.getAll();
-  let idPost = req.query.post;
-  let post;
-  
-
-  for (let i = 0; i < listaPosts.length; i++) {
-    let curtidasPost = await Curtida.findAll({ where: { idPostagem: listaPosts[i].id } });
-    let ctdCurtidasPost = curtidasPost.length;
-    listaPosts[i].curtidas = ctdCurtidasPost;
-    listaPosts[i].curtido = await Curtida.findOne({ where: { idPostagem: listaPosts[i].id, idUsuario: usuarioLogado.id } })
-
-  }
-
-
-  
-  if (idPost) {
+  if (usuarioLogado) {  
+    let listaPosts = await PostagemDAO.getAll();
+    let idPost = req.query.post;
+    let post;
     
-    post = await PostagemDAO.getById(idPost);
-    if (post) {
-      
-      post = post.get();
-
-      let autor = await UsuarioDAO.getById(post.idUsuario);
-      post.autor = autor.get().nome;
-      
-    } else {
-      res.status(404).send('Postagem Inexistente');
+    for (let i = 0; i < listaPosts.length; i++) {
+      let curtidasPost = await Curtida.findAll({ where: { idPostagem: listaPosts[i].id } });
+      let ctdCurtidasPost = curtidasPost.length;
+      listaPosts[i].curtidas = ctdCurtidasPost;
+      listaPosts[i].curtido = await Curtida.findOne({ where: { idPostagem: listaPosts[i].id, idUsuario: usuarioLogado.id } })
     }
-  } else{
-    console.log("n pegou post");
+
+
+
+    if (idPost) {
+
+      post = await PostagemDAO.getById(idPost);
+      if (post) {
+        post = post.get();
+        let autor = await UsuarioDAO.getById(post.idUsuario);
+        post.autor = autor.get().nome;
+
+
+        let comentarios = await RespostaDAO.getRespostaByPostagem(post);
+        
+        if(comentarios){
+
+          for(let i = 0; i < comentarios.length; i++){
+            comentarios[i] = comentarios[i].get();
+            let comentador = await UsuarioDAO.getById(comentarios[i].idUsuario);
+            comentarios[i].nome = comentador.get().nome;
+            console.log(comentarios[i]);
+            comentarios[i].dataHoraS = comentarios[i].dataHora.toLocaleString('pt-br',{timezone: "UTC"})
+          }
+        }
+        console.log("o que vcquer ver", comentarios);
+
+        post.comentarios = comentarios;
+
+      } else {
+        res.status(404).send('Postagem Inexistente');
+      }
+    } else {
+      console.log("n pegou post");
+    }
+
+
+
+    if (usuarioLogado) {
+      res.status(200).render("produtos", {
+        usuarioLogado: usuarioLogado.get(),
+        listaPosts: listaPosts,
+        post: post
+      })
+    }
+    else {
+      res.status(200).render("login", {
+      })
+    }
   }
+});
 
-
-
-  if (usuarioLogado) {
-    res.status(200).render("produtos", {
-      usuarioLogado: usuarioLogado.get(),
-      listaPosts: listaPosts
-    })
-  }
-  else {
-    res.status(200).render("login", {
-    })
-  }
-})
-
-/*
-router.get('/produtos', async (req, res) => {
+//postar comentario
+router.post("/produtos/comentar/:id", async (req, res) => {
   await getUsuarioLogado(req);
 
-  let listaPosts = await PostagemDAO.getAll();
-  let idPost = req.query.post;
-  let post;
-
-  if (idPost) {
-    
-    post = await PostagemDAO.getById(idPost);
-    console.log("post", post);
-    if (post) {
-      
-      post = post.get();
-
-      let autor = await UsuarioDAO.getById(post.idUsuario);
-      post.autor = autor.get().nome;
-    } else {
-      res.status(404).send('Postagem Inexistente');
-    }
-  } else{
-    console.log("n pegou post");
-  }
-
-
-  if (listaPosts) listaPosts = listaPosts.map(post => post.get());
   if (usuarioLogado) {
-    res.status(200).render("produtos", {
-      usuarioLogado: usuarioLogado.get(),
-      listaPosts: listaPosts,
-      post: post
-    })
+    let comentario = await RespostaDAO.getAll();
+    let idPostagem = req.params.id;
+    let nomeUsuarioLogado = usuarioLogado.nome;
+    let textoComentario = req.body.textoComentario;
+
+    let listaPosts = await PostagemDAO.getAll();
+
+
+    if(listaPosts[idPostagem - 1].comentario == null){
+      listaPosts[idPostagem - 1].comentario = []
+    } 
+
+
+    listaPosts[idPostagem - 1].comentario.push({
+      usuario: nomeUsuarioLogado,
+      conteudo: textoComentario,
+      dataHora: new Date()
+    });
+
+
+    res.status(200).redirect("/?post=" + idPostagem);
+  } else {
+    res.status(401).send("Você precisa estar logado para comentar.");
   }
-  else {
-    res.status(200).render("login", {
-    })
-  }
-})*/
+});
 
 
 
@@ -172,6 +181,8 @@ router.get('/profile', async (req, res) => {
     res.status(403).send("Acesso negado!")
   }
 });
+
+
 
 router.get('/login', async (req, res) => {
   await getUsuarioLogado(req);

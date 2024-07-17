@@ -13,17 +13,24 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("modalDateTime").textContent = "Last edited: " + dateTime;
     document.getElementById("modalDescription").textContent = "Descricao: " + description;
     modal.style.display = "block";
-    curtir();
+
   }
 
 
-  let botaocurtido = document.getElementById("botaoboneka");
-  function curtir() {
-    const userEmail = document.getElementById("email").value;
-    console.log(userEmail);
-}
 
+  function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
 
+  const opostId = getQueryParam('post');
+
+ if(opostId){
+    const form = document.getElementById('comentarioForm');
+    form.action = `/produtos/comentar/${opostId}`;
+ }else{
+   console.log("errrororr")
+ }
 
   let boneca = document.getElementById("boneka");
   console.log(boneca);
