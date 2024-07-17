@@ -75,11 +75,11 @@ router.post("/produtos/curtida/:id", async (req, res) => {
 router.get('/produtos', async (req, res) => {
   await getUsuarioLogado(req);
 
-  if (usuarioLogado) {  
+  if (usuarioLogado) {
     let listaPosts = await PostagemDAO.getAll();
     let idPost = req.query.post;
     let post;
-    
+
     for (let i = 0; i < listaPosts.length; i++) {
       let curtidasPost = await Curtida.findAll({ where: { idPostagem: listaPosts[i].id } });
       let ctdCurtidasPost = curtidasPost.length;
@@ -94,19 +94,15 @@ router.get('/produtos', async (req, res) => {
       post = await PostagemDAO.getById(idPost);
       if (post) {
         post = post.get();
-        let autor = await UsuarioDAO.getById(post.idUsuario);
-        post.autor = autor.get().nome;
+        post.autor = await (await UsuarioDAO.getById(post.idUsuario)).get().nome
+        post.dataHora = post.dataHora.toLocaleString('pt-BR', { timezone: 'UTC' });
 
-
-        let comentarios = await RespostaDAO.getRespostaByPostagem(post);
-        console.log(comentarios, "Aqui estão os seus comentarios")
-        if(comentarios){
-          for(let i = 0; i < comentarios.length; i++){
-            comentarios[i] = comentarios[i].get();
-            let comentador = await UsuarioDAO.getById(comentarios[i].idUsuario);
-            comentarios[i].nome = comentador.get().nome;
-            comentarios[i].dataHoraS = comentarios[i].dataHora.toLocaleString('pt-br',{timezone: "UTC"})
-          }
+        let comentarios = await (RespostaDAO.getRespostaByPostagem(post))
+        for (let i = 0; i < comentarios.length; i++) {
+          comentarios[i] = comentarios[i].get()
+          let comentador = await UsuarioDAO.getById(comentarios[i].idUsuario)
+          comentarios[i].autor_comentario = comentador.get().nome
+          console.log(comentarios[i])
         }
 
         post.comentarios = comentarios;
@@ -138,7 +134,7 @@ router.post("/produtos/comentar/:id", async (req, res) => {
   if (usuarioLogado) {
     let usuarioLogado = getUsuarioLogado(req);
     let idPostagem = req.params.id;
-    let conteudo = req.body.conteudo; 
+    let conteudo = req.body.conteudo;
 
     await RespostaDAO.create({
       idUsuario: usuarioLogado.id,
