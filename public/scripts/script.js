@@ -1,24 +1,41 @@
 
 document.addEventListener('DOMContentLoaded', function () {
+
+  function checkUrlParameter() {
+    // Obtém a URL atual
+    const url = new URL(window.location.href);
+
+    if (url.search.length > 0) {
+      reloadpage();
+    } else {
+      console.log("Nenhum parâmetro encontrado na URL");
+    }
+  }
+
+
+  window.onload = checkUrlParameter;
   // Get the modal
   const modal = document.getElementById("productModal");
-  
-  let url = new URL(window.location.href);
-  let params = new URLSearchParams(url.search);
-  let postParam = params.get('post');
-  console.log(postParam);
 
-  let variabel = document.querySelectorAll(`[data-id="${postParam}"]`)[0]
-  console.log(variabel);
-  
+  function reloadpage() {
+    let url = new URL(window.location.href);
+    let params = new URLSearchParams(url.search);
+    let postParam = params.get('post');
+    console.log(postParam);
 
-  const title2 = variabel.querySelector('.question-div').textContent;
-  const description2 = variabel.querySelector('.answer-div-descricao').textContent;
-  const author2 = variabel.querySelector('.answer-div-autor').textContent;
-  console.log(author2);
-  const lastEdited2 = variabel.querySelector('.answer-div-lastedit').textContent; 
-  
-  openModal(title2, author2, lastEdited2, description2); // A FUNCAO DE REDIRECT TA NA LINHA 98*
+    let variabel = document.querySelectorAll(`[data-id="${postParam}"]`)[0]
+    console.log(variabel);
+
+
+    const title2 = variabel.querySelector('.question-div').textContent;
+    const description2 = variabel.querySelector('.answer-div-descricao').textContent;
+    const author2 = variabel.querySelector('.answer-div-autor').textContent;
+    console.log(author2);
+    const lastEdited2 = variabel.querySelector('.answer-div-lastedit').textContent;
+
+    openModal(title2, author2, lastEdited2, description2);
+  }
+
 
   // Get the <span> element that closes the modal
   const span = document.getElementsByClassName("close")[0];
@@ -35,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-  
+
 
   function getQueryParam(param) {
     const urlParams = new URLSearchParams(window.location.search);
@@ -57,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-  
+
 
   let boneca = document.getElementById("boneka");
   console.log(boneca);
@@ -68,6 +85,8 @@ document.addEventListener('DOMContentLoaded', function () {
   if (span) {
     span.onclick = function () {
       modal.style.display = "none";
+      window.location.href = "/produtos";
+
     }
   }
 
@@ -76,6 +95,8 @@ document.addEventListener('DOMContentLoaded', function () {
   window.onclick = function (event) {
     if (event.target == modal) {
       modal.style.display = "none";
+      window.location.href = "/produtos";
+
     }
   }
 

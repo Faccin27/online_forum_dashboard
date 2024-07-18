@@ -165,7 +165,8 @@ router.post("/produtos/comentar/:id", async (req, res) => {
 
     console.log("TESTE DE RESPOSTA",resposta);
 
-    res.status(201).redirect("/?post=" + idPostagem);
+    res.status(201).redirect(req.get('Referer'));
+
   } else {
     res.redirect("/login");
   }

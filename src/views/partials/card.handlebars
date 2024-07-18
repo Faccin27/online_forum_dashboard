@@ -3,36 +3,37 @@
     <button id="add-flashcard">Adicionar Produto</button>
   </div>
 
-  <div id="card-con">
-    <div class="card-list-container">
-      {{#each listaPosts}}
-      <div class="card" data-id="{{this.id}}">
+<div id="card-con">
+  <div class="card-list-container">
+    {{#each listaPosts}}
+    <div class="card" data-id="{{this.id}}">
+      <div class="title-favorite-container">
         <p class="question-div">{{this.titulo}}</p>
-        <div class="answer-container hide">
-          <p class="answer-div-descricao">{{this.conteudo}}</p>
-          <p class="answer-div">Id do produto: {{this.id}}</p>
-          <p class="answer-div-lastedit"> {{this.dataHora}}
-          </p>
-          <p class="answer-div-autor"> {{this.nome}}</p>
-        </div>
-        <a href="/produtos/?post={{this.id}}" data-id="{{this.id}}" class="show-more-btn">Show More</a>
-        <div class="buttons-con">
-          <div class="favorite-container">
-            <form action="/produtos/curtida/{{this.id}}" method="POST">
-              {{#if this.curtido}}
-              <button class="cleberson" type="submit"><i class="favorite fa-solid fa-heart"></i></button>
-              {{else}}
-              <button class="cleberson" type="submit"><i class="favorite fa-regular fa-heart"></i></button>
-              {{/if}}
-            </form>
-            <span class="curtidasn" id="boneka">{{this.curtidas}}</span>
-          </div>
-          <button class="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-          <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
+        <div class="favorite-container">
+          <form action="/produtos/curtida/{{this.id}}" method="POST">
+            {{#if this.curtido}}
+            <button class="cleberson" type="submit"><i class="favorite fa-solid fa-heart"></i></button>
+            {{else}}
+            <button class="cleberson" type="submit"><i class="favorite fa-regular fa-heart"></i></button>
+            {{/if}}
+          </form>
+          <span class="curtidasn" id="boneka">{{this.curtidas}}</span>
         </div>
       </div>
-      {{/each}}
+      <div class="answer-container hide">
+        <p class="answer-div-descricao">{{this.conteudo}}</p>
+        <p class="answer-div">Id do produto: {{this.id}}</p>
+        <p class="answer-div-lastedit"> {{this.dataHora}}
+        </p>
+        <p class="answer-div-autor"> {{this.nome}}</p>
+      </div>
+      <a href="/produtos/?post={{this.id}}" data-id="{{this.id}}" class="show-more-btn">Show More</a>
+      <div class="buttons-con">
+        <button class="edit"><i class="fa-solid fa-pen-to-square"></i></button>
+        <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
+      </div>
     </div>
+    {{/each}}
   </div>
 </div>
 
@@ -63,7 +64,7 @@
         <button class="clebers" type="submit"><i class="favorite fa-regular fa-heart"></i></button>
         {{/if}}
       </form>
-      <span class="curtidasn" id="boneka">{{post.curtidas}}</span>
+      <span class="curtidasm" id="boneka">{{post.curtidas}}</span>
     </div>
     <h2 id="modalTitle"></h2>
     <p id="modalAuthor"></p>
@@ -71,20 +72,20 @@
     <p id="modalDescription">{{post.conteudo}}</p>
 
     <h3>Comentários</h3>
-<div id="commentsSection">
-  {{#each post.comentarios}}
-  <div class="comment">
-    <div class="comment-header">
-      <img src="/images/profile.jpg" alt="Profile Picture" class="profile-pic">
-      <div class="comment-meta">
-        <p class="author"><strong>{{this.autor}}</strong></p>
-        <p class="date">{{this.dataHora}}</p>
+    <div id="commentsSection">
+      {{#each post.comentarios}}
+      <div class="comment">
+        <div class="comment-header">
+          <img src="/images/profile.jpg" alt="Profile Picture" class="profile-pic">
+          <div class="comment-meta">
+            <p class="author"><strong>{{this.autor}}</strong></p>
+            <p class="date">{{this.dataHora}}</p>
+          </div>
+        </div>
+        <p>{{this.conteudo}}</p>
       </div>
+      {{/each}}
     </div>
-    <p>{{this.conteudo}}</p>
-  </div>
-  {{/each}}
-</div>
 
 
     <form id="comentarioForm" method="POST">

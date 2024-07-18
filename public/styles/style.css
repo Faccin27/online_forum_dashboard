@@ -588,17 +588,12 @@ textarea:focus {
   justify-content: flex-end;
 }
 
-.favorite, .fa-solid, .fa-heart{
-  background-color: transparent;
-
-}
-
 .edit,
 .delete,
-.favorite,
+.cleberson,
 .info {
   background-color: transparent;
-  padding: 0.5em;
+  padding: 0.4em;
   font-size: 1.2em;
 }
 
@@ -614,8 +609,14 @@ textarea:focus {
   color: #ff5353;
 }
 
-.favorite {
+.cleberson {
   color: #ff0000;
+  
+}
+
+.cleberson .favorite.fa-regular {
+  color: grey;
+
 }
 
 .hide {
@@ -1576,6 +1577,7 @@ footer {
   margin-right: 10px;
 }
 
+
 .clebers .favorite {
   color: red;
 }
@@ -1585,21 +1587,14 @@ footer {
 }
 
 
-.cleberson .favorite {
-  color: red;
-  background-color: transparent;
-}
 
-.cleberson .favorite.fa-regular {
-  color: grey;
-  background-color: transparent;
-}
+
 
 
 /* Estilo para o contador de curtidas */
 .curtidasn {
   font-size: 18px;
-  margin-left: 10px;
+  color: #fff;
 }
 
 /* Estilo para o título e descrição do modal */
@@ -1682,4 +1677,62 @@ footer {
   margin: 0;
   font-size: 0.8em;
   color: gray;
+}
+
+
+
+.title-favorite-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.question-div {
+  margin-right: 10px; /* Add some space between the title and the favorite button */
+  flex-grow: 1; /* Allow the title to take up available space */
+}
+
+.favorite-container {
+  display: flex;
+  align-items: center;
+}
+
+.favorite-container form {
+  margin-right: 5px; /* Add some space between the button and the like count */
+}
+
+.cleberson {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.favorite {
+  font-size: 1em;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+::placeholder {
+  color: #7F8C8D;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1F2833;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #45A29E;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #66FCF1;
 }

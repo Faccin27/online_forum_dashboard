@@ -515,10 +515,10 @@ textarea:focus {
 
 .edit,
 .delete,
-.favorite,
+.cleberson,
 .info {
   background-color: transparent;
-  padding: 0.5em;
+  padding: 0.4em;
   font-size: 1.2em;
 }
 
@@ -534,8 +534,14 @@ textarea:focus {
   color: #ff5353;
 }
 
-.favorite {
+.cleberson {
   color: #ff0000;
+  
+}
+
+.cleberson .favorite.fa-regular {
+  color: grey;
+
 }
 
 .hide {
@@ -959,6 +965,7 @@ footer {
 }
 
 
+
 #show-more-title {
   display: inline-block;
   vertical-align: middle;
@@ -1024,11 +1031,14 @@ footer {
   padding: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  background-color: rgb(56, 54, 54);
+  background-color: #fff;
   margin-left: 35%;
   margin-top: 10%;
 }
 
+.profile-box h1, h2 {
+  color: black;
+}
 
 .image-container {
   position: relative;
@@ -1084,17 +1094,15 @@ footer {
 .info-row label {
   display: block;
   margin-bottom: 5px;
-  font-weight:800;
-  color: rgb(172, 172, 172);
+  font-weight: 800;
+  color: #2c2c2c;
 }
 
 .info-row input {
   width: calc(100% - 70px);
   padding: 8px;
-  background-color: rgb(88, 88, 88);
   border: 1px solid #ddd;
   border-radius: 4px;
-  color: white;
 }
 
 .info-row .edit-button {
@@ -1150,7 +1158,7 @@ footer {
 
 .home-section2 {
   height: 100%;
-  
+
 }
 
 /* General Responsive Styles */
@@ -1164,7 +1172,7 @@ footer {
     left: 200px;
   }
 
-  .sidebar.active ~ .home-section {
+  .sidebar.active~.home-section {
     width: calc(100% - 60px);
     left: 60px;
   }
@@ -1189,7 +1197,7 @@ footer {
     left: 60px;
   }
 
-  .sidebar.active ~ .home-section {
+  .sidebar.active~.home-section {
     width: calc(100% - 220px);
     left: 220px;
   }
@@ -1220,7 +1228,7 @@ footer {
     left: 0;
   }
 
-  .sidebar.active ~ .home-section {
+  .sidebar.active~.home-section {
     width: 100%;
     left: 0;
   }
@@ -1318,17 +1326,16 @@ footer {
 }
 
 .file-uploader {
+  /* make it invisible */
   opacity: 0;
+  /* make it take the full height and width of the parent container */
   height: 100%;
   width: 100%;
   cursor: pointer;
+  /* make it absolute */
   position: absolute;
   top: 0%;
   left: 0%;
-}
-
-.sidebar-button{
-  color: white;
 }
 
 .change-button {
@@ -1346,8 +1353,311 @@ footer {
   background-color: #0056b3;
 }
 
-.favorite, .fa-solid, .fa-heart{
-  background-color: transparent;
-
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
 }
 
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.comments-section {
+  margin-top: 20px;
+  border-top: 1px solid #ccc;
+  padding-top: 20px;
+}
+
+.comment {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.comment-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.comment-content {
+  flex-grow: 1;
+}
+
+.comment-author {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.comment-text {
+  margin-bottom: 5px;
+}
+
+.comment-form {
+  margin-top: 20px;
+}
+
+.comment-form textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 5px;
+}
+
+.comment-form button {
+  padding: 5px 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+/* Estilo para o modal */
+.modal {
+  display: none; /* Oculto por padrão */
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
+  padding-top: 60px;
+}
+
+/* Estilo para o conteúdo do modal */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto; 
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; 
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  animation: animatezoom 0.6s;
+}
+
+/* Animação de zoom para o modal */
+@keyframes animatezoom {
+  from {transform: scale(0)}
+  to {transform: scale(1)}
+}
+
+/* Botão de fechar o modal */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Estilo para o container de curtidas */
+.favorite-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+.clebers {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+
+.clebers .favorite {
+  color: red;
+}
+
+.clebers .favorite.fa-regular {
+  color: grey;
+}
+
+
+
+
+
+
+/* Estilo para o contador de curtidas */
+.curtidasn {
+  font-size: 18px;
+  color: #fff;
+}
+
+/* Estilo para o título e descrição do modal */
+#modalTitle {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+#modalAuthor,
+#modalDateTime,
+#modalDescription {
+  margin-bottom: 10px;
+}
+
+/* Estilo para a seção de comentários */
+#commentsSection {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.comment {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+/* Estilo para o formulário de comentários */
+#comentarioForm textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+#comentarioForm button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#comentarioForm button:hover {
+  background-color: #45a049;
+}
+
+
+
+.comment {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.comment-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.author {
+  margin: 0;
+}
+
+.date {
+  margin: 0;
+  font-size: 0.8em;
+  color: gray;
+}
+
+
+
+.title-favorite-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.question-div {
+  margin-right: 10px; /* Add some space between the title and the favorite button */
+  flex-grow: 1; /* Allow the title to take up available space */
+}
+
+.favorite-container {
+  display: flex;
+  align-items: center;
+}
+
+.favorite-container form {
+  margin-right: 5px; /* Add some space between the button and the like count */
+}
+
+.cleberson {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.favorite {
+  font-size: 1em;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+::placeholder {
+  color: #7F8C8D;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1F2833;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #45A29E;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #66FCF1;
+}
