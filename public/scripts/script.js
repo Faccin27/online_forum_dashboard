@@ -13,7 +13,9 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   const cardContainer = document.getElementById('card-con');
-
+function deleteposts(){
+  
+}
 cardContainer.addEventListener('click', function(event) {
   if (event.target.classList.contains('delete') || event.target.closest('.delete')) {
     const card = event.target.closest('.card');
@@ -308,30 +310,32 @@ function deleteProduct(id, cardElement) {
   }
 
 
-  const content = document.getElementById('content');
-  const registerBtn = document.getElementById('register');
-  const loginBtn = document.getElementById('login');
 
-  console.log('DOM fully loaded and parsed');
-  console.log('registerBtn:', registerBtn);
-  console.log('loginBtn:', loginBtn);
-  console.log('content:', content);
-
-  if (registerBtn && loginBtn && content) {
-    registerBtn.addEventListener('click', () => {
-      console.log('Register button clicked');
-      content.classList.add("active");
-    });
-
-    loginBtn.addEventListener('click', () => {
-      console.log('Login button clicked');
-      content.classList.remove("active");
-    });
-  } else {
-    console.error('Login/Register elements not found in the DOM');
-  }
 
 });
+const content = document.getElementById('content');
+const registerBtn = document.getElementById('register');
+const loginBtn = document.getElementById('login');
+
+console.log('DOM fully loaded and parsed');
+console.log('registerBtn:', registerBtn);
+console.log('loginBtn:', loginBtn);
+console.log('content:', content);
+
+if (registerBtn && loginBtn && content) {
+  registerBtn.addEventListener('click', () => {
+    console.log('Register button clicked');
+    content.classList.add("active");
+  });
+
+  loginBtn.addEventListener('click', () => {
+    console.log('Login button clicked');
+    content.classList.remove("active");
+  });
+} else {
+  console.error('Login/Register elements not found in the DOM');
+}
+
 
 function toggleCombobox() {
   var combobox = document.getElementById("profileCombobox");

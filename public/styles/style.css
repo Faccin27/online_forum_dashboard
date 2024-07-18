@@ -492,13 +492,12 @@ button {
 
 .fa-xmark {
   font-size: 1.4em;
-  background-color: #45A29E;
-  height: 1.8em;
-  width: 1.8em;
+  background-color: transparent;
+
   display: grid;
   place-items: center;
   color: #0B0C10;
-  border-radius: 50%;
+
   cursor: pointer;
   justify-self: flex-end;
 }
@@ -509,7 +508,7 @@ label {
   margin-bottom: 0.3em;
 }
 
-textarea {
+input {
   width: 100%;
   padding: 0.7em 0.5em;
   border: 1px solid #C5C6C7;
@@ -519,11 +518,11 @@ textarea {
   resize: none;
 }
 
-textarea:not(:last-child) {
+input:not(:last-child) {
   margin-bottom: 1.2em;
 }
 
-textarea:focus {
+input:focus {
   border-color: #66FCF1;
 }
 
