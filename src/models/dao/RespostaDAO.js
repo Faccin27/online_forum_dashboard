@@ -25,6 +25,17 @@ class RespostaDAO {
     }
   }
 
+  async getRespostaByPostagem(post){
+    let respostas;
+    try {
+      respostas = await Resposta.findAll({where: {idPostagem: post.id} })
+    } catch(error){
+      console.error("erro ao buscar comentario: ", error);
+    } finally{
+      return respostas;
+    }
+  }
+
   // Busca uma resposta no banco de dados pela sua ID
   async getById(respostaId) {
     let resposta;

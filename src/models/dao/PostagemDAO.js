@@ -1,7 +1,7 @@
 const Postagem = require('../Postagem'); // Importe o modelo da postagem
 const User = require('../Usuario'); // Importe o modelo do usuário
 const { Sequelize, DataTypes } = require('sequelize');
-const {sequelize} = require("../../config/database");
+const { sequelize } = require("../../config/database");
 
 class PostagemDAO {
   // Cria e persiste uma postagem
@@ -23,16 +23,12 @@ class PostagemDAO {
     try {
       newPostagem = await sequelize.query(
         `SELECT postagens.*, usuarios.nome 
-         FROM postagens 
-         LEFT JOIN usuarios 
-         ON postagens.idUsuario = usuarios.id;`
+        FROM postagens 
+        LEFT JOIN usuarios 
+        ON postagens.idUsuario = usuarios.id;`
         , {
           type: Sequelize.QueryTypes.SELECT,
         });
-
-
-
-      console.log("quiaba", newPostagem)
     } catch (error) {
       console.error('Erro ao buscar postagens:', error);
     } finally {

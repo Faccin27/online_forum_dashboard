@@ -2,6 +2,23 @@
 document.addEventListener('DOMContentLoaded', function () {
   // Get the modal
   const modal = document.getElementById("productModal");
+  
+  let url = new URL(window.location.href);
+  let params = new URLSearchParams(url.search);
+  let postParam = params.get('post');
+  console.log(postParam);
+
+  let variabel = document.querySelectorAll(`[data-id="${postParam}"]`)[0]
+  console.log(variabel);
+  
+
+  const title2 = variabel.querySelector('.question-div').textContent;
+  const description2 = variabel.querySelector('.answer-div-descricao').textContent;
+  const author2 = variabel.querySelector('.answer-div-autor').textContent;
+  console.log(author2);
+  const lastEdited2 = variabel.querySelector('.answer-div-lastedit').textContent; 
+  
+  openModal(title2, author2, lastEdited2, description2); // A FUNCAO DE REDIRECT TA NA LINHA 98*
 
   // Get the <span> element that closes the modal
   const span = document.getElementsByClassName("close")[0];
@@ -10,32 +27,49 @@ document.addEventListener('DOMContentLoaded', function () {
   function openModal(title, author, dateTime, description) {
     document.getElementById("modalTitle").textContent = "Title : " + title;
     document.getElementById("modalAuthor").textContent = "Author: " + author;
-    document.getElementById("modalDateTime").textContent = "Last edited: " + dateTime;
+    document.getElementById("modalDateTime").textContent = "Criado em: " + dateTime;
     document.getElementById("modalDescription").textContent = "Descricao: " + description;
     modal.style.display = "block";
-    curtir();
+
   }
 
 
-  let botaocurtido = document.getElementById("botaoboneka");
-  function curtir() {
-    const userEmail = document.getElementById("email").value;
-    console.log(userEmail);
-}
+
+  
+
+  function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
+
+  const postId = getQueryParam('post');
+
+  if (postId) {
+    const form = document.getElementById('comentarioForm');
+    if (form) {
+      form.action = `/produtos/comentar/${postId}`;
+    } else {
+      console.log("Formulário não encontrado");
+    }
+  } else {
+    console.log("Erro: parâmetro 'post' não encontrado na URL");
+  }
 
 
+
+  
 
   let boneca = document.getElementById("boneka");
   console.log(boneca);
 
   let closemodal = document.getElementById("closemodalbutton");
-//ESSE IF QUE TA COMENTADO TA FAZENDO O LOGIN FUNCIONAR, NÃO SEI CONCERTAR ESSA MERDA
-console.log(span)
- if (span) {
+  //ESSE IF QUE TA COMENTADO TA FAZENDO O LOGIN FUNCIONAR, NÃO SEI CONCERTAR ESSA MERDA
+  console.log(span)
+  if (span) {
     span.onclick = function () {
       modal.style.display = "none";
     }
- }
+  }
 
 
   // When the user clicks anywhere outside of the modal, close it
@@ -55,17 +89,17 @@ console.log(span)
       const description = card.querySelector('.answer-div-descricao').textContent;
       const author = card.querySelector('.answer-div-autor').textContent;
       const lastEdited = card.querySelector('.answer-div-lastedit').textContent;
-  
-      
-      const postId = card.dataset.id; 
+
+
+      const postId = card.dataset.id;
       const newUrl = `/produtos/?post=${postId}`;
-  
+
       history.pushState({ postId: postId }, '', newUrl);
-  
-      openModal(title, author, lastEdited, description);
+      window.location.href = newUrl;
+
     });
   });
-  
+
 
   const sidebarBtn = document.querySelector(".sidebarBtn");
   const addQuestionCard = document.getElementById("add-question-card");
