@@ -173,7 +173,25 @@ router.post("/produtos/comentar/:id", async (req, res) => {
 });
 
 
+router.delete('/produtos/:id', async (req, res) => {
+  await getUsuarioLogado(req);
 
+  if (usuarioLogado) {
+    const postagemId = req.params.id;
+    try {
+      const result = await PostagemDAO.delete(postagemId);
+      if (result.success) {
+        res.status(200).json({ message: result.message });
+      } else {
+        res.status(404).json({ message: result.message });
+      }
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao deletar postagem' });
+    }
+  } else {
+    res.status(403).json({ error: 'Usuário não autenticado' });
+  }
+});
 
 
 

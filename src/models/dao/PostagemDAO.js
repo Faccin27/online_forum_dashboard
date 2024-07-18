@@ -17,6 +17,24 @@ class PostagemDAO {
 
   }
 
+  async delete(postagemId) {
+    try {
+      const result = await Postagem.destroy({
+        where: {
+          id: postagemId
+        }
+      });
+      if (result === 1) {
+        return { success: true, message: 'Postagem deletada com sucesso.' };
+      } else {
+        return { success: false, message: 'Postagem não encontrada.' };
+      }
+    } catch (error) {
+      console.error('Erro ao deletar postagem:', error);
+      return { success: false, message: 'Erro ao deletar postagem.' };
+    }
+  }
+
 
   async getAll() {
     let newPostagem;
