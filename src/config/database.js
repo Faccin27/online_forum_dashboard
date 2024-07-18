@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize('forum', 'root', '', {
   host: 'localhost',
-  port: '3334',
+  port: '3333',
   dialect: 'mysql',
 });
 

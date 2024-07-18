@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Get the modal
   const modal = document.getElementById("productModal");
   
-  /*let url = new URL(window.location.href);
+  let url = new URL(window.location.href);
   let params = new URLSearchParams(url.search);
   let postParam = params.get('post');
   console.log(postParam);
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log(author2);
   const lastEdited2 = variabel.querySelector('.answer-div-lastedit').textContent; 
   
-  openModal(title2, author2, lastEdited2, description2); // A FUNCAO DE REDIRECT TA NA LINHA 98*/ 
+  openModal(title2, author2, lastEdited2, description2); // A FUNCAO DE REDIRECT TA NA LINHA 98*
 
   // Get the <span> element that closes the modal
   const span = document.getElementsByClassName("close")[0];
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function openModal(title, author, dateTime, description) {
     document.getElementById("modalTitle").textContent = "Title : " + title;
     document.getElementById("modalAuthor").textContent = "Author: " + author;
-    document.getElementById("modalDateTime").textContent = "Last edited: " + dateTime;
+    document.getElementById("modalDateTime").textContent = "Criado em: " + dateTime;
     document.getElementById("modalDescription").textContent = "Descricao: " + description;
     modal.style.display = "block";
 
@@ -95,9 +95,8 @@ document.addEventListener('DOMContentLoaded', function () {
       const newUrl = `/produtos/?post=${postId}`;
 
       history.pushState({ postId: postId }, '', newUrl);
-     /* window.location.href = newUrl;*/
+      window.location.href = newUrl;
 
-      openModal(title, author, lastEdited, description);
     });
   });
 

@@ -36,7 +36,7 @@ router.post('/produtos/create', async (req, res) => {
       const newPostagem = await PostagemDAO.create({
         idUsuario: usuarioLogado.id, titulo, conteudo, dataHora
       });
-      res.status(201).json(newPostagem);
+      res.status(201).redirect("/produtos");
 
     } catch (error) {
       res.status(500).json({ error: 'erro ao criar postagem' })
@@ -47,6 +47,9 @@ router.post('/produtos/create', async (req, res) => {
 });
 
 router.post("/produtos/curtida/:id", async (req, res) => {
+  let variabels = req.query.batata;
+
+
   await getUsuarioLogado(req);
 
   if (usuarioLogado) {
@@ -62,7 +65,12 @@ router.post("/produtos/curtida/:id", async (req, res) => {
       CurtidaDAO.create({ idUsuario: usuarioLogado.id, idPostagem: idPostagem })
     }
 
-    res.redirect("/produtos");
+    if(variabels){
+      res.redirect("/produtos/?post="+ idPostagem);
+    } else{
+
+    
+    res.redirect("/produtos");}
   } else {
     res.redirect("/login")
   }
@@ -84,6 +92,8 @@ router.get('/produtos', async (req, res) => {
       let curtidasPost = await Curtida.findAll({ where: { idPostagem: listaPosts[i].id } });
       let ctdCurtidasPost = curtidasPost.length;
       listaPosts[i].curtidas = ctdCurtidasPost;
+      listaPosts[i].dataHora = listaPosts[i].dataHora.toLocaleString('pt-BR', { timezone: 'UTC' });
+      console.log("clebimson",listaPosts[i].dataHora);
       listaPosts[i].curtido = await Curtida.findOne({ where: { idPostagem: listaPosts[i].id, idUsuario: usuarioLogado.id } })
     }
 
@@ -93,16 +103,24 @@ router.get('/produtos', async (req, res) => {
 
       post = await PostagemDAO.getById(idPost);
       if (post) {
+
+        
         post = post.get();
         post.autor = await (await UsuarioDAO.getById(post.idUsuario)).get().nome
         post.dataHora = post.dataHora.toLocaleString('pt-BR', { timezone: 'UTC' });
+        console.log("post datas",post.dataHora);
+        post.curtido = await Curtida.findOne({ where: { idPostagem: post.id, idUsuario: usuarioLogado.id } })
+        let curtidasdopost = await Curtida.findAll({ where: { idPostagem: post.id } });
+        post.curtidas = curtidasdopost.length;
+
+
 
         let comentarios = await (RespostaDAO.getRespostaByPostagem(post))
         for (let i = 0; i < comentarios.length; i++) {
           comentarios[i] = comentarios[i].get()
           let comentador = await UsuarioDAO.getById(comentarios[i].idUsuario)
-          comentarios[i].autor_comentario = comentador.get().nome
-          console.log(comentarios[i])
+          comentarios[i].autor = comentador.get().nome
+          comentarios[i].dataHora = comentarios[i].dataHora.toLocaleString('pt-BR', { timezone: 'UTC' });
         }
 
         post.comentarios = comentarios;
@@ -132,16 +150,20 @@ router.get('/produtos', async (req, res) => {
 router.post("/produtos/comentar/:id", async (req, res) => {
   await getUsuarioLogado(req);
   if (usuarioLogado) {
-    let usuarioLogado = getUsuarioLogado(req);
+    console.log("Usuario: ",usuarioLogado);
     let idPostagem = req.params.id;
+    console.log("parametro", idPostagem);
     let conteudo = req.body.conteudo;
+    console.log("conteudo: ",conteudo)
 
-    await RespostaDAO.create({
+    let resposta = await RespostaDAO.create({
       idUsuario: usuarioLogado.id,
       idPostagem: idPostagem,
       conteudo: conteudo,
       dataHora: new Date()
     });
+
+    console.log("TESTE DE RESPOSTA",resposta);
 
     res.status(201).redirect("/?post=" + idPostagem);
   } else {
