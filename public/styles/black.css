@@ -156,6 +156,7 @@ body {
     align-items: center;
     font-size: 24px;
     font-weight: 500;
+    color: rgba(204, 204, 204, 0.9);
   }
   
   nav .sidebar-button i {
@@ -414,7 +415,7 @@ button {
 
 .fa-xmark {
   font-size: 1.4em;
-  background-color: #45A29E;
+  background-color: transparent;
   height: 1.8em;
   width: 1.8em;
   display: grid;
@@ -1660,4 +1661,147 @@ footer {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #66FCF1;
+}
+
+/* Continuação das alterações para o modo escuro */
+
+.modal-content {
+  background-color: #2c2c2c;
+  color: #e0e0e0;
+  border: 1px solid #4a4a4a;
+}
+
+.close {
+  color: #e0e0e0;
+}
+
+.close:hover,
+.close:focus {
+  color: #66FCF1;
+}
+
+.comments-section {
+  border-top: 1px solid #4a4a4a;
+}
+
+.comment-author {
+  color: #66FCF1;
+}
+
+.comment-form textarea {
+  background-color: #3a3a3a;
+  color: #e0e0e0;
+  border: 1px solid #4a4a4a;
+}
+
+.comment-form button {
+  background-color: #45A29E;
+  color: #0B0C10;
+}
+
+.modal {
+  background-color: rgba(0,0,0,0.8);
+}
+
+#modalTitle {
+  color: #66FCF1;
+}
+
+#modalAuthor,
+#modalDateTime,
+#modalDescription {
+  color: #e0e0e0;
+}
+
+.comment {
+  border-bottom: 1px solid #4a4a4a;
+}
+
+#comentarioForm textarea {
+  background-color: #3a3a3a;
+  color: #e0e0e0;
+  border: 1px solid #4a4a4a;
+}
+
+#comentarioForm button {
+  background-color: #45A29E;
+  color: #0B0C10;
+}
+
+#comentarioForm button:hover {
+  background-color: #66FCF1;
+}
+
+.date {
+  color: #C5C6C7;
+}
+
+::placeholder {
+  color: #C5C6C7;
+}
+
+::-webkit-scrollbar-track {
+  background: #1F2833;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #45A29E;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #66FCF1;
+}
+
+/* Adicionando mais estilos para garantir consistência no modo escuro */
+
+.card {
+  background-color: #1F2833;
+  box-shadow: 0 0.4em 1.2em rgba(255, 255, 255, 0.08);
+}
+
+.show-hide-btn,
+.show-more-btn {
+  background-color: #45A29E;
+  color: #0B0C10;
+}
+
+.info {
+  color: #C5C6C7;
+}
+
+.edit {
+  color: #66FCF1;
+}
+
+.delete {
+  color: #ff5353;
+}
+
+.profile-box {
+  background-color: #2c2c2c;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.profile-box h1, 
+.profile-box h2 {
+  color: #e0e0e0;
+}
+
+.edit-overlay {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.edit-button {
+  background-color: #45A29E;
+  color: #0B0C10;
+}
+
+.info-row label {
+  color: #66FCF1;
+}
+
+.info-row input {
+  background-color: #3a3a3a;
+  color: #e0e0e0;
+  border: 1px solid #4a4a4a;
 }

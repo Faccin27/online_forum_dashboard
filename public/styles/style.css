@@ -1400,13 +1400,10 @@ footer {
 }
 
 .file-uploader {
-  /* make it invisible */
   opacity: 0;
-  /* make it take the full height and width of the parent container */
   height: 100%;
   width: 100%;
   cursor: pointer;
-  /* make it absolute */
   position: absolute;
   top: 0%;
   left: 0%;
@@ -1734,4 +1731,8 @@ footer {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #66FCF1;
+}
+
+.footerinput{
+  display: flex;
 }

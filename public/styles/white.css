@@ -492,7 +492,7 @@ button {
 
 .fa-xmark {
   font-size: 1.4em;
-  background-color: #45A29E;
+  background-color: transparent;
   height: 1.8em;
   width: 1.8em;
   display: grid;
