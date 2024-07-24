@@ -6,30 +6,35 @@ class RegisterController {
     try {
       const { nome, email, senha } = req.body;
       console.log('Dados recebidos:', req.body);
-      // Verifica se o nome já está em uso
-      const existname = await UsuarioDAO.findOne({ nome });
- 
 
+      // Verifica se o nome já está em uso
+      const existname = await UsuarioDAO.findOne({ where: { nome } });
       if (existname) {
-        console.log("cancelado pois dado duplicado")
-        return res.status(400).send('Nome já está em uso');
+        console.log("Cancelado pois nome duplicado");
+        req.flash('errorMessage', 'Nome já está em uso');
+        return res.redirect('/register');
       }
 
-      const existEmail = await UsuarioDAO.findOne({ email });
+      const existEmail = await UsuarioDAO.findOne({ where: { email } });
       if (existEmail) {
-        console.log("cancelado pois email duplicado")
-        return res.status(400).send('Email já está em uso');
+        console.log("Cancelado pois email duplicado");
+        req.flash('errorMessage', 'Email já está em uso');
+        return res.redirect('/register');
       }
 
       // Cria um novo usuário
       const newUser = await UsuarioDAO.create({ nome, email, senha });
 
+      // Adiciona uma mensagem flash de sucesso
+      req.flash('successMessage', 'Usuário registrado com sucesso!');
+
       // Retorna uma resposta de sucesso
       console.log(newUser);
-      return res.redirect("/produtos");
+      return res.redirect('/login');
     } catch (error) {
       console.error('Erro ao registrar usuário:', error);
-      return res.send('Erro ao registrar usuário');
+      req.flash('errorMessage', 'Erro ao registrar usuário');
+      return res.redirect('/register');
     }
   }
 }

@@ -1,6 +1,20 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
+    const notifications = document.querySelectorAll('.notification');
+
+    notifications.forEach(notification => {
+      notification.classList.add('show');
+
+      setTimeout(() => {
+        notification.classList.remove('show');
+        notification.classList.add('hide');
+      }, 5000);
+    });
+
+
+
+
   function checkUrlParameter() {
     // Obtém a URL atual
     const url = new URL(window.location.href);
@@ -13,42 +27,42 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   const cardContainer = document.getElementById('card-con');
-function deleteposts(){
-  
-}
-cardContainer.addEventListener('click', function(event) {
-  if (event.target.classList.contains('delete') || event.target.closest('.delete')) {
-    const card = event.target.closest('.card');
-    const productId = card.dataset.id;
+  function deleteposts() {
 
-    if (confirm('Voce tem certeza que deseja deletar?')) {
-      deleteProduct(productId, card);
-    }
   }
-});
+  cardContainer.addEventListener('click', function (event) {
+    if (event.target.classList.contains('delete') || event.target.closest('.delete')) {
+      const card = event.target.closest('.card');
+      const productId = card.dataset.id;
 
-function deleteProduct(id, cardElement) {
-  fetch(`/produtos/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+      if (confirm('Voce tem certeza que deseja deletar?')) {
+        deleteProduct(productId, card);
+      }
     }
-    return response.json();
-  })
-  .then(data => {
-    console.log('Success:', data);
-    cardElement.remove();
-  })
-  .catch((error) => {
-    console.error('Error:', error);
-    alert('An error occurred while deleting the product.');
   });
-}
+
+  function deleteProduct(id, cardElement) {
+    fetch(`/produtos/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Success:', data);
+        cardElement.remove();
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert('An error occurred while deleting the product.');
+      });
+  }
 
 
 
@@ -446,16 +460,18 @@ function filterPosts() {
   const cards = document.getElementsByClassName('card');
 
   for (let i = 0; i < cards.length; i++) {
-      const titleElement = cards[i].getElementsByClassName('question-div')[0];
-      const title = titleElement.textContent || titleElement.innerText;
-      if (title.toUpperCase().indexOf(filter) > -1) {
-          cards[i].style.display = "";
-      } else {
-          cards[i].style.display = "none";
-      }
+    const titleElement = cards[i].getElementsByClassName('question-div')[0];
+    const title = titleElement.textContent || titleElement.innerText;
+    if (title.toUpperCase().indexOf(filter) > -1) {
+      cards[i].style.display = "";
+    } else {
+      cards[i].style.display = "none";
+    }
   }
 }
 
 document.getElementById('searchInput').addEventListener('input', filterPosts);
 
 document.addEventListener('DOMContentLoaded', filterPosts);
+
+

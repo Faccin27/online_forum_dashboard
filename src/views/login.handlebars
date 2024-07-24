@@ -1,3 +1,15 @@
+{{#if successMessage}}
+<div class="alert alert-success notification">
+    {{successMessage}}
+</div>
+{{/if}}
+
+{{#if errorMessage}}
+<div class="alert alert-danger notification">
+    {{errorMessage}}
+</div>
+{{/if}}
+
 <div class="loginpage" id="loginpage">
     <div class="content" id="content">
         <div class="form-content sign-up">
@@ -10,17 +22,15 @@
                     <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
                 </div>
                 <span>or use your email for registration</span>
-                <input type="text" name="nome" placeholder="Name">
-                <input type="email" name="email" placeholder="Email">
-                <input type="password" name="senha" placeholder="Password">
+                <input type="text" name="nome" placeholder="Name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="senha" placeholder="Password" required>
                 <input type="submit" value="sign up">
             </form>
         </div>
         <div class="form-content sign-in">
-
             <form method="post" action="/login">
                 <h1>Sign In</h1>
-
                 <div class="social-icons">
                     <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
                     <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
@@ -28,18 +38,16 @@
                     <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
                 </div>
                 <span>or use your email password</span>
-                <input type="email" name="LoginEmail" placeholder="Email">
-                <input type="password" name="LoginPassword" placeholder="Password">
+                <input type="email" name="LoginEmail" placeholder="Email" required>
+                <input type="password" name="LoginPassword" placeholder="Password" required>
                 <a href="#">Forget Your Password?</a>
                 <button type="submit">sign in</button>
-
 
                 {{#if message}}
                 <div class="incorrect-alert" role="alert">
                     {{message}}
                 </div>
                 {{/if}}
-
             </form>
         </div>
         <div class="toggle-content">
